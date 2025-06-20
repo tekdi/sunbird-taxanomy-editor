@@ -32,7 +32,13 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, IconComponent }) => (
           <Typography variant="body2" color="text.secondary">
             {title}
           </Typography>
-          <Typography variant="h5" component="h2" fontWeight={700} mt={0.5}>
+          <Typography
+            variant="h5"
+            component="h2"
+            fontWeight={700}
+            mt={0.5}
+            color="text.primary"
+          >
             {value}
           </Typography>
         </Box>
@@ -78,7 +84,7 @@ const RecentActivityItem: React.FC<RecentActivityItemProps> = ({
   >
     <Box display="flex" justifyContent="space-between" alignItems="flex-start">
       <Box>
-        <Typography variant="body1" fontWeight={500}>
+        <Typography variant="body1" fontWeight={500} color="text.primary">
           {id ? (
             <Link href={`/frameworks/${id}`} passHref legacyBehavior>
               <Typography
@@ -194,11 +200,19 @@ const DashboardPage: React.FC = () => {
       <Box sx={{ py: 2 }}>
         <Box
           display="flex"
-          justifyContent="space-between"
-          alignItems="center"
+          flexDirection={{ xs: "column", sm: "row" }}
+          justifyContent={{ xs: "flex-start", sm: "space-between" }}
+          alignItems={{ xs: "stretch", sm: "center" }}
+          gap={2}
           mb={3}
         >
-          <Typography variant="h4" component="h1" fontWeight={700}>
+          <Typography
+            variant="h4"
+            component="h1"
+            fontWeight={700}
+            color="text.primary"
+            sx={{ mb: { xs: 1, sm: 0 } }}
+          >
             Dashboard
           </Typography>
           <Link href="/frameworks/create" passHref legacyBehavior>
@@ -206,6 +220,7 @@ const DashboardPage: React.FC = () => {
               variant="contained"
               color="primary"
               endIcon={<ArrowForwardIcon />}
+              sx={{ width: { xs: "100%", sm: "auto" }, fontWeight: 600 }}
             >
               Create Framework
             </Button>
@@ -215,16 +230,17 @@ const DashboardPage: React.FC = () => {
         <Box
           sx={{
             display: "flex",
-            flexWrap: "wrap",
+            flexDirection: { xs: "column", sm: "row" },
+            flexWrap: { xs: "nowrap", sm: "wrap" },
             gap: 3,
             mb: 4,
             "& > *": {
-              flexGrow: 1,
               width: {
                 xs: "100%",
                 sm: "calc(50% - 12px)",
                 md: "calc(25% - 18px)",
               },
+              minWidth: 0,
             },
           }}
         >
@@ -258,10 +274,13 @@ const DashboardPage: React.FC = () => {
           }}
         >
           {/* Recent Frameworks Column */}
-          <Card elevation={1} sx={{ borderRadius: 3, flex: 1 }}>
+          <Card
+            elevation={1}
+            sx={{ borderRadius: 3, flex: 1, minWidth: 0, mb: { xs: 2, md: 0 } }}
+          >
             <CardHeader
               title={
-                <Typography variant="h6" fontWeight={600}>
+                <Typography variant="h6" fontWeight={600} color="text.primary">
                   Recent Frameworks
                 </Typography>
               }
@@ -316,10 +335,10 @@ const DashboardPage: React.FC = () => {
           </Card>
 
           {/* Recent Channels Column */}
-          <Card elevation={1} sx={{ borderRadius: 3, flex: 1 }}>
+          <Card elevation={1} sx={{ borderRadius: 3, flex: 1, minWidth: 0 }}>
             <CardHeader
               title={
-                <Typography variant="h6" fontWeight={600}>
+                <Typography variant="h6" fontWeight={600} color="text.primary">
                   Recent Channels
                 </Typography>
               }
