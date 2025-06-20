@@ -8,7 +8,7 @@ export interface Framework {
   status: string;
   lastUpdatedOn?: string;
   channel?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface FrameworksState {

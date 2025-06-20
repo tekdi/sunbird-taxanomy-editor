@@ -16,8 +16,8 @@ import {
   sortFrameworksByLastUpdated,
   sortChannelsByLastUpdated,
 } from "@/lib/dashboard";
-import RecentList from "@/components/ui/RecentList";
-import StatCard from "@/components/ui/StatCard";
+import RecentList from "@/components/ui/dashboard/RecentList";
+import StatCard from "@/components/ui/dashboard/StatCard";
 
 const DashboardPage: React.FC = () => {
   const {
