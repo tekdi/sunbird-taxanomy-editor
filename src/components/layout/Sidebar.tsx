@@ -1,24 +1,20 @@
-import React from "react";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import LayersIcon from "@mui/icons-material/Layers";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-
-interface SidebarProps {
-  mobileOpen: boolean;
-  onMobileClose: () => void;
-}
+import React from 'react';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import LayersIcon from '@mui/icons-material/Layers';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import NextLink from 'next/link';
+import { useRouter } from 'next/router';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { SidebarProps } from '@/types/LayoutInterface';
 
 const drawerWidth = 260;
 
@@ -33,40 +29,39 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) => {
   const isActive = (href: string) => router.pathname === href;
 
   const drawerContent = (
-    <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
+          display: 'flex',
+          alignItems: 'center',
           height: 56,
           px: 2,
           borderBottom: 1,
-          borderColor: "divider",
+          borderColor: 'divider',
         }}
       >
-        <LayersIcon sx={{ color: "primary.main", mr: 1 }} />
+        <LayersIcon sx={{ color: 'primary.main', mr: 1 }} />
         <Typography variant="h6" fontWeight={600} color="primary.main">
           Taxonomy Editor
         </Typography>
       </Box>
       <List sx={{ pt: 2 }}>
         <ListItem disablePadding>
-          <Link href="/" passHref legacyBehavior>
-            <ListItemButton
-              selected={isActive("/")}
-              component="a"
-              onClick={onMobileClose}
-            >
-              <ListItemIcon>
-                <DashboardIcon color={isActive("/") ? "primary" : "inherit"} />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItemButton>
-          </Link>
+          <ListItemButton
+            component={NextLink}
+            href="/"
+            selected={isActive('/')}
+            onClick={onMobileClose}
+          >
+            <ListItemIcon>
+              <DashboardIcon color={isActive('/') ? 'primary' : 'inherit'} />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItemButton>
         </ListItem>
         <ListItemButton onClick={handleFrameworksClick} sx={{ mt: 1 }}>
           <ListItemIcon>
-            <LayersIcon color={openFrameworks ? "primary" : "inherit"} />
+            <LayersIcon color={openFrameworks ? 'primary' : 'inherit'} />
           </ListItemIcon>
           <ListItemText primary="Frameworks" />
           {openFrameworks ? <ExpandLess /> : <ExpandMore />}
@@ -74,43 +69,40 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) => {
         <Collapse in={openFrameworks} timeout="auto" unmountOnExit>
           <List component="div" disablePadding sx={{ pl: 4 }}>
             <ListItem disablePadding>
-              <Link href="/frameworks" passHref legacyBehavior>
-                <ListItemButton
-                  selected={isActive("/frameworks")}
-                  component="a"
-                  onClick={onMobileClose}
-                >
-                  <ListItemText primary="View All Frameworks" />
-                </ListItemButton>
-              </Link>
+              <ListItemButton
+                component={NextLink}
+                href="/frameworks"
+                selected={isActive('/frameworks')}
+                onClick={onMobileClose}
+              >
+                <ListItemText primary="View All Frameworks" />
+              </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <Link href="/frameworks/create" passHref legacyBehavior>
-                <ListItemButton
-                  selected={isActive("/frameworks/create")}
-                  component="a"
-                  onClick={onMobileClose}
-                >
-                  <ListItemText primary="Create New Framework" />
-                </ListItemButton>
-              </Link>
+              <ListItemButton
+                component={NextLink}
+                href="/frameworks/create"
+                selected={isActive('/frameworks/create')}
+                onClick={onMobileClose}
+              >
+                <ListItemText primary="Create New Framework" />
+              </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <Link href="/frameworks/manage" passHref legacyBehavior>
-                <ListItemButton
-                  selected={isActive("/frameworks/manage")}
-                  component="a"
-                  onClick={onMobileClose}
-                >
-                  <ListItemText primary="Manage Taxonomy" />
-                </ListItemButton>
-              </Link>
+              <ListItemButton
+                component={NextLink}
+                href="/frameworks/manage"
+                selected={isActive('/frameworks/manage')}
+                onClick={onMobileClose}
+              >
+                <ListItemText primary="Manage Taxonomy" />
+              </ListItemButton>
             </ListItem>
           </List>
         </Collapse>
         <ListItemButton onClick={handleChannelsClick} sx={{ mt: 1 }}>
           <ListItemIcon>
-            <LayersIcon color={openChannels ? "primary" : "inherit"} />
+            <LayersIcon color={openChannels ? 'primary' : 'inherit'} />
           </ListItemIcon>
           <ListItemText primary="Channels" />
           {openChannels ? <ExpandLess /> : <ExpandMore />}
@@ -118,26 +110,24 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) => {
         <Collapse in={openChannels} timeout="auto" unmountOnExit>
           <List component="div" disablePadding sx={{ pl: 4 }}>
             <ListItem disablePadding>
-              <Link href="/channels" passHref legacyBehavior>
-                <ListItemButton
-                  selected={isActive("/channels")}
-                  component="a"
-                  onClick={onMobileClose}
-                >
-                  <ListItemText primary="View All Channels" />
-                </ListItemButton>
-              </Link>
+              <ListItemButton
+                component={NextLink}
+                href="/channels"
+                selected={isActive('/channels')}
+                onClick={onMobileClose}
+              >
+                <ListItemText primary="View All Channels" />
+              </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <Link href="/channels/create" passHref legacyBehavior>
-                <ListItemButton
-                  selected={isActive("/channels/create")}
-                  component="a"
-                  onClick={onMobileClose}
-                >
-                  <ListItemText primary="Create New Channel" />
-                </ListItemButton>
-              </Link>
+              <ListItemButton
+                component={NextLink}
+                href="/channels/create"
+                selected={isActive('/channels/create')}
+                onClick={onMobileClose}
+              >
+                <ListItemText primary="Create New Channel" />
+              </ListItemButton>
             </ListItem>
           </List>
         </Collapse>
@@ -155,8 +145,8 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) => {
         onClose={onMobileClose}
         ModalProps={{ keepMounted: true }}
         sx={{
-          display: { xs: "block", lg: "none" },
-          "& .MuiDrawer-paper": { width: drawerWidth, boxSizing: "border-box" },
+          display: { xs: 'block', lg: 'none' },
+          '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' },
         }}
       >
         {drawerContent}
@@ -166,8 +156,8 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) => {
         variant="permanent"
         open
         sx={{
-          display: { xs: "none", lg: "block" },
-          "& .MuiDrawer-paper": { width: drawerWidth, boxSizing: "border-box" },
+          display: { xs: 'none', lg: 'block' },
+          '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' },
         }}
       >
         {drawerContent}

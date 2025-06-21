@@ -1,22 +1,10 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Alert from "@mui/material/Alert";
-import Divider from "@mui/material/Divider";
-import Button from "@mui/material/Button";
-
-interface BaseFormProps {
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-  loading?: boolean;
-  error?: string | null;
-  success?: string | null;
-  onSubmit: (e: React.FormEvent) => void;
-  submitText?: string;
-  submitIcon?: React.ReactNode;
-  sx?: object;
-}
+import React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+import { BaseFormProps } from '@/types/BaseInterface';
 
 const BaseForm: React.FC<BaseFormProps> = ({
   title,
@@ -26,7 +14,7 @@ const BaseForm: React.FC<BaseFormProps> = ({
   error,
   success,
   onSubmit,
-  submitText = "Submit",
+  submitText = 'Submit',
   submitIcon,
   sx = {},
 }) => (
@@ -42,12 +30,12 @@ const BaseForm: React.FC<BaseFormProps> = ({
     <form
       onSubmit={onSubmit}
       style={{
-        width: "100%",
+        width: '100%',
         maxWidth: 720,
-        background: "#fff",
+        background: '#fff',
         borderRadius: 16,
-        boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
-        border: "1px solid #f1f5f9",
+        boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+        border: '1px solid #f1f5f9',
         padding: 0,
       }}
     >
@@ -104,7 +92,7 @@ const BaseForm: React.FC<BaseFormProps> = ({
           startIcon={submitIcon}
           sx={{ px: 4, fontWeight: 600, fontSize: 16 }}
         >
-          {loading ? "Submitting..." : submitText}
+          {loading ? 'Submitting...' : submitText}
         </Button>
       </Box>
     </form>

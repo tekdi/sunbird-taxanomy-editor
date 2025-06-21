@@ -1,10 +1,10 @@
-import React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { indigo } from "@mui/material/colors";
-import { StatCardProps } from "@/types/dashboard";
+import React from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { indigo } from '@mui/material/colors';
+import { StatCardProps } from '@/types/DashboardInterface';
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, IconComponent }) => (
   <Card elevation={1} sx={{ borderRadius: 3 }}>
@@ -28,10 +28,10 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, IconComponent }) => (
           sx={{
             bgcolor: indigo[50],
             p: 1.5,
-            borderRadius: "50%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <IconComponent sx={{ color: indigo[600], fontSize: 20 }} />

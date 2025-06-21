@@ -1,4 +1,3 @@
-// Simulate an API call with a delay - to be removed upon completion
 export interface SimulateApiResponse {
   url: string;
   method: string;

@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import PageLayout from "@/components/layout/PageLayout";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { useRouter } from "next/router";
-import { validateChannelForm, createChannel } from "@/lib/channel";
-import BaseForm from "@/components/ui/BaseForm";
+import React, { useState } from 'react';
+import PageLayout from '@/components/layout/PageLayout';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useRouter } from 'next/router';
+import { validateChannelForm, createChannel } from '@/services/channelService';
+import BaseForm from '@/components/BaseForm';
 
 const CreateChannelPage: React.FC = () => {
   const [channel, setChannel] = useState({
-    name: "",
-    code: "",
-    description: "",
+    name: '',
+    code: '',
+    description: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,7 +35,7 @@ const CreateChannelPage: React.FC = () => {
       const cookie = process.env.NEXT_PUBLIC_COOKIE;
       const interfaceUrl = process.env.NEXT_PUBLIC_INTERFACE_URL;
       if (!tenantId || !authToken || !cookie || !interfaceUrl) {
-        throw new Error("Missing environment variables");
+        throw new Error('Missing environment variables');
       }
       await createChannel(channel, {
         tenantId,
@@ -43,12 +43,12 @@ const CreateChannelPage: React.FC = () => {
         cookie,
         interfaceUrl,
       });
-      setSuccess("Channel created successfully!");
-      setChannel({ name: "", code: "", description: "" });
-      setTimeout(() => router.push("/channels"), 1000);
+      setSuccess('Channel created successfully!');
+      setChannel({ name: '', code: '', description: '' });
+      setTimeout(() => router.push('/channels'), 1000);
     } catch (err: unknown) {
       if (err instanceof Error) setError(err.message);
-      else setError("Failed to create channel");
+      else setError('Failed to create channel');
     } finally {
       setLoading(false);
     }
@@ -79,7 +79,7 @@ const CreateChannelPage: React.FC = () => {
         <Box
           display="grid"
           gap={2}
-          gridTemplateColumns={{ xs: "1fr", sm: "1fr 1fr" }}
+          gridTemplateColumns={{ xs: '1fr', sm: '1fr 1fr' }}
         >
           <TextField
             label="Channel Name"

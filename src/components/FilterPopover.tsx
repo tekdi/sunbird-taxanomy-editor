@@ -1,18 +1,10 @@
-import React from "react";
-import Popover from "@mui/material/Popover";
-import Typography from "@mui/material/Typography";
-import Checkbox from "@mui/material/Checkbox";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-
-interface FilterPopoverProps {
-  anchorEl: HTMLElement | null;
-  open: boolean;
-  onClose: () => void;
-  selectedStatus: string[];
-  onStatusChange: (status: string) => void;
-  statusOptions?: string[];
-}
+import React from 'react';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import Checkbox from '@mui/material/Checkbox';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import { FilterPopoverProps } from '@/types/BaseInterface';
 
 const FilterPopover: React.FC<FilterPopoverProps> = ({
   anchorEl,
@@ -20,15 +12,15 @@ const FilterPopover: React.FC<FilterPopoverProps> = ({
   onClose,
   selectedStatus,
   onStatusChange,
-  statusOptions = ["Live", "Draft"],
+  statusOptions = ['Live', 'Draft'],
 }) => (
   <Popover
     open={open}
     anchorEl={anchorEl}
     onClose={onClose}
-    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-    transformOrigin={{ vertical: "top", horizontal: "right" }}
-    PaperProps={{ sx: { p: 2, width: 220 } }}
+    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+    slotProps={{ paper: { sx: { p: 2, width: 220 } } }}
   >
     <Typography fontWeight={600} mb={1} color="text.primary">
       Filter by Status
@@ -39,7 +31,7 @@ const FilterPopover: React.FC<FilterPopoverProps> = ({
           <Checkbox
             checked={selectedStatus.includes(status)}
             onChange={() => onStatusChange(status)}
-            sx={{ color: "#6366f1" }}
+            sx={{ color: '#6366f1' }}
           />
           <Typography variant="body2" color="text.primary">
             {status}

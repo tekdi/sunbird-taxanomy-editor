@@ -1,23 +1,23 @@
-import Head from "next/head";
-import * as React from "react";
-import PageLayout from "@/components/layout/PageLayout";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Link from "next/link";
-import LayersIcon from "@mui/icons-material/Layers";
-import DescriptionIcon from "@mui/icons-material/Description";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useFrameworksStore } from "@/store/frameworksStore";
-import { useChannelStore } from "@/store/channelStore";
+import Head from 'next/head';
+import * as React from 'react';
+import PageLayout from '@/components/layout/PageLayout';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import NextLink from 'next/link';
+import LayersIcon from '@mui/icons-material/Layers';
+import DescriptionIcon from '@mui/icons-material/Description';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useFrameworksStore } from '@/store/frameworksStore';
+import { useChannelStore } from '@/store/channelStore';
 import {
   getChannelCode,
   getChannelLastUpdatedOn,
   sortFrameworksByLastUpdated,
   sortChannelsByLastUpdated,
-} from "@/lib/dashboard";
-import RecentList from "@/components/ui/dashboard/RecentList";
-import StatCard from "@/components/ui/dashboard/StatCard";
+} from '@/services/dashboardService';
+import RecentList from '@/components/dashboard/RecentList';
+import StatCard from '@/components/dashboard/StatCard';
 
 const DashboardPage: React.FC = () => {
   const {
@@ -63,9 +63,9 @@ const DashboardPage: React.FC = () => {
       <Box sx={{ py: 2 }}>
         <Box
           display="flex"
-          flexDirection={{ xs: "column", sm: "row" }}
-          justifyContent={{ xs: "flex-start", sm: "space-between" }}
-          alignItems={{ xs: "stretch", sm: "center" }}
+          flexDirection={{ xs: 'column', sm: 'row' }}
+          justifyContent={{ xs: 'flex-start', sm: 'space-between' }}
+          alignItems={{ xs: 'stretch', sm: 'center' }}
           gap={2}
           mb={3}
         >
@@ -78,30 +78,30 @@ const DashboardPage: React.FC = () => {
           >
             Dashboard
           </Typography>
-          <Link href="/frameworks/create" passHref legacyBehavior>
-            <Button
-              variant="contained"
-              color="primary"
-              endIcon={<ArrowForwardIcon />}
-              sx={{ width: { xs: "100%", sm: "auto" }, fontWeight: 600 }}
-            >
-              Create Framework
-            </Button>
-          </Link>
+          <Button
+            component={NextLink}
+            href="/frameworks/create"
+            variant="contained"
+            color="primary"
+            endIcon={<ArrowForwardIcon />}
+            sx={{ width: { xs: '100%', sm: 'auto' }, fontWeight: 600 }}
+          >
+            Create Framework
+          </Button>
         </Box>
 
         <Box
           sx={{
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
-            flexWrap: { xs: "nowrap", sm: "wrap" },
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            flexWrap: { xs: 'nowrap', sm: 'wrap' },
             gap: 3,
             mb: 4,
-            "& > *": {
+            '& > *': {
               width: {
-                xs: "100%",
-                sm: "calc(50% - 12px)",
-                md: "calc(25% - 18px)",
+                xs: '100%',
+                sm: 'calc(50% - 12px)',
+                md: 'calc(25% - 18px)',
               },
               minWidth: 0,
             },
@@ -131,15 +131,15 @@ const DashboardPage: React.FC = () => {
 
         <Box
           sx={{
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
             gap: 3,
           }}
         >
           <RecentList
             title="Recent Frameworks"
             loading={fwLoading}
-            error={fwError || undefined}
+            error={fwError ?? undefined}
             items={recentFrameworks}
             itemKey={(fw) => fw.identifier}
             itemToProps={(fw) => ({
@@ -147,19 +147,19 @@ const DashboardPage: React.FC = () => {
               title: fw.name,
               time: fw.lastUpdatedOn
                 ? new Date(fw.lastUpdatedOn).toLocaleString()
-                : "Unknown",
+                : 'Unknown',
               status:
-                fw.status && fw.status.toLowerCase() === "live"
-                  ? "Published"
-                  : "Draft",
-              user: fw.channel || "Unknown",
+                fw.status && fw.status.toLowerCase() === 'live'
+                  ? 'Published'
+                  : 'Draft',
+              user: fw.channel ?? 'Unknown',
             })}
             viewAllHref="/frameworks"
           />
           <RecentList
             title="Recent Channels"
             loading={chLoading}
-            error={chError || undefined}
+            error={chError ?? undefined}
             items={recentChannels}
             itemKey={(ch) => ch.identifier}
             itemToProps={(ch) => ({
@@ -167,11 +167,11 @@ const DashboardPage: React.FC = () => {
               title: ch.name,
               time: getChannelLastUpdatedOn(ch)
                 ? new Date(getChannelLastUpdatedOn(ch)!).toLocaleString()
-                : "Unknown",
+                : 'Unknown',
               status:
-                ch.status && ch.status.toLowerCase() === "live"
-                  ? "Published"
-                  : "Draft",
+                ch.status && ch.status.toLowerCase() === 'live'
+                  ? 'Published'
+                  : 'Draft',
               user: getChannelCode(ch),
             })}
             viewAllHref="/channels"

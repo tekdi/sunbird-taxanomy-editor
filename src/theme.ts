@@ -1,15 +1,15 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   typography: {
-    fontFamily: '"Roboto","Helvetica","Arial",sans-serif',
+    fontFamily: '"Poppins", Arial, Helvetica, sans-serif',
   },
   palette: {
-    primary: { main: "#6366f1" }, // indigo-500 for primary
-    secondary: { main: "#a78bfa" }, // indigo-300 for secondary
+    primary: { main: '#6366f1' }, // indigo-500 for primary
+    secondary: { main: '#a78bfa' }, // indigo-300 for secondary
     background: {
-      default: "#f8fafc", // slate-50
-      paper: "#fff",
+      default: '#f8fafc', // slate-50
+      paper: '#fff',
     },
   },
   components: {
@@ -17,25 +17,25 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 8,
-          textTransform: "none",
+          textTransform: 'none',
           fontWeight: 500,
-          fontSize: "1rem",
-          boxShadow: "none",
+          fontSize: '1rem',
+          boxShadow: 'none',
         },
         containedPrimary: {
-          backgroundColor: "#6366f1",
-          "&:hover": { backgroundColor: "#4f46e5" },
+          backgroundColor: '#6366f1',
+          '&:hover': { backgroundColor: '#4f46e5' },
         },
       },
     },
     MuiBadge: {
       styleOverrides: {
         badge: {
-          fontSize: "0.75rem",
+          fontSize: '0.75rem',
           height: 20,
           minWidth: 20,
-          backgroundColor: "#f1f5f9",
-          color: "#6366f1",
+          backgroundColor: '#f1f5f9',
+          color: '#6366f1',
         },
       },
     },
@@ -43,7 +43,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 12,
-          boxShadow: "0px 2px 8px rgba(0,0,0,0.06)",
+          boxShadow: '0px 2px 8px rgba(0,0,0,0.06)',
         },
       },
     },
@@ -51,7 +51,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 4,
-          backgroundColor: "#f5f5f5",
+          backgroundColor: '#f5f5f5',
         },
       },
     },
@@ -65,7 +65,7 @@ const theme = createTheme({
     MuiSelect: {
       styleOverrides: {
         select: {
-          padding: "8px 12px",
+          padding: '8px 12px',
         },
       },
     },

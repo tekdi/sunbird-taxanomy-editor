@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import PageLayout from "@/components/layout/PageLayout";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import Box from "@mui/material/Box";
-import Link from "next/link";
-import AddIcon from "@mui/icons-material/Add";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import { useChannelStore } from "@/store/channelStore";
-import ChannelItem from "@/components/ui/channel/ChannelItem";
-import FilterPopover from "@/components/ui/FilterPopover";
-import { normalizeChannels, filterChannels } from "@/lib/channel";
-import SearchBar from "@/components/ui/SearchBar";
+import React, { useState, useEffect } from 'react';
+import PageLayout from '@/components/layout/PageLayout';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
+import Link from 'next/link';
+import AddIcon from '@mui/icons-material/Add';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { useChannelStore } from '@/store/channelStore';
+import ChannelItem from '@/components/channel/ChannelItem';
+import FilterPopover from '@/components/FilterPopover';
+import SearchBar from '@/components/SearchBar';
+import { normalizeChannels, filterChannels } from '@/services/channelService';
 
 const ChannelsPage: React.FC = () => {
   const { channels, loading, error, fetchChannels } = useChannelStore();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [filterAnchorEl, setFilterAnchorEl] = useState<null | HTMLElement>(
     null
   );
@@ -50,11 +50,11 @@ const ChannelsPage: React.FC = () => {
 
   return (
     <PageLayout>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
         <Box
           display="flex"
-          flexDirection={{ xs: "column", md: "row" }}
-          alignItems={{ md: "center" }}
+          flexDirection={{ xs: 'column', md: 'row' }}
+          alignItems={{ md: 'center' }}
           justifyContent="space-between"
           gap={2}
           mb={2}
@@ -85,9 +85,9 @@ const ChannelsPage: React.FC = () => {
         </Box>
         <Box
           display="flex"
-          flexDirection={{ xs: "column", md: "row" }}
+          flexDirection={{ xs: 'column', md: 'row' }}
           gap={2}
-          alignItems={{ md: "center" }}
+          alignItems={{ md: 'center' }}
         >
           <SearchBar
             value={search}
@@ -110,7 +110,7 @@ const ChannelsPage: React.FC = () => {
               onClose={handleFilterClose}
               selectedStatus={selectedStatus}
               onStatusChange={handleStatusChange}
-              statusOptions={["Live", "Draft"]}
+              statusOptions={['Live', 'Draft']}
             />
           </Box>
         </Box>
@@ -119,19 +119,19 @@ const ChannelsPage: React.FC = () => {
             mt: 2,
             p: 0,
             borderRadius: 3,
-            boxShadow: "0px 2px 8px rgba(0,0,0,0.06)",
+            boxShadow: '0px 2px 8px rgba(0,0,0,0.06)',
           }}
         >
           {loading ? (
-            <Box sx={{ p: 4, textAlign: "center", color: "text.secondary" }}>
+            <Box sx={{ p: 4, textAlign: 'center', color: 'text.secondary' }}>
               Loading...
             </Box>
           ) : error ? (
-            <Box sx={{ p: 4, textAlign: "center", color: "error.main" }}>
+            <Box sx={{ p: 4, textAlign: 'center', color: 'error.main' }}>
               {error}
             </Box>
           ) : filteredChannels.length === 0 ? (
-            <Box sx={{ p: 4, textAlign: "center", color: "text.secondary" }}>
+            <Box sx={{ p: 4, textAlign: 'center', color: 'text.secondary' }}>
               No channels found.
             </Box>
           ) : (

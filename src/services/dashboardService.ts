@@ -1,5 +1,3 @@
-// Utility functions for DashboardPage and related components
-
 /**
  * Helper to get code from a channel object.
  */

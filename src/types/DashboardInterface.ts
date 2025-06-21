@@ -1,8 +1,8 @@
 export interface StatCardProps {
   title: string;
   value: string;
-  IconComponent: import("@mui/material/OverridableComponent").OverridableComponent<
-    import("@mui/material/SvgIcon").SvgIconTypeMap
+  IconComponent: import('@mui/material/OverridableComponent').OverridableComponent<
+    import('@mui/material/SvgIcon').SvgIconTypeMap
   >;
 }
 
