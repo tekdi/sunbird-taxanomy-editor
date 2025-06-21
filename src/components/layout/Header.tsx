@@ -1,19 +1,16 @@
-import React from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import Typography from "@mui/material/Typography";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
-
-interface HeaderProps {
-  onMobileMenuClick: () => void;
-}
+import React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import { HeaderProps } from '@/types/LayoutInterface';
 
 const Header: React.FC<HeaderProps> = ({ onMobileMenuClick }) => {
   const theme = useTheme();
-  const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
+  const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
     <AppBar
@@ -22,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({ onMobileMenuClick }) => {
       elevation={0}
       sx={{
         borderBottom: 1,
-        borderColor: "divider",
+        borderColor: 'divider',
         zIndex: theme.zIndex.drawer + 1,
       }}
     >
@@ -30,8 +27,8 @@ const Header: React.FC<HeaderProps> = ({ onMobileMenuClick }) => {
         sx={{
           minHeight: 56,
           px: 2,
-          display: "flex",
-          justifyContent: "space-between",
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
         {!isLgUp && (
@@ -47,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ onMobileMenuClick }) => {
         <Typography
           variant="h6"
           noWrap
-          sx={{ fontWeight: 600, color: "primary.main" }}
+          sx={{ fontWeight: 600, color: 'primary.main' }}
         >
           Taxonomy Editor
         </Typography>

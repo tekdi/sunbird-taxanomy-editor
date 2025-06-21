@@ -1,19 +1,6 @@
-import { create } from "zustand";
-
-export interface Channel {
-  identifier: string;
-  name: string;
-  status: string;
-  lastUpdatedOn?: string;
-  extra?: Record<string, unknown>;
-}
-
-interface ChannelState {
-  channels: Channel[];
-  loading: boolean;
-  error: string | null;
-  fetchChannels: () => Promise<void>;
-}
+import { create } from 'zustand';
+import { URL_CONFIG } from '@/utils/url.config';
+import { ChannelState } from '@/types/ChannelInterface';
 
 export const useChannelStore = create<ChannelState>((set) => ({
   channels: [],
@@ -28,52 +15,52 @@ export const useChannelStore = create<ChannelState>((set) => ({
       const interfaceUrl = process.env.NEXT_PUBLIC_INTERFACE_URL;
       if (!tenantId || !authToken || !cookie || !interfaceUrl) {
         set({
-          error: "Missing environment variables",
+          error: 'Missing environment variables',
           channels: [],
           loading: false,
         });
         return;
       }
       const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("tenantId", tenantId);
-      myHeaders.append("Authorization", `Bearer ${authToken}`);
-      myHeaders.append("Cookie", cookie);
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('tenantId', tenantId);
+      myHeaders.append('Authorization', `Bearer ${authToken}`);
+      myHeaders.append('Cookie', cookie);
       const raw = JSON.stringify({
         request: {
           filters: {
-            status: ["Live"],
-            objectType: "Channel",
+            status: ['Live'],
+            objectType: 'Channel',
           },
         },
       });
       const requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: myHeaders,
         body: raw,
-        redirect: "follow" as RequestRedirect,
+        redirect: 'follow' as RequestRedirect,
       };
-      const url = `${interfaceUrl}/action/composite/v3/search`;
+      const url = URL_CONFIG.API.COMPOSITE_SEARCH;
       const response = await fetch(url, requestOptions);
       if (!response.ok) throw new Error(`Error: ${response.status}`);
       const data = await response.json();
-      if (!data || !data.result || !Array.isArray(data.result.Channel)) {
+      if (!Array.isArray(data?.result?.Channel)) {
         set({
           channels: [],
           loading: false,
-          error: "Malformed API response",
+          error: 'Malformed API response',
         });
         return;
       }
       set({
         channels: data.result.Channel.map((ch: unknown) => {
-          if (typeof ch === "object" && ch !== null) {
+          if (typeof ch === 'object' && ch !== null) {
             const obj = ch as Record<string, unknown>;
             const {
-              identifier = "",
-              name = "",
-              status = "",
-              lastUpdatedOn = "",
+              identifier = '',
+              name = '',
+              status = '',
+              lastUpdatedOn = '',
               ...extra
             } = obj;
             return {
@@ -85,19 +72,19 @@ export const useChannelStore = create<ChannelState>((set) => ({
             };
           }
           return {
-            identifier: "",
-            name: "",
-            status: "",
-            lastUpdatedOn: "",
+            identifier: '',
+            name: '',
+            status: '',
+            lastUpdatedOn: '',
           };
         }),
         loading: false,
         error: null,
       });
     } catch (err: unknown) {
-      console.error("Channels fetch error:", err);
+      console.error('Channels fetch error:', err);
       set({
-        error: err instanceof Error ? err.message : "Failed to fetch channels",
+        error: err instanceof Error ? err.message : 'Failed to fetch channels',
         loading: false,
         channels: [],
       });

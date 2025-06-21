@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Html,
   Head,
@@ -6,17 +6,21 @@ import {
   NextScript,
   type DocumentProps,
   type DocumentContext,
-} from "next/document";
+} from 'next/document';
 import {
   DocumentHeadTags,
   documentGetInitialProps,
   type DocumentHeadTagsProps,
-} from "@mui/material-nextjs/v15-pagesRouter";
+} from '@mui/material-nextjs/v15-pagesRouter';
 
 export default function Document(props: DocumentProps & DocumentHeadTagsProps) {
   return (
     <Html lang="en">
       <Head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
         <DocumentHeadTags {...props} />
       </Head>
       <body>
