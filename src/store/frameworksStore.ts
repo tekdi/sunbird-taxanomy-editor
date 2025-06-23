@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { URL_CONFIG } from '@/utils/url.config';
-import { FrameworksState, Framework } from '@/types/FrameworkInterface';
-import { Category } from '@/types/CategoryInterface';
+import { FrameworksState, Framework } from '@/interfaces/FrameworkInterface';
+import { Category } from '@/interfaces/CategoryInterface';
 
 export const useFrameworksStore = create<FrameworksState>((set) => ({
   frameworks: [],

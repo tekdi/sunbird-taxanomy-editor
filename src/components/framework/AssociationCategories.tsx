@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import { blue } from '@mui/material/colors';
-import { Category } from '@/types/CategoryInterface';
+import { Category } from '@/interfaces/CategoryInterface';
 
 interface AssociationCategoriesProps {
   categories: Category[];

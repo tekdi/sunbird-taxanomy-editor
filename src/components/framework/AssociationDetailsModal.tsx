@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-import { Category } from '@/types/CategoryInterface';
+import { Category } from '@/interfaces/CategoryInterface';
 
 interface AssociationDetailsModalProps {
   open: boolean;

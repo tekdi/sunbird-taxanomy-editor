@@ -1,7 +1,7 @@
-import { Framework } from '@/types/FrameworkInterface';
-import { Category } from '@/types/CategoryInterface';
-import { Term } from '@/types/TermInterface';
-import { Association } from '@/types/AssociationInterface';
+import { Framework } from '@/interfaces/FrameworkInterface';
+import { Category } from '@/interfaces/CategoryInterface';
+import { Term } from '@/interfaces/TermInterface';
+import { Association } from '@/interfaces/AssociationInterface';
 
 // Get live categories from a framework
 export function getLiveCategories(framework: Framework | null): Category[] {

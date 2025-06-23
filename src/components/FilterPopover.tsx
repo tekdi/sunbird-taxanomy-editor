@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { FilterPopoverProps } from '@/types/BaseInterface';
+import { FilterPopoverProps } from '@/interfaces/BaseInterface';
 
 const FilterPopover: React.FC<FilterPopoverProps> = ({
   anchorEl,

@@ -11,7 +11,7 @@ import { grey, green } from '@mui/material/colors';
 import {
   RecentActivityItemProps,
   RecentListProps,
-} from '@/types/DashboardInterface';
+} from '@/interfaces/DashboardInterface';
 
 // Inline RecentActivityItem as a subcomponent
 const InlineRecentActivityItem: React.FC<RecentActivityItemProps> = ({

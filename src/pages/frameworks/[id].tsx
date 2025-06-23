@@ -7,7 +7,7 @@ import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import { blue, grey } from '@mui/material/colors';
-import { Framework } from '@/types/FrameworkInterface';
+import { Framework } from '@/interfaces/FrameworkInterface';
 import { formatDate } from '@/utils/HelperService';
 import AssociationDetailsModal from '@/components/framework/AssociationDetailsModal';
 import frameworkService from '@/services/frameworkService';

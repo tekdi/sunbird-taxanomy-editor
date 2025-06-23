@@ -6,7 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { HeaderProps } from '@/types/LayoutInterface';
+import { HeaderProps } from '@/interfaces/LayoutInterface';
 
 const Header: React.FC<HeaderProps> = ({ onMobileMenuClick }) => {
   const theme = useTheme();

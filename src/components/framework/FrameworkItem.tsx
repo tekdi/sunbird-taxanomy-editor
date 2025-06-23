@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Link from 'next/link';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import { green, grey } from '@mui/material/colors';
-import { Framework } from '@/types/FrameworkInterface';
+import { Framework } from '@/interfaces/FrameworkInterface';
 import { formatDate } from '@/utils/HelperService';
 
 const FrameworkItem: React.FC<{ framework: Framework }> = ({ framework }) => (

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Category } from '@/types/CategoryInterface';
+import { Category } from '@/interfaces/CategoryInterface';
 
 export function useAssociationModal() {
   const [modalOpen, setModalOpen] = useState(false);

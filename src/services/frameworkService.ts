@@ -1,11 +1,11 @@
-import { Framework } from '@/types/FrameworkInterface';
+import { Framework } from '@/interfaces/FrameworkInterface';
+import { URL_CONFIG } from '@/utils/url.config';
 
 const getFrameworkById = async (id: string): Promise<Framework> => {
   const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
   const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
   const cookie = process.env.NEXT_PUBLIC_COOKIE;
-  const interfaceUrl = process.env.NEXT_PUBLIC_INTERFACE_URL;
-  if (!tenantId || !authToken || !cookie || !interfaceUrl) {
+  if (!tenantId || !authToken || !cookie || !URL_CONFIG.API.FRAMEWORK_READ) {
     throw new Error('Missing environment variables');
   }
   const myHeaders = new Headers();
@@ -18,7 +18,7 @@ const getFrameworkById = async (id: string): Promise<Framework> => {
     headers: myHeaders,
     redirect: 'follow' as RequestRedirect,
   };
-  const url = `${interfaceUrl}/api/framework/v1/read/${id}`;
+  const url = `${URL_CONFIG.API.FRAMEWORK_READ}/${id}`;
   const response = await fetch(url, requestOptions);
   if (!response.ok) throw new Error(`Error: ${response.status}`);
   const data = await response.json();

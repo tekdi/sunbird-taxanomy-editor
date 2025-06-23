@@ -12,9 +12,9 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import AssociationCategories from './AssociationCategories';
-import { Category } from '@/types/CategoryInterface';
-import { Association } from '@/types/AssociationInterface';
-import { Term } from '@/types/TermInterface';
+import { Category } from '@/interfaces/CategoryInterface';
+import { Association } from '@/interfaces/AssociationInterface';
+import { Term } from '@/interfaces/TermInterface';
 
 interface CategoryCardProps {
   category: Category;
