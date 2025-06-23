@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import { PageLayoutProps } from '@/types/LayoutInterface';
+import { PageLayoutProps } from '@/interfaces/LayoutInterface';
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);

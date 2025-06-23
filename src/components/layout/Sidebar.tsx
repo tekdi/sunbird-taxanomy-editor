@@ -14,7 +14,7 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { SidebarProps } from '@/types/LayoutInterface';
+import { SidebarProps } from '@/interfaces/LayoutInterface';
 
 const drawerWidth = 260;
 

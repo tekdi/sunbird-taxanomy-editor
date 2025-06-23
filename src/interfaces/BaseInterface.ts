@@ -28,6 +28,7 @@ export interface FilterPopoverProps {
   selectedStatus: string[];
   onStatusChange: (status: string) => void;
   statusOptions?: string[];
+  filterTitle?: string;
 }
 
 export interface SimulateApiResponse {

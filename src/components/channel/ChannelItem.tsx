@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import { green, grey } from '@mui/material/colors';
 import { formatDate } from '@/utils/HelperService';
-import { Channel } from '@/types/ChannelInterface';
+import { Channel } from '@/interfaces/ChannelInterface';
 
 const ChannelItem: React.FC<{ channel: Channel }> = ({ channel }) => (
   <Box

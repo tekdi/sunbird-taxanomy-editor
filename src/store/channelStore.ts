@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { URL_CONFIG } from '@/utils/url.config';
-import { ChannelState } from '@/types/ChannelInterface';
+import { ChannelState } from '@/interfaces/ChannelInterface';
 
 export const useChannelStore = create<ChannelState>((set) => ({
   channels: [],

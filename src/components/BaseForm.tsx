@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
-import { BaseFormProps } from '@/types/BaseInterface';
+import { BaseFormProps } from '@/interfaces/BaseInterface';
 
 const BaseForm: React.FC<BaseFormProps> = ({
   title,

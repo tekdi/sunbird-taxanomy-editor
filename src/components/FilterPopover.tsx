@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { FilterPopoverProps } from '@/types/BaseInterface';
+import { FilterPopoverProps } from '@/interfaces/BaseInterface';
 
 const FilterPopover: React.FC<FilterPopoverProps> = ({
   anchorEl,
@@ -13,6 +13,7 @@ const FilterPopover: React.FC<FilterPopoverProps> = ({
   selectedStatus,
   onStatusChange,
   statusOptions = ['Live', 'Draft'],
+  filterTitle = 'Filter by Status',
 }) => (
   <Popover
     open={open}
@@ -23,7 +24,7 @@ const FilterPopover: React.FC<FilterPopoverProps> = ({
     slotProps={{ paper: { sx: { p: 2, width: 220 } } }}
   >
     <Typography fontWeight={600} mb={1} color="text.primary">
-      Filter by Status
+      {filterTitle}
     </Typography>
     <Stack direction="column" spacing={1}>
       {statusOptions.map((status) => (

@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { indigo } from '@mui/material/colors';
-import { StatCardProps } from '@/types/DashboardInterface';
+import { StatCardProps } from '@/interfaces/DashboardInterface';
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, IconComponent }) => (
   <Card elevation={1} sx={{ borderRadius: 3 }}>
