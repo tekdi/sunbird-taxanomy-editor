@@ -1,12 +1,21 @@
+import { Category } from './CategoryInterface';
+
 export interface Framework {
-  identifier: string;
+  lastStatusChangedOn: string;
+  createdOn: string;
+  channel: string;
   name: string;
+  identifier: string;
+  description?: string;
+  lastUpdatedOn: string;
+  languageCode: string[];
+  systemDefault: string;
+  versionKey: string;
   code: string;
-  categories?: string[];
+  objectType: string;
   status: string;
-  lastUpdatedOn?: string;
-  channel?: string;
-  [key: string]: unknown;
+  type: string;
+  categories: Category[];
 }
 
 export interface FrameworksState {
