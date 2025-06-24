@@ -6,10 +6,15 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import { BaseFormProps } from '@/interfaces/BaseInterface';
 
-const BaseForm: React.FC<BaseFormProps> = ({
+const BaseForm: React.FC<
+  BaseFormProps & {
+    extra?: React.ReactNode;
+    fields: React.ReactNode;
+    sectionTitle?: string;
+  }
+> = ({
   title,
   description,
-  children,
   loading = false,
   error,
   success,
@@ -17,6 +22,9 @@ const BaseForm: React.FC<BaseFormProps> = ({
   submitText = 'Submit',
   submitIcon,
   sx = {},
+  extra,
+  fields,
+  sectionTitle,
 }) => (
   <Box
     minHeight="80vh"
@@ -60,7 +68,20 @@ const BaseForm: React.FC<BaseFormProps> = ({
             {description}
           </Typography>
         )}
-        {children}
+        {extra}
+        {sectionTitle && (
+          <Typography
+            variant="subtitle2"
+            color="text.secondary"
+            textTransform="uppercase"
+            fontWeight={600}
+            letterSpacing={1}
+            mb={0.5}
+          >
+            {sectionTitle}
+          </Typography>
+        )}
+        {fields}
         {error && (
           <Alert severity="error" sx={{ mt: 2 }}>
             {error}
