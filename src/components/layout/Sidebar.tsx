@@ -59,6 +59,37 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) => {
             <ListItemText primary="Dashboard" />
           </ListItemButton>
         </ListItem>
+        <ListItemButton onClick={handleChannelsClick} sx={{ mt: 1 }}>
+          <ListItemIcon>
+            <LayersIcon color={openChannels ? 'primary' : 'inherit'} />
+          </ListItemIcon>
+          <ListItemText primary="Channels" />
+          {openChannels ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={openChannels} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding sx={{ pl: 4 }}>
+            <ListItem disablePadding>
+              <ListItemButton
+                component={NextLink}
+                href="/channels/create"
+                selected={isActive('/channels/create')}
+                onClick={onMobileClose}
+              >
+                <ListItemText primary="Create New Channel" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                component={NextLink}
+                href="/channels"
+                selected={isActive('/channels')}
+                onClick={onMobileClose}
+              >
+                <ListItemText primary="View All Channels" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Collapse>
         <ListItemButton onClick={handleFrameworksClick} sx={{ mt: 1 }}>
           <ListItemIcon>
             <LayersIcon color={openFrameworks ? 'primary' : 'inherit'} />
@@ -68,16 +99,6 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) => {
         </ListItemButton>
         <Collapse in={openFrameworks} timeout="auto" unmountOnExit>
           <List component="div" disablePadding sx={{ pl: 4 }}>
-            <ListItem disablePadding>
-              <ListItemButton
-                component={NextLink}
-                href="/frameworks"
-                selected={isActive('/frameworks')}
-                onClick={onMobileClose}
-              >
-                <ListItemText primary="View All Frameworks" />
-              </ListItemButton>
-            </ListItem>
             <ListItem disablePadding>
               <ListItemButton
                 component={NextLink}
@@ -91,42 +112,21 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) => {
             <ListItem disablePadding>
               <ListItemButton
                 component={NextLink}
+                href="/frameworks"
+                selected={isActive('/frameworks')}
+                onClick={onMobileClose}
+              >
+                <ListItemText primary="View All Frameworks" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                component={NextLink}
                 href="/frameworks/manage"
                 selected={isActive('/frameworks/manage')}
                 onClick={onMobileClose}
               >
                 <ListItemText primary="Manage Taxonomy" />
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </Collapse>
-        <ListItemButton onClick={handleChannelsClick} sx={{ mt: 1 }}>
-          <ListItemIcon>
-            <LayersIcon color={openChannels ? 'primary' : 'inherit'} />
-          </ListItemIcon>
-          <ListItemText primary="Channels" />
-          {openChannels ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={openChannels} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding sx={{ pl: 4 }}>
-            <ListItem disablePadding>
-              <ListItemButton
-                component={NextLink}
-                href="/channels"
-                selected={isActive('/channels')}
-                onClick={onMobileClose}
-              >
-                <ListItemText primary="View All Channels" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton
-                component={NextLink}
-                href="/channels/create"
-                selected={isActive('/channels/create')}
-                onClick={onMobileClose}
-              >
-                <ListItemText primary="Create New Channel" />
               </ListItemButton>
             </ListItem>
           </List>

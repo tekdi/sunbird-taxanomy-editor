@@ -1,9 +1,10 @@
 import { SxProps } from '@mui/material/styles';
+import { SelectProps } from '@mui/material/Select';
 
 export interface BaseFormProps {
   title: string;
   description?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   loading?: boolean;
   error?: string | null;
   success?: string | null;
@@ -11,6 +12,7 @@ export interface BaseFormProps {
   submitText?: string;
   submitIcon?: React.ReactNode;
   sx?: object;
+  extra?: React.ReactNode;
 }
 
 export interface SearchBarProps {
@@ -36,4 +38,19 @@ export interface SimulateApiResponse {
   method: string;
   data?: unknown;
   status: number;
+}
+
+export interface DropdownOption {
+  label: string;
+  value: string;
+}
+
+export interface DropdownProps extends Omit<SelectProps, 'onChange' | 'value'> {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: DropdownOption[];
+  required?: boolean;
+  disabled?: boolean;
+  helperText?: string;
 }
