@@ -18,12 +18,6 @@ import { StepMasterCategoryHandle } from '@/interfaces/MasterCategoryInterface';
 import StepChannel from '@/components/framework/steps/StepChannel';
 import StepFramework from '@/components/framework/steps/StepFramework';
 import StepMasterCategory from '@/components/framework/steps/StepMasterCategory';
-// import StepCategories from "@/components/framework/steps/StepCategories";
-// import StepTerms from "@/components/framework/steps/StepTerms";
-// import StepAssociations from "@/components/framework/steps/StepAssociations";
-// import StepReview from "@/components/framework/steps/StepReview";
-// import StepPublish from "@/components/framework/steps/StepPublish";
-// import { simulateApiCall } from "../../lib/utils";
 import { useFrameworkFormStore } from '@/store/frameworkFormStore';
 import frameworkService from '@/services/frameworkService';
 import Alert from '@mui/material/Alert';
@@ -85,13 +79,6 @@ const ManageTaxonomy: React.FC = () => {
           }
           break;
         case 3:
-          // if (categories.length > 0) {
-          //   for (const category of categories) {
-          //     await simulateApiCall("/framework/v1/category/create", "POST", {
-          //       request: { category },
-          //     });
-          //   }
-          // }
           break;
         case 4:
           break;
@@ -100,7 +87,6 @@ const ManageTaxonomy: React.FC = () => {
         case 6:
           break;
         case 7:
-          // await simulateApiCall("/framework/v1/publish", "POST", {});
           router.push('/frameworks');
           return;
       }
