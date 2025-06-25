@@ -58,12 +58,11 @@ export async function createMasterCategory(category: {
 }
 
 export function generateMasterCategoryFields(code: string) {
-  const codeLower = code.toLowerCase();
   return {
-    targetIdFieldName: `target${capitalizeFirst(codeLower)}Ids`,
-    searchLabelFieldName: `se_${pluralize(codeLower)}`,
-    searchIdFieldName: `se_${codeLower}Ids`,
-    orgIdFieldName: `${codeLower}Ids`,
+    targetIdFieldName: `target${capitalizeFirst(code)}Ids`,
+    searchLabelFieldName: `se_${pluralize(code)}`,
+    searchIdFieldName: `se_${code}Ids`,
+    orgIdFieldName: `${code}Ids`,
   };
 }
 

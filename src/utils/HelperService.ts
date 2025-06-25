@@ -39,12 +39,12 @@ export function formatDate(date: Date | string) {
   return `${month} ${day}, ${year}`;
 }
 
-export function slugifyCode(input: string): string {
-  return input
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with hyphens
-    .replace(/^_+|_+$/g, ''); // Remove leading/trailing underscores
+export function camelCaseCode(input: string): string {
+  // Remove all non-alphanumeric separators and capitalize the following letter
+  const camel = input
+    .replace(/[-_\s]+(.)?/g, (_match, chr) => (chr ? chr.toUpperCase() : ''))
+    .replace(/^[A-Z]/, (match) => match.toLowerCase());
+  return camel;
 }
 
 export function autoFillCodeFromName<T extends { name: string; code: string }>(
@@ -56,7 +56,7 @@ export function autoFillCodeFromName<T extends { name: string; code: string }>(
   return {
     ...obj,
     name,
-    [codeKey]: slugifyCode(name),
+    [codeKey]: camelCaseCode(name),
   };
 }
 
