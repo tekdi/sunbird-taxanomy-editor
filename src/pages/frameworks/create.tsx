@@ -8,6 +8,7 @@ import { useChannelStore } from '@/store/channelStore';
 import BaseForm from '@/components/BaseForm';
 import { createFramework } from '@/services/frameworkService';
 import Dropdown from '@/components/Dropdown';
+import { autoFillCodeFromName } from '@/utils/HelperService';
 
 const CreateFrameworkPage: React.FC = () => {
   const [framework, setFramework] = useState({
@@ -31,6 +32,11 @@ const CreateFrameworkPage: React.FC = () => {
   useEffect(() => {
     fetchChannels();
   }, [fetchChannels]);
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value;
+    setFramework((prev) => autoFillCodeFromName(prev, name));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,7 +93,7 @@ const CreateFrameworkPage: React.FC = () => {
         <TextField
           label="Framework Name"
           value={framework.name}
-          onChange={(e) => setFramework({ ...framework, name: e.target.value })}
+          onChange={handleNameChange}
           placeholder="e.g., Mathematics Framework"
           helperText="Name should be descriptive and unique"
           required
