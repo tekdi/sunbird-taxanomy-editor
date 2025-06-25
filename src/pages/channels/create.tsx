@@ -6,6 +6,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useRouter } from 'next/router';
 import { validateChannelForm, createChannel } from '@/services/channelService';
 import BaseForm from '@/components/BaseForm';
+import { autoFillCodeFromName } from '@/utils/HelperService';
 
 const CreateChannelPage: React.FC = () => {
   const [channel, setChannel] = useState({
@@ -18,6 +19,11 @@ const CreateChannelPage: React.FC = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const router = useRouter();
 
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value;
+    setChannel((prev) => autoFillCodeFromName(prev, name));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -29,19 +35,7 @@ const CreateChannelPage: React.FC = () => {
     }
     setLoading(true);
     try {
-      const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
-      const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
-      const cookie = process.env.NEXT_PUBLIC_COOKIE;
-      const interfaceUrl = process.env.NEXT_PUBLIC_INTERFACE_URL;
-      if (!tenantId || !authToken || !cookie || !interfaceUrl) {
-        throw new Error('Missing environment variables');
-      }
-      await createChannel(channel, {
-        tenantId,
-        authToken,
-        cookie,
-        interfaceUrl,
-      });
+      await createChannel(channel);
       setSuccess('Channel created successfully!');
       setChannel({ name: '', code: '', description: '' });
       setTimeout(() => router.push('/channels'), 1000);
@@ -63,7 +57,7 @@ const CreateChannelPage: React.FC = () => {
         <TextField
           label="Channel Name"
           value={channel.name}
-          onChange={(e) => setChannel({ ...channel, name: e.target.value })}
+          onChange={handleNameChange}
           placeholder="e.g., Youthnet Channel"
           helperText="Name should be descriptive and unique"
           required

@@ -14,11 +14,10 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { useRouter } from 'next/router';
 import PageLayout from '@/components/layout/PageLayout';
+import { StepMasterCategoryHandle } from '@/interfaces/MasterCategoryInterface';
 import StepChannel from '@/components/framework/steps/StepChannel';
 import StepFramework from '@/components/framework/steps/StepFramework';
-import StepMasterCategory, {
-  StepMasterCategoryHandle,
-} from '@/components/framework/steps/StepMasterCategory';
+import StepMasterCategory from '@/components/framework/steps/StepMasterCategory';
 // import StepCategories from "@/components/framework/steps/StepCategories";
 // import StepTerms from "@/components/framework/steps/StepTerms";
 // import StepAssociations from "@/components/framework/steps/StepAssociations";
