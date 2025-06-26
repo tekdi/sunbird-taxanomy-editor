@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    volumes:
+      # Mount the source code for hot reloading
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+    # Load environment variables from .env.local file
+    env_file:
+      - .env.local
+    stdin_open: true
+    tty: true
+    networks:
+      - sunbird-network
+
+networks:
+  sunbird-network:
+    driver: bridge
