@@ -1,3 +1,7 @@
+// This file contains a custom hook for managing the state of a master category form.
+// It provides functions to handle form changes, submission, and fetching master categories.
+// It also includes logic for auto-filling fields based on the category name and code.
+
 import { useState, useEffect, useCallback } from 'react';
 import {
   fetchMasterCategories,
@@ -20,6 +24,12 @@ const initialFormState = {
   orgIdFieldName: '',
 };
 
+/**
+ * Custom hook to manage the state of a master category form.
+ * This hook provides functions to handle form changes, submission, and fetching master categories.
+ *
+ * @returns {Object} An object containing form state, handlers, and loading/error states.
+ **/
 export function useMasterCategoryForm() {
   const [form, setForm] = useState({ ...initialFormState });
   const [descriptionManuallyChanged, setDescriptionManuallyChanged] =
@@ -42,6 +52,13 @@ export function useMasterCategoryForm() {
       .finally(() => setLoading(false));
   }, []);
 
+  /**
+   * Handles changes in the form fields.
+   * Updates the form state based on the input field name and value.
+   * Automatically fills code and description based on the name field.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The change event from the input field.
+   */
   const handleFormChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -95,6 +112,13 @@ export function useMasterCategoryForm() {
     [descriptionManuallyChanged]
   );
 
+  /**
+   * Handles the form submission to create a new master category.
+   * Validates the form data and calls the createMasterCategory service.
+   * Updates the categories list and resets the form on success.
+   *
+   * @param {React.FormEvent} e - The submit event from the form.
+   */
   const handleFormSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();

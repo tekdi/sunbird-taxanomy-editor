@@ -35,7 +35,21 @@ const CreateChannelPage: React.FC = () => {
     }
     setLoading(true);
     try {
-      await createChannel(channel);
+      const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
+      const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
+      const cookie = process.env.NEXT_PUBLIC_COOKIE;
+      const interfaceUrl = process.env.NEXT_PUBLIC_INTERFACE_URL;
+
+      if (!tenantId || !authToken || !cookie || !interfaceUrl) {
+        throw new Error('Missing environment variables');
+      }
+
+      await createChannel(channel, {
+        tenantId,
+        authToken,
+        cookie,
+        interfaceUrl,
+      });
       setSuccess('Channel created successfully!');
       setChannel({ name: '', code: '', description: '' });
       setTimeout(() => router.push('/channels'), 1000);

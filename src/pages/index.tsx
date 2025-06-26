@@ -10,8 +10,8 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useFrameworksStore } from '@/store/frameworksStore';
 import { useChannelStore } from '@/store/channelStore';
+import { getChannelCode } from '@/services/channelService';
 import {
-  getChannelCode,
   getChannelLastUpdatedOn,
   sortFrameworksByLastUpdated,
   sortChannelsByLastUpdated,

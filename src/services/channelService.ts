@@ -1,5 +1,4 @@
 import { URL_CONFIG } from '@/utils/url.config';
-import { prepareHeaders, getEnvVars } from '@/utils/ApiUtilityService';
 
 // Helper to get code from channel
 export function getChannelCode(ch: {
@@ -14,6 +13,7 @@ export function getChannelCode(ch: {
 }
 
 // Normalize channels to ensure code property exists
+// This function will ensure that each channel has a code property
 export function normalizeChannels<
   T extends {
     code?: string;
@@ -51,13 +51,20 @@ export function validateChannelForm(channel: { name: string; code: string }) {
 }
 
 // Create channel API call
-export async function createChannel(channel: {
-  name: string;
-  code: string;
-  description: string;
-}) {
-  getEnvVars(); // Only to throw if missing, but don't assign interfaceUrl
-  const myHeaders = prepareHeaders();
+export async function createChannel(
+  channel: { name: string; code: string; description: string },
+  env: {
+    tenantId: string;
+    authToken: string;
+    cookie: string;
+    interfaceUrl: string;
+  }
+) {
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('tenantId', env.tenantId);
+  myHeaders.append('Authorization', `Bearer ${env.authToken}`);
+  myHeaders.append('Cookie', env.cookie);
   const raw = JSON.stringify({
     request: {
       channel: {

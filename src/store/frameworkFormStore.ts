@@ -24,6 +24,8 @@ interface FrameworkFormStoreState {
   reset: () => void;
 }
 
+// Initial state for the framework form store
+// This state includes the initial step, channel, framework, and categories.
 const INITIAL_STATE: Omit<
   FrameworkFormStoreState,
   | 'setStep'
@@ -41,14 +43,24 @@ const INITIAL_STATE: Omit<
   categories: [],
 };
 
+// Zustand store for managing framework form state
 export const useFrameworkFormStore = create<FrameworkFormStoreState>((set) => ({
   ...INITIAL_STATE,
+  // Handles setting the current step in the framework form
+  // This is used to navigate through the multi-step form.
   setStep: (step) => set({ step }),
+
+  // Handles setting the selected channel
   setChannel: (channel) => set({ channel }),
+
+  // Handles setting the framework data
   setFramework: (framework) =>
     set((state) => ({ framework: { ...state.framework, ...framework } })),
   setCategories: (categories) => set({ categories }),
   setCurrentCategory: (category) => set({ currentCategory: category }),
+
+  // Adds a new term to the specified category
+  // If the category does not have a terms array, it initializes it.
   addTermToCategory: (categoryIndex, term) =>
     set((state) => {
       const updatedCategories = [...state.categories];
@@ -58,6 +70,10 @@ export const useFrameworkFormStore = create<FrameworkFormStoreState>((set) => ({
       updatedCategories[categoryIndex].terms!.push(term);
       return { categories: updatedCategories };
     }),
+
+  // Updates the associations of a term in a specific category
+  // It checks if the term exists in the category's terms array before updating.
+  // If the term does not exist, it will not modify the state.
   updateTermAssociations: (categoryIndex, termIndex, associations) =>
     set((state) => {
       const updatedCategories = [...state.categories];

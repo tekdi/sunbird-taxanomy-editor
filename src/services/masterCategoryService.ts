@@ -2,6 +2,12 @@ import { MasterCategory } from '@/interfaces/MasterCategoryInterface';
 import { URL_CONFIG } from '@/utils/url.config';
 import { prepareHeaders } from '@/utils/ApiUtilityService';
 
+/**
+ * Service to manage master categories.
+ * This service provides functions to fetch, create, and manipulate master categories.
+ */
+
+// Fetches all master categories from the API
 export async function fetchMasterCategories(): Promise<MasterCategory[]> {
   const myHeaders = prepareHeaders();
   const raw = JSON.stringify({
@@ -27,6 +33,7 @@ export async function fetchMasterCategories(): Promise<MasterCategory[]> {
   return data.result.Category as MasterCategory[];
 }
 
+// Creates a new master category with the provided details
 export async function createMasterCategory(category: {
   name: string;
   code: string;
@@ -57,6 +64,7 @@ export async function createMasterCategory(category: {
   return data;
 }
 
+// Generates field names for a master category based on its code
 export function generateMasterCategoryFields(code: string) {
   return {
     targetIdFieldName: `target${capitalizeFirst(code)}Ids`,
@@ -66,6 +74,7 @@ export function generateMasterCategoryFields(code: string) {
   };
 }
 
+// Capitalizes the first letter of a string
 function capitalizeFirst(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }

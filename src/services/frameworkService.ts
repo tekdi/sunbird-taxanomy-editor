@@ -1,9 +1,18 @@
 import { Framework } from '@/interfaces/FrameworkInterface';
 import { URL_CONFIG } from '@/utils/url.config';
-import { prepareHeaders } from '@/utils/ApiUtilityService';
 
 const getFrameworkById = async (id: string): Promise<Framework> => {
-  const myHeaders = prepareHeaders();
+  const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
+  const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
+  const cookie = process.env.NEXT_PUBLIC_COOKIE;
+  if (!tenantId || !authToken || !cookie || !URL_CONFIG.API.FRAMEWORK_READ) {
+    throw new Error('Missing environment variables');
+  }
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('tenantId', tenantId);
+  myHeaders.append('Authorization', `Bearer ${authToken}`);
+  myHeaders.append('Cookie', cookie);
   const requestOptions = {
     method: 'GET',
     headers: myHeaders,
@@ -22,8 +31,17 @@ export async function createFramework(
   channelId: string,
   channelName: string
 ) {
-  const myHeaders = prepareHeaders();
+  const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
+  const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
+  if (!tenantId || !authToken) {
+    throw new Error('Missing environment variables');
+  }
+  const myHeaders = new Headers();
   myHeaders.append('X-Channel-Id', channelId);
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('tenantId', tenantId);
+  myHeaders.append('Authorization', `Bearer ${authToken}`);
+
   const raw = JSON.stringify({
     request: {
       framework: {
