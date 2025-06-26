@@ -6,14 +6,10 @@ import Alert from '@mui/material/Alert';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
-import { MasterCategory } from '@/interfaces/MasterCategoryInterface';
+import { MasterCategoryListProps } from '@/interfaces/MasterCategoryInterface';
 
-interface MasterCategoryListProps {
-  categories: MasterCategory[];
-  loading: boolean;
-  error: string | null;
-}
-
+// This component renders a list of master categories with their details.
+// Each category displays its name, code, and description, with a divider between each item.
 const MasterCategoryList: React.FC<MasterCategoryListProps> = ({
   categories,
   loading,

@@ -8,6 +8,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 
+// This component renders a step in the taxonomy management process where the user selects a channel.
+// It fetches available channels from the store, displays them in a dropdown,
+// and allows the user to select one. The selected channel is stored in the framework form state.
 const StepChannel: React.FC = () => {
   const channel = useFrameworkFormStore((state) => state.channel);
   const setChannel = useFrameworkFormStore((state) => state.setChannel);

@@ -6,6 +6,8 @@ import { green, grey } from '@mui/material/colors';
 import { formatDate } from '@/utils/HelperService';
 import { Channel } from '@/interfaces/ChannelInterface';
 
+// This component renders a single channel item in a list.
+// It displays the channel name, status, code, last updated date, and provides a structure for potential view/edit links in the future.
 const ChannelItem: React.FC<{ channel: Channel }> = ({ channel }) => (
   <Box
     sx={{

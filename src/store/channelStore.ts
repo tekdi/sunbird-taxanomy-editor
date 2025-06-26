@@ -2,10 +2,14 @@ import { create } from 'zustand';
 import { URL_CONFIG } from '@/utils/url.config';
 import { ChannelState } from '@/interfaces/ChannelInterface';
 
+// Zustand store for managing channel data
+// This store handles fetching channels, managing loading state, and error handling.
 export const useChannelStore = create<ChannelState>((set) => ({
   channels: [],
   loading: false,
   error: null,
+  // Function to fetch channels from the API
+  // It sets loading to true while fetching, and updates channels or error based on the response
   fetchChannels: async () => {
     set({ loading: true, error: null });
     try {
@@ -41,10 +45,16 @@ export const useChannelStore = create<ChannelState>((set) => ({
         redirect: 'follow' as RequestRedirect,
       };
       const url = URL_CONFIG.API.COMPOSITE_SEARCH;
+
+      // Fetch channels from the API
       const response = await fetch(url, requestOptions);
+      // Throw an error if the response is not ok
       if (!response.ok) throw new Error(`Error: ${response.status}`);
       const data = await response.json();
+
+      // Check if the result is an array of channels
       if (!Array.isArray(data?.result?.Channel)) {
+        // If the result is not an array, set error state
         set({
           channels: [],
           loading: false,
@@ -52,6 +62,7 @@ export const useChannelStore = create<ChannelState>((set) => ({
         });
         return;
       }
+      // Set the channels state with the fetched data
       set({
         channels: data.result.Channel.map((ch: unknown) => {
           if (typeof ch === 'object' && ch !== null) {

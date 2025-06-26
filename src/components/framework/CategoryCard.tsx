@@ -28,6 +28,10 @@ interface CategoryCardProps {
   ) => void;
 }
 
+// This component renders a card for a specific category.
+// It displays the category name, description, and a table of terms associated with that category.
+// Each term shows its name, code, description, and associations.
+// The associations are grouped by category and displayed as badges.
 const CategoryCard: React.FC<CategoryCardProps> = ({
   category,
   groupAssociationsByCategory,

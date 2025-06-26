@@ -6,6 +6,9 @@ import MasterCategoryForm from '@/components/masterCategory/MasterCategoryForm';
 import MasterCategoryList from '@/components/masterCategory/MasterCategoryList';
 import { useMasterCategoryForm } from '@/hooks/useMasterCategoryForm';
 
+// This component renders a step in the taxonomy management process.
+// It displays a list of master categories and a form to create a new master category.
+// The component uses a custom hook `useMasterCategoryForm` to manage the form state and handle form submissions. It also provides a method to check if there are unsaved changes in the form.
 const StepMasterCategory = forwardRef<StepMasterCategoryHandle, object>(
   (props, ref) => {
     const {

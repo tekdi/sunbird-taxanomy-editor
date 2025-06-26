@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import { indigo } from '@mui/material/colors';
 import { StatCardProps } from '@/interfaces/DashboardInterface';
 
+// This component renders a card displaying a statistic with a title, value, and an icon.
+// It accepts props for the title, value, and an icon component to display.
 const StatCard: React.FC<StatCardProps> = ({ title, value, IconComponent }) => (
   <Card elevation={1} sx={{ borderRadius: 3 }}>
     <CardContent sx={{ p: 3 }}>

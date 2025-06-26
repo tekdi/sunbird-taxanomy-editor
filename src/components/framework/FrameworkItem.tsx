@@ -9,6 +9,9 @@ import { green, grey } from '@mui/material/colors';
 import { Framework } from '@/interfaces/FrameworkInterface';
 import { formatDate } from '@/utils/HelperService';
 
+// This component renders a single framework item in a list.
+// It displays the framework name, status, channel, categories count, last updated date, and provides buttons to view and edit the framework.
+// The framework data is passed as a prop, and the component is functional with TypeScript types for better type safety and development experience.
 const FrameworkItem: React.FC<{ framework: Framework }> = ({ framework }) => (
   <Box
     sx={{

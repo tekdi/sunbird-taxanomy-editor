@@ -15,6 +15,11 @@ interface AssociationDetailsModalProps {
   onCategoryClick: (id: string) => void;
 }
 
+// This component renders a modal displaying association details for a specific term and category.
+// It includes a list of categories, each with an expandable section showing associated terms.
+// The modal can be opened or closed, and it allows users to click on categories to expand or collapse their details.
+// The modal header displays the term and category names, and the categories are displayed as buttons with an expandable icon indicating whether the category is expanded or collapsed.
+// The categories are passed as props, along with the term and category names, and a callback function to handle category clicks. The expanded category state is also managed to control which category's terms are currently visible.
 const AssociationDetailsModal: React.FC<AssociationDetailsModalProps> = ({
   open,
   onClose,

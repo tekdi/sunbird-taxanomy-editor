@@ -16,6 +16,11 @@ interface AssociationCategoriesProps {
   ) => void;
 }
 
+// This component renders a list of association categories as badges.
+// It accepts an array of categories, a term name, a category name, and a callback function to handle badge clicks.
+// The badges are displayed in a flex container, and if there are more than four categories,
+// a "Show More" button is displayed to allow users to view additional categories.
+// Each badge is clickable and triggers the provided callback function with the relevant parameters.
 const AssociationCategories: React.FC<AssociationCategoriesProps> = ({
   categories,
   termName,

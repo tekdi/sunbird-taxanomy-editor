@@ -6,6 +6,15 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import { BaseFormProps } from '@/interfaces/BaseInterface';
 
+/**
+ * BaseForm component is a reusable form layout that includes a header, fields, and a submit button.
+ * It can display loading, error, and success states.
+ *
+ * @param {BaseFormProps} props - The properties for the BaseForm component.
+ * @returns {JSX.Element} The rendered BaseForm component.
+ */
+
+// Serves as the baseform for both Channel and Framework Creation forms.
 const BaseForm: React.FC<
   BaseFormProps & {
     extra?: React.ReactNode;

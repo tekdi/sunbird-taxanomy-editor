@@ -10,6 +10,8 @@ import SearchBar from '@/components/SearchBar';
 import FilterPopover from '@/components/FilterPopover';
 import FrameworkItem from '@/components/framework/FrameworkItem';
 
+// This page allows users to view, search, and filter frameworks.
+// It fetches frameworks from the store and displays them in a card layout.
 const FrameworksPage: React.FC = () => {
   const { frameworks, loading, error, fetchFrameworks } = useFrameworksStore();
   const [search, setSearch] = useState('');
@@ -23,12 +25,18 @@ const FrameworksPage: React.FC = () => {
     // eslint-disable-next-line
   }, []);
 
+  // Extract unique channels from frameworks for filtering
+  // This ensures that the filter options are based on the available frameworks.
   const channels = Array.from(
     new Set(
       (frameworks || []).map((fw) => fw.channel).filter((c): c is string => !!c)
     )
   );
 
+  // Handlers for search and filter functionality
+
+  // This function handles the click event for the filter button, setting the anchor element for the popover.
+  // It allows users to filter frameworks by channel.
   const handleFilterClick = (event: React.MouseEvent<HTMLElement>) => {
     setFilterAnchorEl(event.currentTarget);
   };
@@ -43,6 +51,7 @@ const FrameworksPage: React.FC = () => {
     );
   };
 
+  // Filter frameworks based on search query and selected channels
   const filteredFrameworks = (frameworks || []).filter((framework) => {
     const q = search.trim().toLowerCase();
     const matchesSearch =

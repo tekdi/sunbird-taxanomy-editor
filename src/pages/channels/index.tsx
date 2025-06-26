@@ -13,6 +13,7 @@ import FilterPopover from '@/components/FilterPopover';
 import SearchBar from '@/components/SearchBar';
 import { normalizeChannels, filterChannels } from '@/services/channelService';
 
+// This page allows users to view, search, and filter channels.
 const ChannelsPage: React.FC = () => {
   const { channels, loading, error, fetchChannels } = useChannelStore();
   const [search, setSearch] = useState('');
@@ -26,12 +27,19 @@ const ChannelsPage: React.FC = () => {
     // eslint-disable-next-line
   }, []);
 
+  // Handlers for search and filter functionality
+
+  // This function handles the click event for the filter button, setting the anchor element for the popover.
   const handleFilterClick = (event: React.MouseEvent<HTMLElement>) => {
     setFilterAnchorEl(event.currentTarget);
   };
+
+  // This function closes the filter popover by setting the anchor element to null.
   const handleFilterClose = () => {
     setFilterAnchorEl(null);
   };
+
+  // This function handles the change in selected status for filtering channels.
   const handleStatusChange = (status: string) => {
     setSelectedStatus((prev) =>
       prev.includes(status)

@@ -3,24 +3,12 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
+import { MasterCategoryFormProps } from '@/interfaces/MasterCategoryInterface';
 
-interface MasterCategoryFormProps {
-  form: {
-    name: string;
-    code: string;
-    description: string;
-    targetIdFieldName: string;
-    searchLabelFieldName: string;
-    searchIdFieldName: string;
-    orgIdFieldName: string;
-  };
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  loading: boolean;
-  error: string | null;
-  success: string | null;
-}
-
+// This component renders a form for creating a master category.
+// It includes fields for name, code, target ID field name, search label field name, search ID field name, org ID field name, and description.
+// The form includes validation for required fields and displays appropriate messages for errors and success.
+// It also handles loading state during submission.
 const MasterCategoryForm: React.FC<MasterCategoryFormProps> = ({
   form,
   onChange,

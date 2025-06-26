@@ -6,6 +6,9 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { FilterPopoverProps } from '@/interfaces/BaseInterface';
 
+// This component renders a popover for filtering items by status.
+// It accepts props for anchor element, open state, close handler, selected status, status change handler, status options, and filter title.
+// The popover displays a list of checkboxes for each status option, allowing users to select multiple statuses to filter the items displayed in the parent component.
 const FilterPopover: React.FC<FilterPopoverProps> = ({
   anchorEl,
   open,

@@ -8,6 +8,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { HeaderProps } from '@/interfaces/LayoutInterface';
 
+// This component renders the header of the application.
+// It includes a menu button for mobile view, a title, and is styled to be sticky at the top.
 const Header: React.FC<HeaderProps> = ({ onMobileMenuClick }) => {
   const theme = useTheme();
   const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));

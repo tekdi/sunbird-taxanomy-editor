@@ -4,6 +4,11 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import { PageLayoutProps } from '@/interfaces/LayoutInterface';
 
+// This component serves as the main layout for the application.
+// It includes a sidebar for navigation and a header for the title and mobile menu toggle.
+// The layout is responsive, adjusting the sidebar visibility based on the screen size.
+// It accepts children components to render within the main content area.
+
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 

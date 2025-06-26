@@ -3,10 +3,13 @@ import { URL_CONFIG } from '@/utils/url.config';
 import { FrameworksState, Framework } from '@/interfaces/FrameworkInterface';
 import { Category } from '@/interfaces/CategoryInterface';
 
+// Zustand store for managing framework data
 export const useFrameworksStore = create<FrameworksState>((set) => ({
   frameworks: [],
   loading: false,
   error: null,
+
+  // Function to fetch frameworks from the API
   fetchFrameworks: async () => {
     set({ loading: true, error: null });
     try {
@@ -53,6 +56,12 @@ export const useFrameworksStore = create<FrameworksState>((set) => ({
         });
         return;
       }
+
+      // Set the frameworks state with the fetched data
+      // It maps the raw data to the Framework interface, ensuring type safety.
+      // Each framework object is validated and transformed to match the Framework interface.
+      // It also handles cases where properties may not be present or are of unexpected types.
+      // The final state includes an array of Framework objects, a loading flag, and an error
       set({
         frameworks: data.result.Framework.map((fw: unknown): Framework => {
           if (typeof fw === 'object' && fw !== null) {

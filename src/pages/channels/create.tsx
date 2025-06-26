@@ -8,6 +8,10 @@ import { validateChannelForm, createChannel } from '@/services/channelService';
 import BaseForm from '@/components/BaseForm';
 import { autoFillCodeFromName } from '@/utils/HelperService';
 
+// This component serves as the main page for creating a new channel in the application.
+// It includes a form with fields for channel name, code, and description.
+// The form validates input and submits the data to create a new channel via an API call.
+// It is an extension of the BaseForm component, which handles form submission, loading state, and error/success messages.
 const CreateChannelPage: React.FC = () => {
   const [channel, setChannel] = useState({
     name: '',
@@ -35,7 +39,21 @@ const CreateChannelPage: React.FC = () => {
     }
     setLoading(true);
     try {
-      await createChannel(channel);
+      const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
+      const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
+      const cookie = process.env.NEXT_PUBLIC_COOKIE;
+      const interfaceUrl = process.env.NEXT_PUBLIC_INTERFACE_URL;
+
+      if (!tenantId || !authToken || !cookie || !interfaceUrl) {
+        throw new Error('Missing environment variables');
+      }
+
+      await createChannel(channel, {
+        tenantId,
+        authToken,
+        cookie,
+        interfaceUrl,
+      });
       setSuccess('Channel created successfully!');
       setChannel({ name: '', code: '', description: '' });
       setTimeout(() => router.push('/channels'), 1000);

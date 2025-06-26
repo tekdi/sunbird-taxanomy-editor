@@ -1,3 +1,7 @@
+// This file contains a custom hook for managing the state of an association modal.
+// It provides functions to open the modal with specific categories and terms, and to close the modal
+// when needed.
+
 import { useState } from 'react';
 import { Category } from '@/interfaces/CategoryInterface';
 
@@ -8,6 +12,14 @@ export function useAssociationModal() {
   const [modalCategoryName, setModalCategoryName] = useState('');
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
+  /**
+   * Handles the click event on a badge to open the modal with specific categories and term details.
+   *
+   * @param {Category[]} categories - The categories associated with the term.
+   * @param {string} termName - The name of the term.
+   * @param {string} categoryName - The name of the category.
+   * @returns {void}
+   **/
   const handleBadgeClick = (
     categories: Category[],
     termName: string,
@@ -20,6 +32,12 @@ export function useAssociationModal() {
     setExpandedCategory(null);
   };
 
+  /**
+   * Handles the closing of the modal.
+   * Resets the expanded category and closes the modal.
+   *
+   * @returns {void}
+   **/
   const handleModalClose = () => {
     setModalOpen(false);
     setExpandedCategory(null);
