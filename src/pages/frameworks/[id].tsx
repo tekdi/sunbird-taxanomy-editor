@@ -21,6 +21,7 @@ import CategoryCard from '@/components/framework/CategoryCard';
 import NoData from '@/components/framework/NoData';
 import { useAssociationModal } from '@/hooks/useAssociationModal';
 
+// This component displays detailed information about a specific framework.
 const FrameworkDetails: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -35,6 +36,8 @@ const FrameworkDetails: React.FC = () => {
       setLoading(false);
       return;
     }
+
+    // Fetch framework details by ID
     const fetchFramework = async () => {
       setLoading(true);
       setError(null);

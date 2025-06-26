@@ -19,6 +19,8 @@ import {
 import RecentList from '@/components/dashboard/RecentList';
 import StatCard from '@/components/dashboard/StatCard';
 
+// This component serves as the main dashboard for the application.
+// It displays key statistics, recent frameworks, and channels.
 const DashboardPage: React.FC = () => {
   const {
     frameworks,

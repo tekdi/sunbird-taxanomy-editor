@@ -10,6 +10,8 @@ import { createFramework } from '@/services/frameworkService';
 import Dropdown from '@/components/Dropdown';
 import { autoFillCodeFromName } from '@/utils/HelperService';
 
+// This component serves as the main page for creating a new framework in the application.
+// It is an extension of the BaseForm component, which handles form submission, loading state, and error/success messages.
 const CreateFrameworkPage: React.FC = () => {
   const [framework, setFramework] = useState({
     name: '',
@@ -22,6 +24,7 @@ const CreateFrameworkPage: React.FC = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const router = useRouter();
 
+  // Fetch channels from the store
   const {
     channels,
     loading: channelsLoading,
@@ -33,11 +36,14 @@ const CreateFrameworkPage: React.FC = () => {
     fetchChannels();
   }, [fetchChannels]);
 
+  // Handle changes to the framework name input
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value;
     setFramework((prev) => autoFillCodeFromName(prev, name));
   };
 
+  // Handle form submission
+  // Validates input and submits the data to create a new framework via an API call.
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);

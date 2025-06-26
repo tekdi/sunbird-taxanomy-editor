@@ -8,6 +8,10 @@ import { validateChannelForm, createChannel } from '@/services/channelService';
 import BaseForm from '@/components/BaseForm';
 import { autoFillCodeFromName } from '@/utils/HelperService';
 
+// This component serves as the main page for creating a new channel in the application.
+// It includes a form with fields for channel name, code, and description.
+// The form validates input and submits the data to create a new channel via an API call.
+// It is an extension of the BaseForm component, which handles form submission, loading state, and error/success messages.
 const CreateChannelPage: React.FC = () => {
   const [channel, setChannel] = useState({
     name: '',

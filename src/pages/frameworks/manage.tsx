@@ -26,6 +26,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
+// This component manages the taxonomy creation process through a series of steps.
+// It allows users to select a channel, framework, master categories, categories, terms, and associations,
+// guiding them through the taxonomy management workflow.
 const steps = [
   { number: 1, title: 'Channel' },
   { number: 2, title: 'Framework' },
@@ -37,6 +40,8 @@ const steps = [
   { number: 8, title: 'Publish' },
 ];
 
+// Controller for managing the taxonomy creation process.
+// It handles navigation between steps, fetching framework details, and managing unsaved changes.
 const ManageTaxonomy: React.FC = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
