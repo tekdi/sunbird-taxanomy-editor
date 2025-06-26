@@ -7,6 +7,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 
+// This component renders a step in the taxonomy management process where the user selects a framework.
+// It fetches available frameworks from the store, filters them based on the selected channel, and displays them in a dropdown. The selected framework is stored in the framework form state.
 const StepFramework: React.FC = () => {
   const framework = useFrameworkFormStore((state) => state.framework);
   const setFramework = useFrameworkFormStore((state) => state.setFramework);

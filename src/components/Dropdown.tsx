@@ -5,6 +5,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { DropdownProps } from '@/interfaces/BaseInterface';
 
+// This component renders a dropdown select input with a label, options, and helper text.
+// It accepts props for label, value, onChange handler, options array, required and disabled states, and additional select properties.
 const Dropdown: React.FC<DropdownProps> = ({
   label,
   value,

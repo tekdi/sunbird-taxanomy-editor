@@ -16,8 +16,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { SidebarProps } from '@/interfaces/LayoutInterface';
 
+// Define the width of the sidebar drawer
 const drawerWidth = 260;
 
+// This component renders the sidebar for the application.
+// It includes navigation links for Dashboard, Channels, and Frameworks.
 const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) => {
   const router = useRouter();
   const [openFrameworks, setOpenFrameworks] = React.useState(true);

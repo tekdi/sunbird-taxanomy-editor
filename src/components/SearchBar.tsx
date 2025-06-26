@@ -4,6 +4,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import { SearchBarProps } from '@/interfaces/BaseInterface';
 
+// Resuable SearchBar component
+// It accepts props for value, onChange handler, placeholder text, autoFocus, and custom styles.
 const SearchBar: React.FC<SearchBarProps> = ({
   value,
   onChange,

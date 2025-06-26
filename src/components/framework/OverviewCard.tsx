@@ -7,6 +7,8 @@ interface OverviewCardProps {
   count: number;
 }
 
+// This component renders a card displaying an overview statistic.
+// It accepts props for the name of the statistic and the count value.
 const OverviewCard: React.FC<OverviewCardProps> = ({ name, count }) => (
   <Box
     borderRadius={3}

@@ -13,7 +13,8 @@ import {
   RecentListProps,
 } from '@/interfaces/DashboardInterface';
 
-// Inline RecentActivityItem as a subcomponent
+// Inline RecentActivityItem as a subcomponent to keep the main component clean
+// This component renders a single recent activity item in the list.
 const InlineRecentActivityItem: React.FC<RecentActivityItemProps> = ({
   title,
   time,
@@ -65,6 +66,8 @@ const InlineRecentActivityItem: React.FC<RecentActivityItemProps> = ({
   </Box>
 );
 
+// This component renders a list of recent activities.
+// Used for displaying recent frameworks and channels
 function RecentList<T>({
   title,
   loading,
