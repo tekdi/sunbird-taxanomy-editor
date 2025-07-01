@@ -49,8 +49,19 @@ const StepTerms = forwardRef<StepTermsHandle, object>((props, ref) => {
       setCategories,
       framework,
       channel,
-      form,
-      setForm,
+      form: {
+        name: form.name,
+        code: form.code,
+        description: form.description,
+        label: form.label,
+        selectedCategory: form.selectedCategory,
+      },
+      setForm: (newForm) => {
+        setForm({
+          ...newForm,
+          selectedCategory: newForm.selectedCategory,
+        });
+      },
       setError,
       setSuccess,
     });
@@ -148,7 +159,13 @@ const StepTerms = forwardRef<StepTermsHandle, object>((props, ref) => {
       <BatchCreationModal
         open={modalOpen}
         title="Creating Terms"
-        items={pendingTerms}
+        items={
+          pendingTerms as unknown as Array<{
+            name: string;
+            code: string;
+            [key: string]: unknown;
+          }>
+        }
         statuses={modalStatuses}
         currentIndex={currentModalIndex}
         getItemLabel={(item) =>
