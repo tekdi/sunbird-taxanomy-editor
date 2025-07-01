@@ -1,0 +1,187 @@
+import React, { forwardRef, useImperativeHandle } from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { useFrameworkFormStore } from '@/store/frameworkFormStore';
+import ListOfExistingItems from '@/components/framework/ListOfExistingItems';
+import TermForm from '@/components/term/TermForm';
+import PendingTermsSection from '@/components/term/PendingTermsSection';
+import BatchCreationModal from '@/components/framework/BatchCreationModal';
+import BatchStatusList from '@/components/framework/BatchStatusList';
+import { getAllTermsFromCategories } from '@/services/categoryService';
+import { useEditTerm } from '@/hooks/useEditTerm';
+import { useStepTerms } from '@/hooks/useStepTerms';
+
+export interface StepTermsHandle {
+  hasUnsavedTerms: () => boolean;
+}
+
+const StepTerms = forwardRef<StepTermsHandle, object>((props, ref) => {
+  const categories = useFrameworkFormStore((state) => state.categories);
+  const setCategories = useFrameworkFormStore((state) => state.setCategories);
+  const framework = useFrameworkFormStore((state) => state.framework);
+  const channel = useFrameworkFormStore((state) => state.channel);
+
+  const {
+    form,
+    setForm,
+    error,
+    setError,
+    success,
+    setSuccess,
+    pendingTerms,
+    batchStatus,
+    modalOpen,
+    modalStatuses,
+    currentModalIndex,
+    handleFormChange,
+    handleAddTerm,
+    handleBatchCreate,
+    handleRetry,
+  } = useStepTerms(categories, setCategories, framework);
+
+  useImperativeHandle(ref, () => ({
+    hasUnsavedTerms: () => pendingTerms.length > 0 || isEditMode,
+  }));
+
+  const { isEditMode, handleEditTerm, handleCancelEdit, handleUpdateTerm } =
+    useEditTerm({
+      categories,
+      setCategories,
+      framework,
+      channel,
+      form,
+      setForm,
+      setError,
+      setSuccess,
+    });
+
+  // Get all terms from all categories
+  const allTerms = getAllTermsFromCategories(categories);
+
+  return (
+    <Box>
+      <Typography
+        variant="subtitle1"
+        fontWeight={700}
+        gutterBottom
+        sx={{
+          textTransform: 'uppercase',
+          color: 'text.secondary',
+          fontSize: 15,
+        }}
+      >
+        Terms
+      </Typography>
+      <Typography variant="body2" color="text.secondary" mb={2}>
+        Create terms for the categories in this framework.
+      </Typography>
+
+      <ListOfExistingItems
+        title="Terms"
+        items={allTerms}
+        getItemDetails={(term) => (
+          <>
+            <Typography variant="subtitle2" fontWeight={600} gutterBottom>
+              Name:{' '}
+              <span style={{ fontWeight: 400 }}>{term.name as string}</span>
+            </Typography>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              Code: <span style={{ color: '#333' }}>{term.code as string}</span>
+            </Typography>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              Category:{' '}
+              <span style={{ color: '#333' }}>
+                {term.categoryName as string}
+              </span>
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Description:{' '}
+              <span style={{ color: '#333' }}>
+                {(term.description as string) || '—'}
+              </span>
+            </Typography>
+          </>
+        )}
+        onEdit={handleEditTerm}
+        editIconTooltip="Edit Term"
+        maxHeight={200}
+        emptyText="No terms available."
+      />
+
+      {/* Add/Edit Term Form */}
+      <TermForm
+        form={form}
+        categories={categories.map((cat) => ({
+          code: cat.code,
+          name: cat.name,
+        }))}
+        onChange={handleFormChange}
+        onSubmit={isEditMode ? handleUpdateTerm : handleAddTerm}
+        error={error}
+        success={success}
+        isEditMode={isEditMode}
+        onCancel={isEditMode ? handleCancelEdit : undefined}
+      />
+
+      {/* Pending terms cards */}
+      <PendingTermsSection
+        pendingTerms={pendingTerms}
+        getItemDetails={(term) => (
+          <>
+            <Typography variant="subtitle2" fontWeight={600} gutterBottom>
+              Name:{' '}
+              <span style={{ fontWeight: 400 }}>{term.name as string}</span>
+            </Typography>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              Code: <span style={{ color: '#333' }}>{term.code as string}</span>
+            </Typography>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              Category:{' '}
+              <span style={{ color: '#333' }}>
+                {categories.find((cat) => cat.code === term.categoryCode)
+                  ?.name || (term.categoryCode as string)}
+              </span>
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Description:{' '}
+              <span style={{ color: '#333' }}>
+                {(term.description as string) || '—'}
+              </span>
+            </Typography>
+          </>
+        )}
+        onCreate={handleBatchCreate}
+      />
+      {/* Modal for batch creation progress */}
+      <BatchCreationModal
+        open={modalOpen}
+        title="Creating Terms"
+        items={pendingTerms}
+        statuses={modalStatuses}
+        currentIndex={currentModalIndex}
+        getItemLabel={(item) =>
+          `${item.name as string} (${item.categoryCode as string})`
+        }
+      />
+      {/* Batch status results */}
+      <BatchStatusList
+        title="Creation Results"
+        items={
+          batchStatus as unknown as {
+            [key: string]: unknown;
+            name: string;
+            code: string;
+          }[]
+        }
+        statuses={batchStatus}
+        onRetry={handleRetry}
+        typeLabel="Term"
+        getItemLabel={(item) =>
+          `${item.name as string} in ${item.categoryCode as string}`
+        }
+      />
+    </Box>
+  );
+});
+StepTerms.displayName = 'StepTerms';
+export default StepTerms;

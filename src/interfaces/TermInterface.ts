@@ -6,6 +6,7 @@ export interface Term {
   description?: string;
   status: string;
   identifier: string;
+  label?: string;
   associations?: Association[];
   index?: number;
   category?: string;
