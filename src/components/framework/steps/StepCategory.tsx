@@ -38,6 +38,34 @@ const StepCategory = forwardRef<StepCategoryHandle, object>((props, ref) => {
     hasUnsavedCategories,
   }));
 
+  // Reusable function to render category details
+  const renderCategoryDetails = (cat: Record<string, unknown>) => (
+    <>
+      <Typography variant="subtitle2" fontWeight={600} gutterBottom>
+        Name: <span style={{ fontWeight: 400 }}>{cat.name as string}</span>
+      </Typography>
+      <Typography variant="body2" color="text.secondary" gutterBottom>
+        Code: <span style={{ color: '#333' }}>{cat.code as string}</span>
+      </Typography>
+      <Typography variant="body2" color="text.secondary">
+        Description:{' '}
+        <span style={{ color: '#333' }}>
+          {(cat.description as string) || '—'}
+        </span>
+      </Typography>
+    </>
+  );
+
+  // Wrapper function to handle type compatibility
+  const handleCategoryFormChange = (
+    e:
+      | { target: { name: string; value: string } }
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    // Convert the new FormChangeEvent type to the format expected by useStepCategory hook
+    handleFormChange(e as React.ChangeEvent<HTMLInputElement>);
+  };
+
   return (
     <Box>
       <Typography
@@ -58,29 +86,13 @@ const StepCategory = forwardRef<StepCategoryHandle, object>((props, ref) => {
       <ListOfExistingItems
         title="Categories"
         items={categories as unknown as Record<string, unknown>[]}
-        getItemDetails={(cat) => (
-          <>
-            <Typography variant="subtitle2" fontWeight={600} gutterBottom>
-              Name:{' '}
-              <span style={{ fontWeight: 400 }}>{cat.name as string}</span>
-            </Typography>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              Code: <span style={{ color: '#333' }}>{cat.code as string}</span>
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Description:{' '}
-              <span style={{ color: '#333' }}>
-                {(cat.description as string) || '—'}
-              </span>
-            </Typography>
-          </>
-        )}
+        getItemDetails={renderCategoryDetails}
         maxHeight={200}
         emptyText="No categories available."
       />
       <CategoryForm
         form={form}
-        onChange={handleFormChange}
+        onChange={handleCategoryFormChange}
         onSubmit={handleAddCategory}
         error={error}
         success={success}
@@ -89,23 +101,7 @@ const StepCategory = forwardRef<StepCategoryHandle, object>((props, ref) => {
       {/* Pending categories cards and create button */}
       <PendingCategoriesSection
         pendingCategories={pendingCategories}
-        getItemDetails={(cat) => (
-          <>
-            <Typography variant="subtitle2" fontWeight={600} gutterBottom>
-              Name:{' '}
-              <span style={{ fontWeight: 400 }}>{cat.name as string}</span>
-            </Typography>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              Code: <span style={{ color: '#333' }}>{cat.code as string}</span>
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Description:{' '}
-              <span style={{ color: '#333' }}>
-                {(cat.description as string) || '—'}
-              </span>
-            </Typography>
-          </>
-        )}
+        getItemDetails={renderCategoryDetails}
         onCreate={handleBatchCreate}
       />
       {/* Modal for batch creation progress */}

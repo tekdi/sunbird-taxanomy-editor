@@ -58,6 +58,43 @@ const StepTerms = forwardRef<StepTermsHandle, object>((props, ref) => {
   // Get all terms from all categories
   const allTerms = getAllTermsFromCategories(categories);
 
+  // Reusable function to render term details - eliminates duplication
+  const renderTermDetails = (term: Record<string, unknown>) => (
+    <>
+      <Typography variant="subtitle2" fontWeight={600} gutterBottom>
+        Name: <span style={{ fontWeight: 400 }}>{term.name as string}</span>
+      </Typography>
+      <Typography variant="body2" color="text.secondary" gutterBottom>
+        Code: <span style={{ color: '#333' }}>{term.code as string}</span>
+      </Typography>
+      <Typography variant="body2" color="text.secondary" gutterBottom>
+        Category:{' '}
+        <span style={{ color: '#333' }}>
+          {term.categoryName
+            ? (term.categoryName as string)
+            : categories.find((cat) => cat.code === term.categoryCode)?.name ??
+              (term.categoryCode as string)}
+        </span>
+      </Typography>
+      <Typography variant="body2" color="text.secondary">
+        Description:{' '}
+        <span style={{ color: '#333' }}>
+          {(term.description as string) || '—'}
+        </span>
+      </Typography>
+    </>
+  );
+
+  // Wrapper function to handle type compatibility
+  const handleTermFormChange = (
+    e:
+      | { target: { name: string; value: string } }
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    // Convert the new FormChangeEvent type to the format expected by useStepTerms hook
+    handleFormChange(e as React.ChangeEvent<HTMLInputElement>);
+  };
+
   return (
     <Box>
       <Typography
@@ -79,29 +116,7 @@ const StepTerms = forwardRef<StepTermsHandle, object>((props, ref) => {
       <ListOfExistingItems
         title="Terms"
         items={allTerms}
-        getItemDetails={(term) => (
-          <>
-            <Typography variant="subtitle2" fontWeight={600} gutterBottom>
-              Name:{' '}
-              <span style={{ fontWeight: 400 }}>{term.name as string}</span>
-            </Typography>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              Code: <span style={{ color: '#333' }}>{term.code as string}</span>
-            </Typography>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              Category:{' '}
-              <span style={{ color: '#333' }}>
-                {term.categoryName as string}
-              </span>
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Description:{' '}
-              <span style={{ color: '#333' }}>
-                {(term.description as string) || '—'}
-              </span>
-            </Typography>
-          </>
-        )}
+        getItemDetails={renderTermDetails}
         onEdit={handleEditTerm}
         editIconTooltip="Edit Term"
         maxHeight={200}
@@ -115,7 +130,7 @@ const StepTerms = forwardRef<StepTermsHandle, object>((props, ref) => {
           code: cat.code,
           name: cat.name,
         }))}
-        onChange={handleFormChange}
+        onChange={handleTermFormChange}
         onSubmit={isEditMode ? handleUpdateTerm : handleAddTerm}
         error={error}
         success={success}
@@ -126,30 +141,7 @@ const StepTerms = forwardRef<StepTermsHandle, object>((props, ref) => {
       {/* Pending terms cards */}
       <PendingTermsSection
         pendingTerms={pendingTerms}
-        getItemDetails={(term) => (
-          <>
-            <Typography variant="subtitle2" fontWeight={600} gutterBottom>
-              Name:{' '}
-              <span style={{ fontWeight: 400 }}>{term.name as string}</span>
-            </Typography>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              Code: <span style={{ color: '#333' }}>{term.code as string}</span>
-            </Typography>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              Category:{' '}
-              <span style={{ color: '#333' }}>
-                {categories.find((cat) => cat.code === term.categoryCode)
-                  ?.name || (term.categoryCode as string)}
-              </span>
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Description:{' '}
-              <span style={{ color: '#333' }}>
-                {(term.description as string) || '—'}
-              </span>
-            </Typography>
-          </>
-        )}
+        getItemDetails={renderTermDetails}
         onCreate={handleBatchCreate}
       />
       {/* Modal for batch creation progress */}
