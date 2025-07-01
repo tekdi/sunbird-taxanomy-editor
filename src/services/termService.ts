@@ -1,3 +1,5 @@
+import { publishFramework } from '../utils/HelperService';
+
 export interface TermInput {
   name: string;
   code: string;
@@ -11,7 +13,6 @@ export interface UpdateTermInput {
   code: string;
   categoryCode: string;
   description: string;
-  label: string;
 }
 
 function getEnvVars() {
@@ -74,11 +75,11 @@ export async function updateTerm(
 ): Promise<unknown> {
   const { interfaceUrl } = getEnvVars();
   const myHeaders = buildHeaders(channelId);
+
   const raw = JSON.stringify({
     request: {
       term: {
         description: input.description,
-        label: input.label,
       },
     },
   });
@@ -90,10 +91,65 @@ export async function updateTerm(
     redirect: 'follow' as RequestRedirect,
   };
   const response = await fetch(url, requestOptions);
-  const data = await response.json();
-  if (!response.ok || data.responseCode !== 'OK') {
-    throw new Error(data?.params?.errmsg || 'Failed to update term');
+
+  if (!response.ok) {
+    let errorMessage: string;
+
+    // Handle specific HTTP status codes
+    switch (response.status) {
+      case 401:
+        errorMessage =
+          'Authorization failed. Please check your credentials and try again.';
+        break;
+      case 403:
+        errorMessage =
+          'Access forbidden. You do not have permission to update this term.';
+        break;
+      case 404:
+        errorMessage =
+          'Term or framework not found. Please check the term code and framework code.';
+        break;
+      case 500:
+        errorMessage =
+          'Server error occurred while updating term. Please try again later.';
+        break;
+      default:
+        errorMessage = `Failed to update term (Status: ${response.status})`;
+    }
+
+    // Try to get error details from response
+    try {
+      const errorData = await response.json();
+      if (errorData?.params?.errmsg || errorData?.params?.err) {
+        errorMessage = errorData.params.errmsg || errorData.params.err;
+      } else if (errorData?.message) {
+        errorMessage = errorData.message;
+      }
+    } catch {
+      // If response is not JSON, use the status-based message
+    }
+
+    throw new Error(errorMessage);
   }
+
+  const data = await response.json();
+  if (data.responseCode !== 'OK') {
+    const errorMessage =
+      data?.params?.errmsg ?? 'Failed to update term - invalid response';
+    throw new Error(errorMessage);
+  }
+
+  // Publish the framework after successful update
+  try {
+    await publishFramework(frameworkCode, channelId);
+  } catch (publishError) {
+    console.warn(
+      'Failed to publish framework after term update:',
+      publishError
+    );
+    // Don't throw here as the main update was successful
+  }
+
   return data;
 }
 
