@@ -12,21 +12,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import AssociationCategories from './AssociationCategories';
-import { Category } from '@/interfaces/CategoryInterface';
-import { Association } from '@/interfaces/AssociationInterface';
-import { Term } from '@/interfaces/TermInterface';
-
-interface CategoryCardProps {
-  category: Category;
-  groupAssociationsByCategory: (associations: Association[]) => Category[];
-  getLiveTerms: (category: Category) => Term[];
-  grey: Record<string, string>;
-  onBadgeClick: (
-    categories: Category[],
-    termName: string,
-    categoryName: string
-  ) => void;
-}
+import type { CategoryCardProps } from '@/interfaces/CategoryInterface';
 
 // This component renders a card for a specific category.
 // It displays the category name, description, and a table of terms associated with that category.
