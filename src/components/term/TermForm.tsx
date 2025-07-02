@@ -50,7 +50,7 @@ const TermForm: React.FC<TermFormProps> = ({
       label: 'Name',
       value: form.name,
       required: true,
-      disabled: isEditMode,
+      disabled: false,
     },
     {
       name: 'code',
@@ -64,7 +64,7 @@ const TermForm: React.FC<TermFormProps> = ({
       label: 'Label',
       value: form.label,
       required: true,
-      disabled: isEditMode,
+      disabled: false,
     },
   ];
 

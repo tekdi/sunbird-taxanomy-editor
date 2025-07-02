@@ -13,6 +13,8 @@ export interface UpdateTermInput {
   code: string;
   categoryCode: string;
   description: string;
+  name: string;
+  label: string;
 }
 
 function getEnvVars() {
@@ -80,6 +82,8 @@ export async function updateTerm(
     request: {
       term: {
         description: input.description,
+        name: input.name,
+        label: input.label,
       },
     },
   });

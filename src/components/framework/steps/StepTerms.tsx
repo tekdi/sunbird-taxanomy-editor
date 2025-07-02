@@ -10,10 +10,7 @@ import BatchStatusList from '@/components/framework/BatchStatusList';
 import { getAllTermsFromCategories } from '@/services/categoryService';
 import { useEditTerm } from '@/hooks/useEditTerm';
 import { useStepTerms } from '@/hooks/useStepTerms';
-
-export interface StepTermsHandle {
-  hasUnsavedTerms: () => boolean;
-}
+import type { StepTermsHandle } from '@/interfaces/TermInterface';
 
 const StepTerms = forwardRef<StepTermsHandle, object>((props, ref) => {
   const categories = useFrameworkFormStore((state) => state.categories);

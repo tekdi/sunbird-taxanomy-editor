@@ -8,10 +8,7 @@ import PendingCategoriesSection from '@/components/category/PendingCategoriesSec
 import BatchCreationModal from '@/components/framework/BatchCreationModal';
 import BatchStatusList from '@/components/framework/BatchStatusList';
 import { useStepCategory } from '@/hooks/useStepCategory';
-
-export interface StepCategoryHandle {
-  hasUnsavedCategories: () => boolean;
-}
+import type { StepCategoryHandle } from '@/interfaces/CategoryInterface';
 
 const StepCategory = forwardRef<StepCategoryHandle, object>((props, ref) => {
   const categories = useFrameworkFormStore((state) => state.categories);

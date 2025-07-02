@@ -11,3 +11,7 @@ export interface Term {
   index?: number;
   category?: string;
 }
+
+export interface StepTermsHandle {
+  hasUnsavedTerms: () => boolean;
+}

@@ -1,16 +1,7 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import PendingItemsList from '@/components/framework/PendingItemsList';
-
-interface PendingCategoriesSectionProps {
-  pendingCategories: {
-    name: string;
-    code: string;
-    description: string;
-  }[];
-  getItemDetails: (item: Record<string, unknown>) => React.ReactNode;
-  onCreate: () => void;
-}
+import type { PendingCategoriesSectionProps } from '@/interfaces/CategoryInterface';
 
 const PendingCategoriesSection: React.FC<PendingCategoriesSectionProps> = ({
   pendingCategories,

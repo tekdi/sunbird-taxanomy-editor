@@ -3,17 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-import { Category } from '@/interfaces/CategoryInterface';
-
-interface AssociationDetailsModalProps {
-  open: boolean;
-  onClose: () => void;
-  categories: Category[];
-  termName: string;
-  categoryName: string;
-  expandedCategory: string | null;
-  onCategoryClick: (id: string) => void;
-}
+import type { AssociationDetailsModalProps } from '@/interfaces/AssociationInterface';
 
 // This component renders a modal displaying association details for a specific term and category.
 // It includes a list of categories, each with an expandable section showing associated terms.

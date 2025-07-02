@@ -5,18 +5,7 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-
-interface BatchStatusListProps {
-  title: string;
-  items: Array<{ name: string; code: string; [key: string]: unknown }>;
-  statuses: Array<{
-    status: 'pending' | 'success' | 'failed';
-    message?: string;
-  }>;
-  onRetry: (idx: number) => void;
-  typeLabel: string;
-  getItemLabel?: (item: Record<string, unknown>) => React.ReactNode;
-}
+import type { BatchStatusListProps } from '@/interfaces/BaseInterface';
 
 const BatchStatusList: React.FC<BatchStatusListProps> = ({
   title,

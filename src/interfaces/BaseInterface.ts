@@ -54,3 +54,27 @@ export interface DropdownProps extends Omit<SelectProps, 'onChange' | 'value'> {
   disabled?: boolean;
   helperText?: string;
 }
+
+export interface BatchCreationModalProps {
+  open: boolean;
+  title: string;
+  items: Array<{ name: string; code: string; [key: string]: unknown }>;
+  statuses: Array<{
+    status: 'pending' | 'success' | 'failed';
+    message?: string;
+  }>;
+  currentIndex: number;
+  getItemLabel?: (item: Record<string, unknown>) => React.ReactNode;
+}
+
+export interface BatchStatusListProps {
+  title: string;
+  items: Array<{ name: string; code: string; [key: string]: unknown }>;
+  statuses: Array<{
+    status: 'pending' | 'success' | 'failed';
+    message?: string;
+  }>;
+  onRetry: (idx: number) => void;
+  typeLabel: string;
+  getItemLabel?: (item: Record<string, unknown>) => React.ReactNode;
+}

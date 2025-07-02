@@ -1,11 +1,6 @@
 import React from 'react';
-import Alert, { AlertProps } from '@mui/material/Alert';
-
-interface AlertMessageProps {
-  severity: AlertProps['severity'];
-  message: string;
-  sx?: object;
-}
+import Alert from '@mui/material/Alert';
+import type { AlertMessageProps } from '@/interfaces/LayoutInterface';
 
 const AlertMessage: React.FC<AlertMessageProps> = ({
   severity,

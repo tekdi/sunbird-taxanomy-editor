@@ -89,6 +89,8 @@ export function useEditTerm({
           code: editingTerm.code,
           categoryCode: editingTerm.categoryCode,
           description: form.description,
+          name: form.name,
+          label: form.label,
         },
         frameworkCode,
         channelId
@@ -106,6 +108,8 @@ export function useEditTerm({
           updatedCategories[categoryIndex].terms![termIndex] = {
             ...updatedCategories[categoryIndex].terms![termIndex],
             description: form.description,
+            name: form.name,
+            label: form.label,
           };
           setCategories(updatedCategories);
         }

@@ -8,18 +8,7 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-
-interface BatchCreationModalProps {
-  open: boolean;
-  title: string;
-  items: Array<{ name: string; code: string; [key: string]: unknown }>;
-  statuses: Array<{
-    status: 'pending' | 'success' | 'failed';
-    message?: string;
-  }>;
-  currentIndex: number;
-  getItemLabel?: (item: Record<string, unknown>) => React.ReactNode;
-}
+import type { BatchCreationModalProps } from '@/interfaces/BaseInterface';
 
 const BatchCreationModal: React.FC<BatchCreationModalProps> = ({
   open,

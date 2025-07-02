@@ -18,19 +18,17 @@ import { StepMasterCategoryHandle } from '@/interfaces/MasterCategoryInterface';
 import StepChannel from '@/components/framework/steps/StepChannel';
 import StepFramework from '@/components/framework/steps/StepFramework';
 import StepMasterCategory from '@/components/framework/steps/StepMasterCategory';
-import StepCategory, {
-  StepCategoryHandle,
-} from '@/components/framework/steps/StepCategory';
-import StepTerms, {
-  StepTermsHandle,
-} from '@/components/framework/steps/StepTerms';
-import { useFrameworkFormStore } from '@/store/frameworkFormStore';
+import StepCategory from '@/components/framework/steps/StepCategory';
+import type { StepCategoryHandle } from '@/interfaces/CategoryInterface';
+import StepTerms from '@/components/framework/steps/StepTerms';
+import type { StepTermsHandle } from '@/interfaces/TermInterface';
 import frameworkService from '@/services/frameworkService';
 import Alert from '@mui/material/Alert';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import { useFrameworkFormStore } from '@/store/frameworkFormStore';
 
 // This component manages the taxonomy creation process through a series of steps.
 // It allows users to select a channel, framework, master categories, categories, terms, and associations,
