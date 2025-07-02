@@ -1,3 +1,5 @@
+import type { AlertProps } from '@mui/material/Alert';
+
 export interface SidebarProps {
   mobileOpen: boolean;
   onMobileClose: () => void;
@@ -9,4 +11,10 @@ export interface PageLayoutProps {
 
 export interface HeaderProps {
   onMobileMenuClick: () => void;
+}
+
+export interface AlertMessageProps {
+  severity: AlertProps['severity'];
+  message: string;
+  sx?: object;
 }

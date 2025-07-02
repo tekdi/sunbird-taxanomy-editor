@@ -18,13 +18,17 @@ import { StepMasterCategoryHandle } from '@/interfaces/MasterCategoryInterface';
 import StepChannel from '@/components/framework/steps/StepChannel';
 import StepFramework from '@/components/framework/steps/StepFramework';
 import StepMasterCategory from '@/components/framework/steps/StepMasterCategory';
-import { useFrameworkFormStore } from '@/store/frameworkFormStore';
+import StepCategory from '@/components/framework/steps/StepCategory';
+import type { StepCategoryHandle } from '@/interfaces/CategoryInterface';
+import StepTerms from '@/components/framework/steps/StepTerms';
+import type { StepTermsHandle } from '@/interfaces/TermInterface';
 import frameworkService from '@/services/frameworkService';
 import Alert from '@mui/material/Alert';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import { useFrameworkFormStore } from '@/store/frameworkFormStore';
 
 // This component manages the taxonomy creation process through a series of steps.
 // It allows users to select a channel, framework, master categories, categories, terms, and associations,
@@ -49,6 +53,8 @@ const ManageTaxonomy: React.FC = () => {
   const { step, setStep, channel, framework, setFramework, setCategories } =
     useFrameworkFormStore();
   const masterCategoryRef = useRef<StepMasterCategoryHandle>(null);
+  const categoryRef = useRef<StepCategoryHandle>(null);
+  const termsRef = useRef<StepTermsHandle>(null);
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
 
   const handleNext = async () => {
@@ -56,6 +62,16 @@ const ManageTaxonomy: React.FC = () => {
     setIsLoading(true);
     try {
       if (step === 3 && masterCategoryRef.current?.hasUnsavedCategoryForm()) {
+        setShowUnsavedDialog(true);
+        setIsLoading(false);
+        return;
+      }
+      if (step === 4 && categoryRef.current?.hasUnsavedCategories()) {
+        setShowUnsavedDialog(true);
+        setIsLoading(false);
+        return;
+      }
+      if (step === 5 && termsRef.current?.hasUnsavedTerms()) {
         setShowUnsavedDialog(true);
         setIsLoading(false);
         return;
@@ -86,6 +102,23 @@ const ManageTaxonomy: React.FC = () => {
         case 3:
           break;
         case 4:
+          if (framework?.identifier) {
+            try {
+              const data = await frameworkService.getFrameworkById(
+                framework.identifier
+              );
+              if (data && Object.keys(data).length > 0) {
+                setFramework(data);
+                setCategories(data.categories || []);
+              }
+            } catch {
+              setFetchError(
+                'Failed to fetch framework details. Please try again.'
+              );
+              setIsLoading(false);
+              return;
+            }
+          }
           break;
         case 5:
           break;
@@ -174,8 +207,8 @@ const ManageTaxonomy: React.FC = () => {
               {step === 1 && <StepChannel />}
               {step === 2 && <StepFramework />}
               {step === 3 && <StepMasterCategory ref={masterCategoryRef} />}
-              {/* {step === 4 && <StepCategories />} */}
-              {/* {step === 5 && <StepTerms />} */}
+              {step === 4 && <StepCategory ref={categoryRef} />}
+              {step === 5 && <StepTerms ref={termsRef} />}
               {/* {step === 6 && <StepAssociations />} */}
               {/* {step === 7 && <StepReview />} */}
               {/* {step === 8 && <StepPublish />} */}
@@ -220,11 +253,24 @@ const ManageTaxonomy: React.FC = () => {
         </div>
       </div>
       <Dialog open={showUnsavedDialog} onClose={handleDialogCancel}>
-        <DialogTitle>Unsaved Master Category</DialogTitle>
+        <DialogTitle>
+          {step === 3
+            ? 'Unsaved Master Category'
+            : step === 4
+            ? 'Unsaved Category'
+            : step === 5
+            ? 'Unsaved Terms'
+            : 'Unsaved Changes'}
+        </DialogTitle>
         <DialogContent>
           <Typography>
-            Are you sure you want to proceed to the next step without creating
-            the new master category?
+            {step === 3
+              ? 'Are you sure you want to proceed to the next step without creating the new master category?'
+              : step === 4
+              ? 'Are you sure you want to proceed to the next step without creating the new category?'
+              : step === 5
+              ? 'Are you sure you want to proceed to the next step without creating the new terms?'
+              : 'Are you sure you want to proceed to the next step without saving your changes?'}
           </Typography>
         </DialogContent>
         <DialogActions>

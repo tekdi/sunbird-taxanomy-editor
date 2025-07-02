@@ -3,18 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import { blue } from '@mui/material/colors';
-import { Category } from '@/interfaces/CategoryInterface';
-
-interface AssociationCategoriesProps {
-  categories: Category[];
-  termName: string;
-  categoryName: string;
-  onBadgeClick: (
-    categories: Category[],
-    termName: string,
-    categoryName: string
-  ) => void;
-}
+import type { AssociationCategoriesProps } from '@/interfaces/AssociationInterface';
 
 // This component renders a list of association categories as badges.
 // It accepts an array of categories, a term name, a category name, and a callback function to handle badge clicks.
