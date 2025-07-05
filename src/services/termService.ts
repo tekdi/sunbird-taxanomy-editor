@@ -1,4 +1,6 @@
 import { publishFramework } from '../utils/HelperService';
+import { useFrameworkFormStore } from '@/store/frameworkFormStore';
+import { useFrameworksStore } from '@/store/frameworksStore';
 
 export interface TermInput {
   name: string;
@@ -67,6 +69,7 @@ export async function createTerm(
   if (!response.ok || data.responseCode !== 'OK') {
     throw new Error(data?.params?.errmsg || 'Failed to create term');
   }
+
   return data;
 }
 
@@ -168,6 +171,7 @@ export async function batchCreateTerms(
     message: string;
     term: TermInput;
   }[] = [];
+
   for (const term of terms) {
     try {
       await createTerm(term, frameworkCode);
@@ -186,6 +190,39 @@ export async function batchCreateTerms(
       });
     }
   }
+
+  // Get channelId from stores and publish the framework after all terms are created
+  const successfulTerms = results.filter(
+    (result) => result.status === 'success'
+  );
+  if (successfulTerms.length > 0) {
+    const framework = useFrameworkFormStore.getState().framework;
+    const frameworks = useFrameworksStore.getState().frameworks;
+
+    // Try to get channelId from frameworkFormStore first, then from frameworksStore
+    let channelId: string | undefined;
+    if (framework?.channel) {
+      channelId = framework.channel;
+    } else {
+      const currentFramework = frameworks.find(
+        (fw) => fw.code === frameworkCode
+      );
+      channelId = currentFramework?.channel;
+    }
+
+    if (channelId) {
+      try {
+        await publishFramework(frameworkCode, channelId);
+      } catch (publishError) {
+        console.warn(
+          'Failed to publish framework after batch term creation:',
+          publishError
+        );
+        // Don't throw here as the main term creation was successful
+      }
+    }
+  }
+
   return results;
 }
 

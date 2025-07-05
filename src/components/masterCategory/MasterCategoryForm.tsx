@@ -42,6 +42,7 @@ const MasterCategoryForm: React.FC<MasterCategoryFormProps> = ({
         name="targetIdFieldName"
         value={form.targetIdFieldName}
         InputProps={{ readOnly: true }}
+        disabled
         required
         size="small"
         sx={{ flex: 1, minWidth: 180 }}
@@ -53,6 +54,7 @@ const MasterCategoryForm: React.FC<MasterCategoryFormProps> = ({
         name="searchLabelFieldName"
         value={form.searchLabelFieldName}
         InputProps={{ readOnly: true }}
+        disabled
         required
         size="small"
         sx={{ flex: 1, minWidth: 180 }}
@@ -62,6 +64,7 @@ const MasterCategoryForm: React.FC<MasterCategoryFormProps> = ({
         name="searchIdFieldName"
         value={form.searchIdFieldName}
         InputProps={{ readOnly: true }}
+        disabled
         required
         size="small"
         sx={{ flex: 1, minWidth: 180 }}
@@ -71,6 +74,7 @@ const MasterCategoryForm: React.FC<MasterCategoryFormProps> = ({
         name="orgIdFieldName"
         value={form.orgIdFieldName}
         InputProps={{ readOnly: true }}
+        disabled
         required
         size="small"
         sx={{ flex: 1, minWidth: 180 }}

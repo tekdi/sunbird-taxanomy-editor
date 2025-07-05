@@ -1,6 +1,6 @@
 import { MasterCategory } from '@/interfaces/MasterCategoryInterface';
 import { URL_CONFIG } from '@/utils/url.config';
-import { prepareHeaders } from '@/utils/ApiUtilityService';
+import { isCamelCase } from '@/utils/HelperService';
 
 /**
  * Service to manage master categories.
@@ -9,7 +9,22 @@ import { prepareHeaders } from '@/utils/ApiUtilityService';
 
 // Fetches all master categories from the API
 export async function fetchMasterCategories(): Promise<MasterCategory[]> {
-  const myHeaders = prepareHeaders();
+  const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
+  const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
+  const cookie = process.env.NEXT_PUBLIC_COOKIE;
+
+  if (!tenantId || !authToken || !cookie) {
+    throw new Error(
+      'Missing environment variables: tenantId, authToken, or cookie'
+    );
+  }
+
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('tenantId', tenantId);
+  myHeaders.append('Authorization', `Bearer ${authToken}`);
+  myHeaders.append('Cookie', cookie);
+
   const raw = JSON.stringify({
     request: {
       filters: {
@@ -43,7 +58,29 @@ export async function createMasterCategory(category: {
   searchIdFieldName: string;
   orgIdFieldName: string;
 }) {
-  const myHeaders = prepareHeaders();
+  // Validate that the code is in camelCase format
+  if (!isCamelCase(category.code)) {
+    throw new Error(
+      'Code must be in camelCase format (e.g., "myCategory", "userProfile")'
+    );
+  }
+
+  const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
+  const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
+  const cookie = process.env.NEXT_PUBLIC_COOKIE;
+
+  if (!tenantId || !authToken || !cookie) {
+    throw new Error(
+      'Missing environment variables: tenantId, authToken, or cookie'
+    );
+  }
+
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('tenantId', tenantId);
+  myHeaders.append('Authorization', `Bearer ${authToken}`);
+  myHeaders.append('Cookie', cookie);
+
   const raw = JSON.stringify({
     request: {
       category,

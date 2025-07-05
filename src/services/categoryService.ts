@@ -2,6 +2,9 @@ import { Framework } from '@/interfaces/FrameworkInterface';
 import { Category } from '@/interfaces/CategoryInterface';
 import { Term } from '@/interfaces/TermInterface';
 import { Association } from '@/interfaces/AssociationInterface';
+import { publishFramework } from '@/utils/HelperService';
+import { useFrameworkFormStore } from '@/store/frameworkFormStore';
+import { useFrameworksStore } from '@/store/frameworksStore';
 
 // Get live categories from a framework
 export function getLiveCategories(framework: Framework | null): Category[] {
@@ -103,6 +106,7 @@ export async function batchCreateCategories(
     message: string;
     category: CategoryInput;
   }[] = [];
+
   for (const category of categories) {
     try {
       await createCategory(category, frameworkCode);
@@ -117,6 +121,39 @@ export async function batchCreateCategories(
       results.push({ status: 'failed', message: msg, category });
     }
   }
+
+  // Get channelId from stores and publish the framework after all categories are created
+  const successfulCategories = results.filter(
+    (result) => result.status === 'success'
+  );
+  if (successfulCategories.length > 0) {
+    const framework = useFrameworkFormStore.getState().framework;
+    const frameworks = useFrameworksStore.getState().frameworks;
+
+    // Try to get channelId from frameworkFormStore first, then from frameworksStore
+    let channelId: string | undefined;
+    if (framework?.channel) {
+      channelId = framework.channel;
+    } else {
+      const currentFramework = frameworks.find(
+        (fw) => fw.code === frameworkCode
+      );
+      channelId = currentFramework?.channel;
+    }
+
+    if (channelId) {
+      try {
+        await publishFramework(frameworkCode, channelId);
+      } catch (publishError) {
+        console.warn(
+          'Failed to publish framework after batch category creation:',
+          publishError
+        );
+        // Don't throw here as the main category creation was successful
+      }
+    }
+  }
+
   return results;
 }
 

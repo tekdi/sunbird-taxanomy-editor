@@ -49,6 +49,14 @@ export function camelCaseCode(input: string): string {
   return camel;
 }
 
+// Checks if a string is in camelCase format
+export function isCamelCase(input: string): boolean {
+  // CamelCase pattern: starts with lowercase letter, followed by alphanumeric characters
+  // with optional uppercase letters in between
+  const camelCasePattern = /^[a-z][a-zA-Z0-9]*$/;
+  return camelCasePattern.test(input);
+}
+
 // Returns a copy of the given object with the name updated and the code (or custom code field) auto-generated in camelCase from the name.
 export function autoFillCodeFromName<T extends { name: string; code: string }>(
   obj: T,

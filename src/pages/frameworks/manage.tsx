@@ -29,6 +29,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { useFrameworkFormStore } from '@/store/frameworkFormStore';
+import StepAssociation from '@/components/framework/steps/StepAssociation';
+import Box from '@mui/material/Box';
 
 // This component manages the taxonomy creation process through a series of steps.
 // It allows users to select a channel, framework, master categories, categories, terms, and associations,
@@ -195,6 +197,32 @@ const ManageTaxonomy: React.FC = () => {
                   Step {step}: {steps[step - 1].title}
                 </Typography>
               }
+              action={
+                <Box sx={{ minWidth: 180, textAlign: 'right' }}>
+                  {channel?.code && (
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{ fontWeight: 400, display: 'block' }}
+                    >
+                      Channel: <b>{channel.code}</b>
+                    </Typography>
+                  )}
+                  {framework?.code && (
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{
+                        fontWeight: 400,
+                        display: 'block',
+                        mt: channel?.code ? 0.5 : 0,
+                      }}
+                    >
+                      Framework: <b>{framework.code}</b>
+                    </Typography>
+                  )}
+                </Box>
+              }
               sx={{
                 bgcolor: '#f5f7fa',
                 borderBottom: 1,
@@ -209,7 +237,7 @@ const ManageTaxonomy: React.FC = () => {
               {step === 3 && <StepMasterCategory ref={masterCategoryRef} />}
               {step === 4 && <StepCategory ref={categoryRef} />}
               {step === 5 && <StepTerms ref={termsRef} />}
-              {/* {step === 6 && <StepAssociations />} */}
+              {step === 6 && <StepAssociation />}
               {/* {step === 7 && <StepReview />} */}
               {/* {step === 8 && <StepPublish />} */}
             </CardContent>
@@ -232,7 +260,11 @@ const ManageTaxonomy: React.FC = () => {
               </Button>
               <Button
                 onClick={handleNext}
-                disabled={(step === 1 && !channel?.code) || isLoading}
+                disabled={
+                  (step === 1 && !channel?.code) ||
+                  (step === 2 && !framework?.identifier) ||
+                  isLoading
+                }
                 endIcon={
                   step < steps.length ? (
                     <ArrowRightIcon fontSize="small" />
