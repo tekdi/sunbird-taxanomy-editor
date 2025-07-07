@@ -1,12 +1,15 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface PendingItemsListProps {
   title: string;
   items: Array<{ code: string; [key: string]: unknown }>;
   getItemDetails: (item: Record<string, unknown>) => React.ReactNode;
   minWidth?: number;
+  onDelete?: (code: string) => void;
 }
 
 const PendingItemsList: React.FC<PendingItemsListProps> = ({
@@ -14,6 +17,7 @@ const PendingItemsList: React.FC<PendingItemsListProps> = ({
   items,
   getItemDetails,
   minWidth = 220,
+  onDelete,
 }) => {
   if (!items.length) return null;
   return (
@@ -31,8 +35,19 @@ const PendingItemsList: React.FC<PendingItemsListProps> = ({
               p: 2,
               minWidth,
               background: '#fff',
+              position: 'relative',
             }}
           >
+            {onDelete && (
+              <IconButton
+                size="small"
+                onClick={() => onDelete(item.code)}
+                sx={{ position: 'absolute', top: 4, right: 4 }}
+                aria-label="Delete"
+              >
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            )}
             {getItemDetails(item)}
           </Box>
         ))}

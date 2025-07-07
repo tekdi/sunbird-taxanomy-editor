@@ -34,6 +34,7 @@ const StepTerms = forwardRef<StepTermsHandle, object>((props, ref) => {
     handleAddTerm,
     handleBatchCreate,
     handleRetry,
+    handleDeletePendingTerm,
   } = useStepTerms(categories, setCategories, framework);
 
   useImperativeHandle(ref, () => ({
@@ -151,6 +152,7 @@ const StepTerms = forwardRef<StepTermsHandle, object>((props, ref) => {
         pendingTerms={pendingTerms}
         getItemDetails={renderTermDetails}
         onCreate={handleBatchCreate}
+        onDelete={handleDeletePendingTerm}
       />
       {/* Modal for batch creation progress */}
       <BatchCreationModal

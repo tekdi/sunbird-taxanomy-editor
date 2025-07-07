@@ -12,12 +12,14 @@ interface PendingTermsSectionProps {
   }[];
   getItemDetails: (item: Record<string, unknown>) => React.ReactNode;
   onCreate: () => void;
+  onDelete: (code: string) => void;
 }
 
 const PendingTermsSection: React.FC<PendingTermsSectionProps> = ({
   pendingTerms,
   getItemDetails,
   onCreate,
+  onDelete,
 }) => {
   return (
     <>
@@ -25,6 +27,7 @@ const PendingTermsSection: React.FC<PendingTermsSectionProps> = ({
         title="Terms to be created"
         items={pendingTerms}
         getItemDetails={getItemDetails}
+        onDelete={onDelete}
       />
       {pendingTerms.length > 0 && (
         <Button
