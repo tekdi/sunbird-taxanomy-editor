@@ -1,6 +1,4 @@
-import { publishFramework } from '@/utils/HelperService';
-import { useFrameworkFormStore } from '@/store/frameworkFormStore';
-import { useFrameworksStore } from '@/store/frameworksStore';
+import { publishFrameworkAfterBatchOperation } from '@/utils/HelperService';
 
 export interface AssociationPayload {
   associations: { identifier: string }[];
@@ -83,27 +81,11 @@ export async function batchCreateTermAssociations(
   // Publish framework after all associations are updated
   if (updates.length > 0) {
     const frameworkCode = updates[0].frameworkCode;
-    // Try to get channelId from argument, then from stores
-    let resolvedChannelId = channelId;
-    if (!resolvedChannelId) {
-      const framework = useFrameworkFormStore.getState().framework;
-      const frameworks = useFrameworksStore.getState().frameworks;
-      if (framework?.channel) {
-        resolvedChannelId = framework.channel;
-      } else {
-        const currentFramework = frameworks.find(
-          (fw) => fw.code === frameworkCode
-        );
-        resolvedChannelId = currentFramework?.channel;
-      }
-    }
-    if (frameworkCode && resolvedChannelId) {
-      try {
-        await publishFramework(frameworkCode, resolvedChannelId);
-      } catch {
-        // Optionally, you can push a publish error to results or log it
-      }
-    }
+    await publishFrameworkAfterBatchOperation(
+      frameworkCode,
+      'association updates',
+      channelId
+    );
   }
   return results;
 }

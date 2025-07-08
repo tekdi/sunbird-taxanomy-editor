@@ -1,6 +1,7 @@
 import { MasterCategory } from '@/interfaces/MasterCategoryInterface';
 import { URL_CONFIG } from '@/utils/url.config';
 import { isCamelCase } from '@/utils/HelperService';
+import { prepareHeaders } from '@/utils/ApiUtilityService';
 
 /**
  * Service to manage master categories.
@@ -9,21 +10,7 @@ import { isCamelCase } from '@/utils/HelperService';
 
 // Fetches all master categories from the API
 export async function fetchMasterCategories(): Promise<MasterCategory[]> {
-  const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
-  const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
-  const cookie = process.env.NEXT_PUBLIC_COOKIE;
-
-  if (!tenantId || !authToken || !cookie) {
-    throw new Error(
-      'Missing environment variables: tenantId, authToken, or cookie'
-    );
-  }
-
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('tenantId', tenantId);
-  myHeaders.append('Authorization', `Bearer ${authToken}`);
-  myHeaders.append('Cookie', cookie);
+  const myHeaders = prepareHeaders();
 
   const raw = JSON.stringify({
     request: {
@@ -65,21 +52,7 @@ export async function createMasterCategory(category: {
     );
   }
 
-  const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
-  const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
-  const cookie = process.env.NEXT_PUBLIC_COOKIE;
-
-  if (!tenantId || !authToken || !cookie) {
-    throw new Error(
-      'Missing environment variables: tenantId, authToken, or cookie'
-    );
-  }
-
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('tenantId', tenantId);
-  myHeaders.append('Authorization', `Bearer ${authToken}`);
-  myHeaders.append('Cookie', cookie);
+  const myHeaders = prepareHeaders();
 
   const raw = JSON.stringify({
     request: {
@@ -97,7 +70,7 @@ export async function createMasterCategory(category: {
   if (!response.ok) throw new Error(`Error: ${response.status}`);
   const data = await response.json();
   if (data.responseCode !== 'OK')
-    throw new Error(data?.params?.errmsg || 'Failed to create category');
+    throw new Error(data?.params?.errmsg ?? 'Failed to create category');
   return data;
 }
 

@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle } from 'react';
+import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import {
   Box,
   Typography,
@@ -18,7 +18,6 @@ import TermChecklist from '@/components/association/TermChecklist';
 import AssociationActions from '@/components/association/AssociationActions';
 import { useStepAssociation } from '@/hooks/useStepAssociation';
 import type { StepAssociationHandle } from '@/interfaces/AssociationInterface';
-import { useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const StepAssociation = forwardRef<StepAssociationHandle>((props, ref) => {
@@ -177,7 +176,7 @@ const StepAssociation = forwardRef<StepAssociationHandle>((props, ref) => {
       >
         <DialogTitle>Batch Save Results</DialogTitle>
         <DialogContent>
-          {batchLoading ? (
+          {batchLoading && (
             <Box
               sx={{
                 display: 'flex',
@@ -189,7 +188,8 @@ const StepAssociation = forwardRef<StepAssociationHandle>((props, ref) => {
               <CircularProgress sx={{ mb: 2 }} />
               <Typography>Saving associations...</Typography>
             </Box>
-          ) : batchResults ? (
+          )}
+          {!batchLoading && batchResults && (
             <>
               <Typography sx={{ mb: 2 }}>
                 {batchResults.filter((r) => r.result).length} succeeded,{' '}
@@ -210,9 +210,9 @@ const StepAssociation = forwardRef<StepAssociationHandle>((props, ref) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {batchResults.map((r, idx) => (
+                    {batchResults.map((r) => (
                       <tr
-                        key={idx}
+                        key={`${r.input.fromTermCode}-${r.input.categoryCode}`}
                         style={{ background: r.error ? '#ffeaea' : '#eaffea' }}
                       >
                         <td style={{ padding: 8 }}>{r.input.fromTermCode}</td>
@@ -227,7 +227,7 @@ const StepAssociation = forwardRef<StepAssociationHandle>((props, ref) => {
                             <span style={{ color: 'green' }}>Success</span>
                           ) : (
                             <span style={{ color: 'red' }}>
-                              {r.error?.message || 'Failed'}
+                              {r.error?.message ?? 'Failed'}
                             </span>
                           )}
                         </td>
@@ -247,7 +247,7 @@ const StepAssociation = forwardRef<StepAssociationHandle>((props, ref) => {
                 </Button>
               )}
             </>
-          ) : null}
+          )}
         </DialogContent>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
           <Button

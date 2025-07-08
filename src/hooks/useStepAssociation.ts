@@ -23,6 +23,45 @@ export const useStepAssociation = () => {
   const { categories, updateTermAssociations, framework } =
     useFrameworkFormStore();
 
+  // Helper function to build associations from checked terms map
+  const buildAssociationsFromCheckedTerms = (
+    checkedTermCodesMap: CheckedTermCodesMap,
+    categoriesWithTerms: Category[]
+  ): Association[] => {
+    const associations: Association[] = [];
+
+    Object.entries(checkedTermCodesMap).forEach(
+      ([targetCategoryCode, checkedCodes]) => {
+        if (checkedCodes.length === 0) return;
+
+        const targetCategory = categoriesWithTerms.find(
+          (cat) => cat.code === targetCategoryCode
+        );
+        if (!targetCategory) return;
+
+        // Get the checked terms from this category
+        const checkedTerms = (targetCategory.terms || []).filter((term) =>
+          checkedCodes.includes(term.code)
+        );
+
+        // Add associations for each checked term
+        checkedTerms.forEach((checkedTerm) => {
+          associations.push({
+            name: checkedTerm.name,
+            identifier: checkedTerm.identifier,
+            description: checkedTerm.description,
+            code: checkedTerm.code,
+            status: checkedTerm.status,
+            category: targetCategoryCode,
+            index: checkedTerm.index,
+          });
+        });
+      }
+    );
+
+    return associations;
+  };
+
   // Memoize categories with terms
   const categoriesWithTerms = useMemo(
     () => categories.filter((cat) => (cat.terms?.length ?? 0) > 0),
@@ -111,7 +150,7 @@ export const useStepAssociation = () => {
 
   // When category changes, reset term and available category
   const handleCategoryChange = (e: SelectChangeEvent<string>) => {
-    const newCatCode = e.target.value as string;
+    const newCatCode = e.target.value;
     setSelectedCategoryCode(newCatCode);
     const newCat = categoriesWithTerms.find((cat) => cat.code === newCatCode);
     const newTermCode = newCat?.terms?.[0]?.code ?? '';
@@ -125,7 +164,7 @@ export const useStepAssociation = () => {
 
   // When term changes, initialize checkedTermCodesMap for all available categories
   const handleTermChange = (e: SelectChangeEvent<string>) => {
-    const newTermCode = e.target.value as string;
+    const newTermCode = e.target.value;
     setSelectedTermCode(newTermCode);
 
     // Find the new selected term
@@ -173,35 +212,9 @@ export const useStepAssociation = () => {
     if (!selectedCategory || !selectedTerm) return;
 
     // Build associations from current checked terms
-    const associations: Association[] = [];
-
-    Object.entries(checkedTermCodesMap).forEach(
-      ([targetCategoryCode, checkedCodes]) => {
-        if (checkedCodes.length === 0) return;
-
-        const targetCategory = categoriesWithTerms.find(
-          (cat) => cat.code === targetCategoryCode
-        );
-        if (!targetCategory) return;
-
-        // Get the checked terms from this category
-        const checkedTerms = (targetCategory.terms || []).filter((term) =>
-          checkedCodes.includes(term.code)
-        );
-
-        // Add associations for each checked term
-        checkedTerms.forEach((checkedTerm) => {
-          associations.push({
-            name: checkedTerm.name,
-            identifier: checkedTerm.identifier,
-            description: checkedTerm.description,
-            code: checkedTerm.code,
-            status: checkedTerm.status,
-            category: targetCategoryCode,
-            index: checkedTerm.index,
-          });
-        });
-      }
+    const associations = buildAssociationsFromCheckedTerms(
+      checkedTermCodesMap,
+      categoriesWithTerms
     );
 
     if (associations.length > 0) {
@@ -267,35 +280,9 @@ export const useStepAssociation = () => {
     );
     if (selectedCategory && selectedTerm && hasCheckedTerms) {
       // Build associations from current checked terms
-      const associations: Association[] = [];
-
-      Object.entries(checkedTermCodesMap).forEach(
-        ([targetCategoryCode, checkedCodes]) => {
-          if (checkedCodes.length === 0) return;
-
-          const targetCategory = categoriesWithTerms.find(
-            (cat) => cat.code === targetCategoryCode
-          );
-          if (!targetCategory) return;
-
-          // Get the checked terms from this category
-          const checkedTerms = (targetCategory.terms || []).filter((term) =>
-            checkedCodes.includes(term.code)
-          );
-
-          // Add associations for each checked term
-          checkedTerms.forEach((checkedTerm) => {
-            associations.push({
-              name: checkedTerm.name,
-              identifier: checkedTerm.identifier,
-              description: checkedTerm.description,
-              code: checkedTerm.code,
-              status: checkedTerm.status,
-              category: targetCategoryCode,
-              index: checkedTerm.index,
-            });
-          });
-        }
+      const associations = buildAssociationsFromCheckedTerms(
+        checkedTermCodesMap,
+        categoriesWithTerms
       );
 
       if (associations.length > 0) {

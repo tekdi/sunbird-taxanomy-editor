@@ -1,3 +1,6 @@
+import { useFrameworkFormStore } from '@/store/frameworkFormStore';
+import { useFrameworksStore } from '@/store/frameworksStore';
+
 export interface SimulateApiResponse {
   url: string;
   method: string;
@@ -157,5 +160,51 @@ export async function publishFramework(
     }
     console.error('Publish error:', error);
     throw new Error('An unexpected error occurred while publishing framework');
+  }
+}
+
+// Publishes a framework after batch operations (categories, terms, associations)
+// Handles channelId resolution from stores and error handling
+export async function publishFrameworkAfterBatchOperation(
+  frameworkCode: string,
+  operationType: string,
+  channelId?: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    // Try to get channelId from argument first, then from stores
+    let resolvedChannelId = channelId;
+    if (!resolvedChannelId) {
+      const framework = useFrameworkFormStore.getState().framework;
+      const frameworks = useFrameworksStore.getState().frameworks;
+
+      if (framework?.channel) {
+        resolvedChannelId = framework.channel;
+      } else {
+        const currentFramework = frameworks.find(
+          (fw) => fw.code === frameworkCode
+        );
+        resolvedChannelId = currentFramework?.channel;
+      }
+    }
+
+    if (resolvedChannelId) {
+      await publishFramework(frameworkCode, resolvedChannelId);
+      return { success: true };
+    } else {
+      const errorMsg = `No channelId found for framework ${frameworkCode}`;
+      console.warn(
+        `Failed to publish framework after batch ${operationType}:`,
+        errorMsg
+      );
+      return { success: false, error: errorMsg };
+    }
+  } catch (publishError) {
+    const errorMsg =
+      publishError instanceof Error ? publishError.message : 'Unknown error';
+    console.warn(
+      `Failed to publish framework after batch ${operationType}:`,
+      publishError
+    );
+    return { success: false, error: errorMsg };
   }
 }

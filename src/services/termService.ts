@@ -1,6 +1,4 @@
-import { publishFramework } from '../utils/HelperService';
-import { useFrameworkFormStore } from '@/store/frameworkFormStore';
-import { useFrameworksStore } from '@/store/frameworksStore';
+import { publishFramework, publishFrameworkAfterBatchOperation } from '../utils/HelperService';
 
 export interface TermInput {
   name: string;
@@ -196,31 +194,7 @@ export async function batchCreateTerms(
     (result) => result.status === 'success'
   );
   if (successfulTerms.length > 0) {
-    const framework = useFrameworkFormStore.getState().framework;
-    const frameworks = useFrameworksStore.getState().frameworks;
-
-    // Try to get channelId from frameworkFormStore first, then from frameworksStore
-    let channelId: string | undefined;
-    if (framework?.channel) {
-      channelId = framework.channel;
-    } else {
-      const currentFramework = frameworks.find(
-        (fw) => fw.code === frameworkCode
-      );
-      channelId = currentFramework?.channel;
-    }
-
-    if (channelId) {
-      try {
-        await publishFramework(frameworkCode, channelId);
-      } catch (publishError) {
-        console.warn(
-          'Failed to publish framework after batch term creation:',
-          publishError
-        );
-        // Don't throw here as the main term creation was successful
-      }
-    }
+    await publishFrameworkAfterBatchOperation(frameworkCode, 'term creation');
   }
 
   return results;

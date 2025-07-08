@@ -2,9 +2,7 @@ import { Framework } from '@/interfaces/FrameworkInterface';
 import { Category } from '@/interfaces/CategoryInterface';
 import { Term } from '@/interfaces/TermInterface';
 import { Association } from '@/interfaces/AssociationInterface';
-import { publishFramework } from '@/utils/HelperService';
-import { useFrameworkFormStore } from '@/store/frameworkFormStore';
-import { useFrameworksStore } from '@/store/frameworksStore';
+import { publishFrameworkAfterBatchOperation } from '@/utils/HelperService';
 
 // Get live categories from a framework
 export function getLiveCategories(framework: Framework | null): Category[] {
@@ -90,7 +88,7 @@ export async function createCategory(
   const response = await fetch(url, requestOptions);
   const data = await response.json();
   if (!response.ok || data.responseCode !== 'OK') {
-    throw new Error(data?.params?.errmsg || 'Failed to create category');
+    throw new Error(data?.params?.errmsg ?? 'Failed to create category');
   }
   return data;
 }
@@ -127,31 +125,10 @@ export async function batchCreateCategories(
     (result) => result.status === 'success'
   );
   if (successfulCategories.length > 0) {
-    const framework = useFrameworkFormStore.getState().framework;
-    const frameworks = useFrameworksStore.getState().frameworks;
-
-    // Try to get channelId from frameworkFormStore first, then from frameworksStore
-    let channelId: string | undefined;
-    if (framework?.channel) {
-      channelId = framework.channel;
-    } else {
-      const currentFramework = frameworks.find(
-        (fw) => fw.code === frameworkCode
-      );
-      channelId = currentFramework?.channel;
-    }
-
-    if (channelId) {
-      try {
-        await publishFramework(frameworkCode, channelId);
-      } catch (publishError) {
-        console.warn(
-          'Failed to publish framework after batch category creation:',
-          publishError
-        );
-        // Don't throw here as the main category creation was successful
-      }
-    }
+    await publishFrameworkAfterBatchOperation(
+      frameworkCode,
+      'category creation'
+    );
   }
 
   return results;
