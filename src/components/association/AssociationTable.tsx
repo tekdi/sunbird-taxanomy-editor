@@ -11,6 +11,7 @@ import {
   Box,
   Typography,
   IconButton,
+  Checkbox,
 } from '@mui/material';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -27,6 +28,11 @@ interface AssociationTableProps {
     assocTerms: Association[]
   ) => void;
   title?: string;
+  // New props for selection
+  selectedIds?: string[];
+  onSelectRow?: (id: string) => void;
+  onSelectAll?: (checked: boolean) => void;
+  showSelection?: boolean;
 }
 
 const AssociationTable: React.FC<AssociationTableProps> = ({
@@ -34,8 +40,18 @@ const AssociationTable: React.FC<AssociationTableProps> = ({
   categories,
   onChipClick,
   title,
+  selectedIds = [],
+  onSelectRow,
+  onSelectAll,
+  showSelection = false,
 }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const allSelected =
+    associations.length > 0 &&
+    associations.every((term) => selectedIds.includes(term.identifier));
+  const someSelected =
+    associations.some((term) => selectedIds.includes(term.identifier)) &&
+    !allSelected;
   return (
     <Box>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
@@ -68,6 +84,18 @@ const AssociationTable: React.FC<AssociationTableProps> = ({
           <Table size="small">
             <TableHead>
               <TableRow>
+                {showSelection && (
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      indeterminate={someSelected}
+                      checked={allSelected}
+                      onChange={(e) =>
+                        onSelectAll && onSelectAll(e.target.checked)
+                      }
+                      inputProps={{ 'aria-label': 'select all associations' }}
+                    />
+                  </TableCell>
+                )}
                 <TableCell sx={{ fontWeight: 700 }}>Category</TableCell>
                 <TableCell sx={{ fontWeight: 700 }}>Term</TableCell>
                 <TableCell sx={{ fontWeight: 700 }}>Association</TableCell>
@@ -94,6 +122,19 @@ const AssociationTable: React.FC<AssociationTableProps> = ({
 
                 return (
                   <TableRow key={term.identifier} hover>
+                    {showSelection && (
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={selectedIds.includes(term.identifier)}
+                          onChange={() =>
+                            onSelectRow && onSelectRow(term.identifier)
+                          }
+                          inputProps={{
+                            'aria-label': `select association ${term.name}`,
+                          }}
+                        />
+                      </TableCell>
+                    )}
                     <TableCell>
                       {termCategory
                         ? termCategory.name

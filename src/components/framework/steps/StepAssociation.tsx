@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import {
   Box,
   Typography,
@@ -17,8 +17,11 @@ import CategorySelector from '@/components/association/CategorySelector';
 import TermChecklist from '@/components/association/TermChecklist';
 import AssociationActions from '@/components/association/AssociationActions';
 import { useStepAssociation } from '@/hooks/useStepAssociation';
+import type { StepAssociationHandle } from '@/interfaces/AssociationInterface';
+import { useState } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 
-const StepAssociation: React.FC = () => {
+const StepAssociation = forwardRef<StepAssociationHandle>((props, ref) => {
   // Association modal state
   const { modalProps } = useAssociationModal();
 
@@ -38,7 +41,7 @@ const StepAssociation: React.FC = () => {
     workingAssociationsList,
     allTermsWithAssociations,
     batchLoading,
-    batchResult,
+    batchResults,
     modalOpen,
     modalData,
 
@@ -49,10 +52,66 @@ const StepAssociation: React.FC = () => {
     handleToggleTerm,
     handleSaveAssociations,
     handleBatchSaveAssociations,
-    handleClearAllAssociations,
     handleChipClick,
     handleCloseModal,
+    setWorkingAssociationsList, // <-- add this to the hook if not present
+    handleRetryBatchRequests,
   } = useStepAssociation();
+
+  // Selection state for preview table
+  const [selectedPreviewIds, setSelectedPreviewIds] = useState<string[]>([]);
+
+  // Selection handlers
+  const handleSelectPreviewRow = (id: string) => {
+    setSelectedPreviewIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+  const handleSelectAllPreview = (checked: boolean) => {
+    setSelectedPreviewIds(
+      checked ? workingAssociationsList.map((a) => a.identifier) : []
+    );
+  };
+
+  // Clear selected associations only
+  const handleClearSelectedAssociations = () => {
+    setWorkingAssociationsList(
+      workingAssociationsList.filter(
+        (a) => !selectedPreviewIds.includes(a.identifier)
+      )
+    );
+    setSelectedPreviewIds([]);
+  };
+
+  // Modal state for batch results
+  const [batchModalOpen, setBatchModalOpen] = useState(false);
+
+  // Open modal when batchLoading or batchResults changes
+  React.useEffect(() => {
+    if (batchLoading || batchResults) {
+      setBatchModalOpen(true);
+    }
+  }, [batchLoading, batchResults]);
+
+  // Retry failed requests
+  const handleRetry = () => {
+    if (!batchResults) return;
+    const failedInputs = batchResults
+      .filter((r) => r.error)
+      .map((r) => r.input);
+    if (failedInputs.length > 0) {
+      handleRetryBatchRequests(failedInputs);
+    }
+  };
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      hasUnsavedAssociations: () => workingAssociationsList.length > 0,
+      clearWorkingAssociations: () => {}, // No-op for now
+    }),
+    [workingAssociationsList]
+  );
 
   return (
     <Box sx={{ px: { xs: 0, sm: 2 }, py: 1 }}>
@@ -107,6 +166,98 @@ const StepAssociation: React.FC = () => {
             )}
           </Box>
         </DialogContent>
+      </Dialog>
+
+      {/* Batch Result Modal */}
+      <Dialog
+        open={batchModalOpen}
+        onClose={() => setBatchModalOpen(false)}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>Batch Save Results</DialogTitle>
+        <DialogContent>
+          {batchLoading ? (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                py: 4,
+              }}
+            >
+              <CircularProgress sx={{ mb: 2 }} />
+              <Typography>Saving associations...</Typography>
+            </Box>
+          ) : batchResults ? (
+            <>
+              <Typography sx={{ mb: 2 }}>
+                {batchResults.filter((r) => r.result).length} succeeded,{' '}
+                {batchResults.filter((r) => r.error).length} failed
+              </Typography>
+              <Box sx={{ maxHeight: 300, overflow: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={{ textAlign: 'left', padding: 8 }}>Term</th>
+                      <th style={{ textAlign: 'left', padding: 8 }}>
+                        Category
+                      </th>
+                      <th style={{ textAlign: 'left', padding: 8 }}>
+                        Associations
+                      </th>
+                      <th style={{ textAlign: 'left', padding: 8 }}>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {batchResults.map((r, idx) => (
+                      <tr
+                        key={idx}
+                        style={{ background: r.error ? '#ffeaea' : '#eaffea' }}
+                      >
+                        <td style={{ padding: 8 }}>{r.input.fromTermCode}</td>
+                        <td style={{ padding: 8 }}>{r.input.categoryCode}</td>
+                        <td style={{ padding: 8 }}>
+                          {r.input.associations
+                            .map((a) => a.identifier)
+                            .join(', ')}
+                        </td>
+                        <td style={{ padding: 8 }}>
+                          {r.result ? (
+                            <span style={{ color: 'green' }}>Success</span>
+                          ) : (
+                            <span style={{ color: 'red' }}>
+                              {r.error?.message || 'Failed'}
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </Box>
+              {batchResults.some((r) => r.error) && (
+                <Button
+                  onClick={handleRetry}
+                  variant="contained"
+                  color="primary"
+                  sx={{ mt: 2 }}
+                >
+                  Retry Failed
+                </Button>
+              )}
+            </>
+          ) : null}
+        </DialogContent>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
+          <Button
+            onClick={() => setBatchModalOpen(false)}
+            color="primary"
+            variant="outlined"
+          >
+            Close
+          </Button>
+        </Box>
       </Dialog>
 
       {/* Association Form Section */}
@@ -195,25 +346,28 @@ const StepAssociation: React.FC = () => {
           associations={workingAssociationsList}
           categories={categoriesWithTerms}
           onChipClick={handleChipClick}
-          title="Current Associations"
+          title="Preview Associations"
+          showSelection
+          selectedIds={selectedPreviewIds}
+          onSelectRow={handleSelectPreviewRow}
+          onSelectAll={handleSelectAllPreview}
         />
       </Box>
 
       {/* Association Actions */}
       <AssociationActions
-        onClearAll={handleClearAllAssociations}
+        onClearAll={handleClearSelectedAssociations}
         onSaveAssociations={handleBatchSaveAssociations}
-        canClearAll={
-          checkedTermCodes.length > 0 || workingAssociationsList.length > 0
-        }
+        canClearAll={selectedPreviewIds.length > 0}
         canSaveAssociations={
           checkedTermCodes.length > 0 || workingAssociationsList.length > 0
         }
         batchLoading={batchLoading}
-        batchResult={batchResult}
       />
     </Box>
   );
-};
+});
+
+StepAssociation.displayName = 'StepAssociation';
 
 export default StepAssociation;

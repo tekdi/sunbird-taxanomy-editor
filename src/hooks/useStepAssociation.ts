@@ -8,9 +8,16 @@ import type {
   Association,
   WorkingAssociation,
   CheckedTermCodesMap,
-  BatchSaveResult,
   AssociationModalData,
 } from '@/interfaces/AssociationInterface';
+import type { BatchAssociationCreateInput } from '@/services/associationService';
+
+// Add new type for per-request result
+export interface BatchRequestResult {
+  input: BatchAssociationCreateInput;
+  result?: unknown;
+  error?: Error;
+}
 
 export const useStepAssociation = () => {
   const { categories, updateTermAssociations, framework } =
@@ -70,7 +77,10 @@ export const useStepAssociation = () => {
 
   // Batch save state
   const [batchLoading, setBatchLoading] = useState(false);
-  const [batchResult, setBatchResult] = useState<BatchSaveResult | null>(null);
+  // State for batch results (per-request)
+  const [batchResults, setBatchResults] = useState<BatchRequestResult[] | null>(
+    null
+  );
 
   // Association details modal state
   const [modalOpen, setModalOpen] = useState(false);
@@ -195,27 +205,47 @@ export const useStepAssociation = () => {
     );
 
     if (associations.length > 0) {
-      // Add to working associations list
-      const workingTerm: WorkingAssociation = {
-        ...selectedTerm,
-        categoryCode: selectedCategory.code,
-        categoryName: selectedCategory.name,
-        category: selectedCategory.code,
-        associations,
-      };
-
-      // Remove any existing entry for this term and add the new one
-      setWorkingAssociationsList((prev) => [
-        ...prev.filter(
+      setWorkingAssociationsList((prev) => {
+        // Find if a working association for this term/category already exists
+        const existing = prev.find(
           (wt) =>
-            !(
+            wt.code === selectedTerm.code &&
+            wt.categoryCode === selectedCategory.code
+        );
+        if (existing) {
+          // Merge associations, deduplicate by code+category
+          const existingAssocs = Array.isArray(existing.associations)
+            ? existing.associations
+            : [];
+          const merged = [
+            ...existingAssocs,
+            ...associations.filter(
+              (a) =>
+                !existingAssocs.some(
+                  (ea) => ea.code === a.code && ea.category === a.category
+                )
+            ),
+          ];
+          return [
+            ...prev.map((wt) =>
               wt.code === selectedTerm.code &&
               wt.categoryCode === selectedCategory.code
-            )
-        ),
-        workingTerm,
-      ]);
-
+                ? { ...wt, associations: merged }
+                : wt
+            ),
+          ];
+        } else {
+          // Add as new
+          const workingTerm: WorkingAssociation = {
+            ...selectedTerm,
+            categoryCode: selectedCategory.code,
+            categoryName: selectedCategory.name,
+            category: selectedCategory.code,
+            associations,
+          };
+          return [...prev, workingTerm];
+        }
+      });
       // Clear the checked terms for this term only after adding to working list
       setCheckedTermCodesMap({});
     }
@@ -226,7 +256,7 @@ export const useStepAssociation = () => {
     if (!framework?.code) return;
 
     setBatchLoading(true);
-    setBatchResult(null);
+    setBatchResults(null);
 
     // Start with existing working associations
     let allWorkingAssociations = [...workingAssociationsList];
@@ -310,12 +340,10 @@ export const useStepAssociation = () => {
 
     try {
       const results = await batchCreateTermAssociations(updates);
-      const success = results.filter((r) => r.result).length;
-      const failed = results.filter((r) => r.error).length;
-      setBatchResult({ success, failed });
+      setBatchResults(results);
 
       // If successful, update the store and clear working associations
-      if (success > 0) {
+      if (results.length > 0) {
         // Update each term in the store
         allWorkingAssociations.forEach((workingTerm) => {
           const categoryIndex = categories.findIndex(
@@ -339,7 +367,33 @@ export const useStepAssociation = () => {
         setCheckedTermCodesMap({});
       }
     } catch {
-      setBatchResult({ success: 0, failed: updates.length });
+      setBatchResults(
+        updates.map((input) => ({
+          input,
+          error: new Error('Batch request failed'),
+        }))
+      );
+    } finally {
+      setBatchLoading(false);
+    }
+  };
+
+  // Retry handler for failed requests
+  const handleRetryBatchRequests = async (
+    failedInputs: BatchAssociationCreateInput[]
+  ) => {
+    setBatchLoading(true);
+    try {
+      const results = await batchCreateTermAssociations(failedInputs);
+      setBatchResults((prev) => {
+        if (!prev) return results;
+        // Merge new results with previous, replacing retried ones
+        const prevMap = new Map(prev.map((r) => [JSON.stringify(r.input), r]));
+        for (const r of results) {
+          prevMap.set(JSON.stringify(r.input), r);
+        }
+        return Array.from(prevMap.values());
+      });
     } finally {
       setBatchLoading(false);
     }
@@ -398,7 +452,8 @@ export const useStepAssociation = () => {
     workingAssociationsList,
     allTermsWithAssociations,
     batchLoading,
-    batchResult,
+    batchResults,
+    handleRetryBatchRequests,
     modalOpen,
     modalData,
 
@@ -419,5 +474,8 @@ export const useStepAssociation = () => {
     setModalData,
     handleChipClick,
     handleCloseModal,
+
+    // Add setter for working associations
+    setWorkingAssociationsList,
   };
 };

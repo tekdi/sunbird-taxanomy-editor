@@ -31,6 +31,7 @@ import DialogActions from '@mui/material/DialogActions';
 import { useFrameworkFormStore } from '@/store/frameworkFormStore';
 import StepAssociation from '@/components/framework/steps/StepAssociation';
 import Box from '@mui/material/Box';
+import type { StepAssociationHandle } from '@/interfaces/AssociationInterface';
 
 // This component manages the taxonomy creation process through a series of steps.
 // It allows users to select a channel, framework, master categories, categories, terms, and associations,
@@ -57,6 +58,7 @@ const ManageTaxonomy: React.FC = () => {
   const masterCategoryRef = useRef<StepMasterCategoryHandle>(null);
   const categoryRef = useRef<StepCategoryHandle>(null);
   const termsRef = useRef<StepTermsHandle>(null);
+  const associationRef = useRef<StepAssociationHandle>(null);
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
 
   const handleNext = async () => {
@@ -74,6 +76,11 @@ const ManageTaxonomy: React.FC = () => {
         return;
       }
       if (step === 5 && termsRef.current?.hasUnsavedTerms()) {
+        setShowUnsavedDialog(true);
+        setIsLoading(false);
+        return;
+      }
+      if (step === 6 && associationRef.current?.hasUnsavedAssociations()) {
         setShowUnsavedDialog(true);
         setIsLoading(false);
         return;
@@ -237,7 +244,7 @@ const ManageTaxonomy: React.FC = () => {
               {step === 3 && <StepMasterCategory ref={masterCategoryRef} />}
               {step === 4 && <StepCategory ref={categoryRef} />}
               {step === 5 && <StepTerms ref={termsRef} />}
-              {step === 6 && <StepAssociation />}
+              {step === 6 && <StepAssociation ref={associationRef} />}
               {/* {step === 7 && <StepReview />} */}
               {/* {step === 8 && <StepPublish />} */}
             </CardContent>
@@ -292,6 +299,8 @@ const ManageTaxonomy: React.FC = () => {
             ? 'Unsaved Category'
             : step === 5
             ? 'Unsaved Terms'
+            : step === 6
+            ? 'Unsaved Associations'
             : 'Unsaved Changes'}
         </DialogTitle>
         <DialogContent>
@@ -302,6 +311,8 @@ const ManageTaxonomy: React.FC = () => {
               ? 'Are you sure you want to proceed to the next step without creating the new category?'
               : step === 5
               ? 'Are you sure you want to proceed to the next step without creating the new terms?'
+              : step === 6
+              ? 'Are you sure you want to proceed to the next step without saving the new associations?'
               : 'Are you sure you want to proceed to the next step without saving your changes?'}
           </Typography>
         </DialogContent>
