@@ -36,7 +36,9 @@ const AssociationCategories: React.FC<AssociationCategoriesProps> = ({
         <Chip
           label={cat.name}
           size="small"
-          onClick={() => onBadgeClick(categories, termName, categoryName)}
+          onClick={() =>
+            onBadgeClick(categories, termName, categoryName, cat.identifier)
+          }
           sx={{
             bgcolor: blue[100],
             color: blue[800],

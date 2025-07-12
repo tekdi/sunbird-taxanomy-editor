@@ -51,6 +51,7 @@ export interface CategoryCardProps {
   onBadgeClick: (
     categories: Category[],
     termName: string,
-    categoryName: string
+    categoryName: string,
+    clickedCategoryId?: string
   ) => void;
 }

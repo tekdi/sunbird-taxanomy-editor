@@ -34,7 +34,7 @@ export function useFormHandler<T extends BaseForm>(
     const target = e.target as
       | HTMLInputElement
       | { name?: string; value: unknown };
-    const name = target.name || '';
+    const name = target.name ?? '';
     const value = target.value;
 
     let updatedForm = { ...form, [name]: value };

@@ -98,7 +98,7 @@ export function useBatchHandler<T extends BatchItem, R extends BatchResult<T>>(
         setBatchStatus(
           results.map((result) => {
             // Handle both category and item properties for flexibility
-            const item = result.category || result.item || result;
+            const item = result.category ?? result.item ?? result;
             return {
               name: item.name,
               code: item.code,

@@ -23,6 +23,7 @@ const CreateFrameworkPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const router = useRouter();
+  const fromStepper = router.query.fromStepper === '1';
 
   // Fetch channels from the store
   const {
@@ -58,11 +59,17 @@ const CreateFrameworkPage: React.FC = () => {
         (ch) => ch.identifier === selectedChannel
       );
       if (!channelObj) throw new Error('Selected channel not found');
-      await createFramework(framework, channelObj.identifier, channelObj.name);
+      await createFramework(framework, channelObj.identifier);
       setSuccess('Framework created successfully!');
       setFramework({ name: '', code: '', description: '' });
       setSelectedChannel('');
-      setTimeout(() => router.push('/frameworks'), 1000);
+      setTimeout(() => {
+        if (fromStepper) {
+          router.push('/frameworks/manage');
+        } else {
+          router.push('/frameworks');
+        }
+      }, 1000);
     } catch (err: unknown) {
       if (err instanceof Error) setError(err.message);
       else setError('Failed to create framework');

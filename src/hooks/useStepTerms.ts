@@ -253,6 +253,11 @@ export function useStepTerms(
     }, 1200);
   };
 
+  // Remove term from pending list by code
+  const handleDeletePendingTerm = (code: string) => {
+    setPendingTerms((prev) => prev.filter((term) => term.code !== code));
+  };
+
   const hasUnsavedTerms = () => pendingTerms.length > 0;
 
   return {
@@ -277,5 +282,6 @@ export function useStepTerms(
     handleBatchCreate,
     handleRetry,
     hasUnsavedTerms,
+    handleDeletePendingTerm,
   };
 }

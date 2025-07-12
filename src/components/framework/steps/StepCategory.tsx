@@ -29,6 +29,7 @@ const StepCategory = forwardRef<StepCategoryHandle, object>((props, ref) => {
     handleBatchCreate,
     handleRetry,
     hasUnsavedCategories,
+    handleDeletePendingCategory,
   } = useStepCategory(categories, setCategories, framework);
 
   useImperativeHandle(ref, () => ({
@@ -100,6 +101,7 @@ const StepCategory = forwardRef<StepCategoryHandle, object>((props, ref) => {
         pendingCategories={pendingCategories}
         getItemDetails={renderCategoryDetails}
         onCreate={handleBatchCreate}
+        onDelete={handleDeletePendingCategory}
       />
       {/* Modal for batch creation progress */}
       <BatchCreationModal

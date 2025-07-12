@@ -1,3 +1,6 @@
+import { useFrameworkFormStore } from '@/store/frameworkFormStore';
+import { useFrameworksStore } from '@/store/frameworksStore';
+
 export interface SimulateApiResponse {
   url: string;
   method: string;
@@ -42,11 +45,32 @@ export function formatDate(date: Date | string) {
 
 // Converts a string to camelCase, removing non-alphanumeric separators and capitalizing the following letter.
 export function camelCaseCode(input: string): string {
-  // Remove all non-alphanumeric separators and capitalize the following letter
-  const camel = input
+  // If the input contains spaces, use the existing camelCase logic
+  if (/\s/.test(input)) {
+    return input
+      .replace(/[-_\s]+(.)?/g, (_match, chr) => (chr ? chr.toUpperCase() : ''))
+      .replace(/^[A-Z]/, (match) => match.toLowerCase());
+  }
+
+  // If the input is a single word (no spaces)
+  // Check if all letters are uppercase (ignore numbers)
+  const lettersOnly = input.replace(/[^A-Za-z]/g, '');
+  if (lettersOnly && lettersOnly === lettersOnly.toUpperCase()) {
+    return input.toLowerCase();
+  }
+
+  // Otherwise, use the existing camelCase logic
+  return input
     .replace(/[-_\s]+(.)?/g, (_match, chr) => (chr ? chr.toUpperCase() : ''))
     .replace(/^[A-Z]/, (match) => match.toLowerCase());
-  return camel;
+}
+
+// Checks if a string is in camelCase format
+export function isCamelCase(input: string): boolean {
+  // CamelCase pattern: starts with lowercase letter, followed by alphanumeric characters
+  // with optional uppercase letters in between
+  const camelCasePattern = /^[a-z][a-zA-Z0-9]*$/;
+  return camelCasePattern.test(input);
 }
 
 // Returns a copy of the given object with the name updated and the code (or custom code field) auto-generated in camelCase from the name.
@@ -73,6 +97,8 @@ export async function publishFramework(
   frameworkCode: string,
   channelId: string
 ): Promise<unknown> {
+  // Add a 500ms delay before publishing
+  await new Promise((res) => setTimeout(res, 500));
   const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
   const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
   const cookie = process.env.NEXT_PUBLIC_COOKIE;
@@ -149,5 +175,51 @@ export async function publishFramework(
     }
     console.error('Publish error:', error);
     throw new Error('An unexpected error occurred while publishing framework');
+  }
+}
+
+// Publishes a framework after batch operations (categories, terms, associations)
+// Handles channelId resolution from stores and error handling
+export async function publishFrameworkAfterBatchOperation(
+  frameworkCode: string,
+  operationType: string,
+  channelId?: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    // Try to get channelId from argument first, then from stores
+    let resolvedChannelId = channelId;
+    if (!resolvedChannelId) {
+      const framework = useFrameworkFormStore.getState().framework;
+      const frameworks = useFrameworksStore.getState().frameworks;
+
+      if (framework?.channel) {
+        resolvedChannelId = framework.channel;
+      } else {
+        const currentFramework = frameworks.find(
+          (fw) => fw.code === frameworkCode
+        );
+        resolvedChannelId = currentFramework?.channel;
+      }
+    }
+
+    if (resolvedChannelId) {
+      await publishFramework(frameworkCode, resolvedChannelId);
+      return { success: true };
+    } else {
+      const errorMsg = `No channelId found for framework ${frameworkCode}`;
+      console.warn(
+        `Failed to publish framework after batch ${operationType}:`,
+        errorMsg
+      );
+      return { success: false, error: errorMsg };
+    }
+  } catch (publishError) {
+    const errorMsg =
+      publishError instanceof Error ? publishError.message : 'Unknown error';
+    console.warn(
+      `Failed to publish framework after batch ${operationType}:`,
+      publishError
+    );
+    return { success: false, error: errorMsg };
   }
 }

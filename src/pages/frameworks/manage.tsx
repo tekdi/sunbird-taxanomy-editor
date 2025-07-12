@@ -1,8 +1,5 @@
 import React, { useState, useRef } from 'react';
-import {
-  ArrowLeft as ArrowLeftIcon,
-  ArrowRight as ArrowRightIcon,
-} from '@mui/icons-material';
+import { ArrowLeft as ArrowLeftIcon } from '@mui/icons-material';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -22,13 +19,18 @@ import StepCategory from '@/components/framework/steps/StepCategory';
 import type { StepCategoryHandle } from '@/interfaces/CategoryInterface';
 import StepTerms from '@/components/framework/steps/StepTerms';
 import type { StepTermsHandle } from '@/interfaces/TermInterface';
-import frameworkService from '@/services/frameworkService';
 import Alert from '@mui/material/Alert';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { useFrameworkFormStore } from '@/store/frameworkFormStore';
+import StepAssociation from '@/components/framework/steps/StepAssociation';
+import Box from '@mui/material/Box';
+import type { StepAssociationHandle } from '@/interfaces/AssociationInterface';
+import StepView from '@/components/framework/steps/StepView';
+import { Framework } from '@/interfaces/FrameworkInterface';
+import StepperButton from '@/components/framework/StepperButton';
 
 // This component manages the taxonomy creation process through a series of steps.
 // It allows users to select a channel, framework, master categories, categories, terms, and associations,
@@ -39,9 +41,8 @@ const steps = [
   { number: 3, title: 'Master Categories' },
   { number: 4, title: 'Categories' },
   { number: 5, title: 'Terms' },
-  { number: 6, title: 'Associations' },
-  { number: 7, title: 'Review' },
-  { number: 8, title: 'Publish' },
+  { number: 6, title: 'Associate and Publish' },
+  { number: 7, title: 'View' },
 ];
 
 // Controller for managing the taxonomy creation process.
@@ -50,11 +51,12 @@ const ManageTaxonomy: React.FC = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
-  const { step, setStep, channel, framework, setFramework, setCategories } =
+  const { step, setStep, channel, framework, fetchAndUpdateFramework } =
     useFrameworkFormStore();
   const masterCategoryRef = useRef<StepMasterCategoryHandle>(null);
   const categoryRef = useRef<StepCategoryHandle>(null);
   const termsRef = useRef<StepTermsHandle>(null);
+  const associationRef = useRef<StepAssociationHandle>(null);
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
 
   const handleNext = async () => {
@@ -76,23 +78,20 @@ const ManageTaxonomy: React.FC = () => {
         setIsLoading(false);
         return;
       }
+      if (step === 6 && associationRef.current?.hasUnsavedAssociations()) {
+        setShowUnsavedDialog(true);
+        setIsLoading(false);
+        return;
+      }
       switch (step) {
         case 1:
           break;
         case 2:
           if (framework?.identifier) {
-            try {
-              const data = await frameworkService.getFrameworkById(
-                framework.identifier
-              );
-              if (data && Object.keys(data).length > 0) {
-                setFramework(data);
-                setCategories(data.categories || []);
-              }
-              // If data is empty, just proceed
-            } catch {
+            const result = await fetchAndUpdateFramework();
+            if (!result.success) {
               setFetchError(
-                'Failed to fetch framework details. Please try again.'
+                result.error || 'Failed to fetch framework details'
               );
               setIsLoading(false);
               return;
@@ -103,17 +102,10 @@ const ManageTaxonomy: React.FC = () => {
           break;
         case 4:
           if (framework?.identifier) {
-            try {
-              const data = await frameworkService.getFrameworkById(
-                framework.identifier
-              );
-              if (data && Object.keys(data).length > 0) {
-                setFramework(data);
-                setCategories(data.categories || []);
-              }
-            } catch {
+            const result = await fetchAndUpdateFramework();
+            if (!result.success) {
               setFetchError(
-                'Failed to fetch framework details. Please try again.'
+                result.error || 'Failed to fetch framework details'
               );
               setIsLoading(false);
               return;
@@ -121,6 +113,16 @@ const ManageTaxonomy: React.FC = () => {
           }
           break;
         case 5:
+          if (framework?.identifier) {
+            const result = await fetchAndUpdateFramework();
+            if (!result.success) {
+              setFetchError(
+                result.error || 'Failed to fetch framework details'
+              );
+              setIsLoading(false);
+              return;
+            }
+          }
           break;
         case 6:
           break;
@@ -195,6 +197,32 @@ const ManageTaxonomy: React.FC = () => {
                   Step {step}: {steps[step - 1].title}
                 </Typography>
               }
+              action={
+                <Box sx={{ minWidth: 180, textAlign: 'right' }}>
+                  {channel?.code && (
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{ fontWeight: 400, display: 'block' }}
+                    >
+                      Channel: <b>{channel.code}</b>
+                    </Typography>
+                  )}
+                  {framework?.code && (
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{
+                        fontWeight: 400,
+                        display: 'block',
+                        mt: channel?.code ? 0.5 : 0,
+                      }}
+                    >
+                      Framework: <b>{framework.code}</b>
+                    </Typography>
+                  )}
+                </Box>
+              }
               sx={{
                 bgcolor: '#f5f7fa',
                 borderBottom: 1,
@@ -209,9 +237,14 @@ const ManageTaxonomy: React.FC = () => {
               {step === 3 && <StepMasterCategory ref={masterCategoryRef} />}
               {step === 4 && <StepCategory ref={categoryRef} />}
               {step === 5 && <StepTerms ref={termsRef} />}
-              {/* {step === 6 && <StepAssociations />} */}
-              {/* {step === 7 && <StepReview />} */}
-              {/* {step === 8 && <StepPublish />} */}
+              {step === 6 && <StepAssociation ref={associationRef} />}
+              {step === 7 && framework?.code && (
+                <StepView
+                  frameworkCode={framework.code}
+                  framework={framework as Framework}
+                  categories={useFrameworkFormStore.getState().categories}
+                />
+              )}
             </CardContent>
             <CardActions
               sx={{
@@ -230,24 +263,14 @@ const ManageTaxonomy: React.FC = () => {
               >
                 Back
               </Button>
-              <Button
-                onClick={handleNext}
-                disabled={(step === 1 && !channel?.code) || isLoading}
-                endIcon={
-                  step < steps.length ? (
-                    <ArrowRightIcon fontSize="small" />
-                  ) : undefined
-                }
-                variant="contained"
-                color="primary"
-                sx={{ minWidth: 160, fontWeight: 600 }}
-              >
-                {isLoading
-                  ? 'Loading...'
-                  : step < steps.length
-                  ? 'Continue'
-                  : 'Publish Taxonomy'}
-              </Button>
+              <StepperButton
+                step={step}
+                isLoading={isLoading}
+                channel={channel}
+                framework={framework}
+                onNext={handleNext}
+                stepsLength={steps.length}
+              />
             </CardActions>
           </Card>
         </div>
@@ -260,6 +283,8 @@ const ManageTaxonomy: React.FC = () => {
             ? 'Unsaved Category'
             : step === 5
             ? 'Unsaved Terms'
+            : step === 6
+            ? 'Unsaved Associations'
             : 'Unsaved Changes'}
         </DialogTitle>
         <DialogContent>
@@ -270,6 +295,8 @@ const ManageTaxonomy: React.FC = () => {
               ? 'Are you sure you want to proceed to the next step without creating the new category?'
               : step === 5
               ? 'Are you sure you want to proceed to the next step without creating the new terms?'
+              : step === 6
+              ? 'Are you sure you want to proceed to the next step without saving the new associations?'
               : 'Are you sure you want to proceed to the next step without saving your changes?'}
           </Typography>
         </DialogContent>

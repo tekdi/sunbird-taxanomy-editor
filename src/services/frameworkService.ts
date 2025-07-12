@@ -28,8 +28,7 @@ const getFrameworkById = async (id: string): Promise<Framework> => {
 
 export async function createFramework(
   framework: { name: string; code: string; description: string },
-  channelId: string,
-  channelName: string
+  channelId: string
 ) {
   const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
   const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
@@ -49,7 +48,7 @@ export async function createFramework(
         code: framework.code,
         description: framework.description,
         type: 'K-12',
-        channel: channelName,
+        channel: channelId,
       },
     },
   });

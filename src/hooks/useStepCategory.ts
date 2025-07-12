@@ -134,6 +134,11 @@ export function useStepCategory(
     setSuccess(null);
   };
 
+  // Remove category from pending list by code
+  const handleDeletePendingCategory = (code: string) => {
+    setPendingCategories((prev) => prev.filter((cat) => cat.code !== code));
+  };
+
   const hasUnsavedCategories = () => pendingCategories.length > 0;
 
   return {
@@ -158,5 +163,6 @@ export function useStepCategory(
     handleBatchCreate,
     handleRetry: retryHandler,
     hasUnsavedCategories,
+    handleDeletePendingCategory,
   };
 }

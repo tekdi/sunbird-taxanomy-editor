@@ -18,18 +18,21 @@ export function useAssociationModal() {
    * @param {Category[]} categories - The categories associated with the term.
    * @param {string} termName - The name of the term.
    * @param {string} categoryName - The name of the category.
+   * @param {string} clickedCategoryId - The identifier of the category that was clicked (optional).
    * @returns {void}
    **/
   const handleBadgeClick = (
     categories: Category[],
     termName: string,
-    categoryName: string
+    categoryName: string,
+    clickedCategoryId?: string
   ) => {
     setModalCategories(categories);
     setModalTermName(termName);
     setModalCategoryName(categoryName);
     setModalOpen(true);
-    setExpandedCategory(null);
+    // Automatically expand the clicked category if provided
+    setExpandedCategory(clickedCategoryId || null);
   };
 
   /**

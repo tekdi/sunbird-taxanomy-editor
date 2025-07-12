@@ -2,6 +2,7 @@ import { Framework } from '@/interfaces/FrameworkInterface';
 import { Category } from '@/interfaces/CategoryInterface';
 import { Term } from '@/interfaces/TermInterface';
 import { Association } from '@/interfaces/AssociationInterface';
+import { publishFrameworkAfterBatchOperation } from '@/utils/HelperService';
 
 // Get live categories from a framework
 export function getLiveCategories(framework: Framework | null): Category[] {
@@ -87,7 +88,7 @@ export async function createCategory(
   const response = await fetch(url, requestOptions);
   const data = await response.json();
   if (!response.ok || data.responseCode !== 'OK') {
-    throw new Error(data?.params?.errmsg || 'Failed to create category');
+    throw new Error(data?.params?.errmsg ?? 'Failed to create category');
   }
   return data;
 }
@@ -103,6 +104,7 @@ export async function batchCreateCategories(
     message: string;
     category: CategoryInput;
   }[] = [];
+
   for (const category of categories) {
     try {
       await createCategory(category, frameworkCode);
@@ -117,6 +119,18 @@ export async function batchCreateCategories(
       results.push({ status: 'failed', message: msg, category });
     }
   }
+
+  // Get channelId from stores and publish the framework after all categories are created
+  const successfulCategories = results.filter(
+    (result) => result.status === 'success'
+  );
+  if (successfulCategories.length > 0) {
+    await publishFrameworkAfterBatchOperation(
+      frameworkCode,
+      'category creation'
+    );
+  }
+
   return results;
 }
 

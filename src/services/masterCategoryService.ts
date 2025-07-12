@@ -1,5 +1,6 @@
 import { MasterCategory } from '@/interfaces/MasterCategoryInterface';
 import { URL_CONFIG } from '@/utils/url.config';
+import { isCamelCase } from '@/utils/HelperService';
 import { prepareHeaders } from '@/utils/ApiUtilityService';
 
 /**
@@ -10,6 +11,7 @@ import { prepareHeaders } from '@/utils/ApiUtilityService';
 // Fetches all master categories from the API
 export async function fetchMasterCategories(): Promise<MasterCategory[]> {
   const myHeaders = prepareHeaders();
+
   const raw = JSON.stringify({
     request: {
       filters: {
@@ -43,7 +45,15 @@ export async function createMasterCategory(category: {
   searchIdFieldName: string;
   orgIdFieldName: string;
 }) {
+  // Validate that the code is in camelCase format
+  if (!isCamelCase(category.code)) {
+    throw new Error(
+      'Code must be in camelCase format (e.g., "myCategory", "userProfile")'
+    );
+  }
+
   const myHeaders = prepareHeaders();
+
   const raw = JSON.stringify({
     request: {
       category,
@@ -60,7 +70,7 @@ export async function createMasterCategory(category: {
   if (!response.ok) throw new Error(`Error: ${response.status}`);
   const data = await response.json();
   if (data.responseCode !== 'OK')
-    throw new Error(data?.params?.errmsg || 'Failed to create category');
+    throw new Error(data?.params?.errmsg ?? 'Failed to create category');
   return data;
 }
 

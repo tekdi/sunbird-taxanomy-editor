@@ -1,12 +1,23 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import PendingItemsList from '@/components/framework/PendingItemsList';
-import type { PendingCategoriesSectionProps } from '@/interfaces/CategoryInterface';
+
+interface PendingCategoriesSectionProps {
+  pendingCategories: {
+    name: string;
+    code: string;
+    description: string;
+  }[];
+  getItemDetails: (item: Record<string, unknown>) => React.ReactNode;
+  onCreate: () => void;
+  onDelete: (code: string) => void;
+}
 
 const PendingCategoriesSection: React.FC<PendingCategoriesSectionProps> = ({
   pendingCategories,
   getItemDetails,
   onCreate,
+  onDelete,
 }) => {
   return (
     <>
@@ -14,6 +25,7 @@ const PendingCategoriesSection: React.FC<PendingCategoriesSectionProps> = ({
         title="Categories to be created"
         items={pendingCategories}
         getItemDetails={getItemDetails}
+        onDelete={onDelete}
       />
       {pendingCategories.length > 0 && (
         <Button
