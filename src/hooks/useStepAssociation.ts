@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import { useFrameworkFormStore } from '@/store/frameworkFormStore';
 import { batchCreateTermAssociations } from '@/services/associationService';
+import { createTermAssociations } from '@/services/associationService';
 import type { Term } from '@/interfaces/TermInterface';
 import type { Category } from '@/interfaces/CategoryInterface';
 import type {
@@ -11,6 +12,7 @@ import type {
   AssociationModalData,
 } from '@/interfaces/AssociationInterface';
 import type { BatchAssociationCreateInput } from '@/services/associationService';
+import { publishFrameworkAfterBatchOperation } from '@/utils/HelperService';
 
 // Add new type for per-request result
 export interface BatchRequestResult {
@@ -128,6 +130,19 @@ export const useStepAssociation = () => {
     assocCategory: undefined,
     assocTerms: [],
   });
+
+  // Add state for delete confirmation modal
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<
+    (Term & { categoryCode?: string; categoryName?: string }) | null
+  >(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  // Add state for edit mode
+  const [editingTermCode, setEditingTermCode] = useState<string | null>(null);
+  const [editingCategoryCode, setEditingCategoryCode] = useState<string | null>(
+    null
+  );
 
   // Gather all terms with associations for the existing associations view
   const allTermsWithAssociations = useMemo(
@@ -316,14 +331,53 @@ export const useStepAssociation = () => {
     }
 
     // Build batch payload from all working associations
-    const updates = allWorkingAssociations.map((workingTerm) => ({
-      fromTermCode: workingTerm.code,
-      frameworkCode: framework.code!,
-      categoryCode: workingTerm.categoryCode,
-      associations: (workingTerm.associations || []).map((a) => ({
-        identifier: a.identifier,
-      })),
-    }));
+    const updates = allWorkingAssociations.map((workingTerm) => {
+      // If editing this term/category, do NOT merge—replace with current associations
+      if (
+        editingTermCode &&
+        editingCategoryCode &&
+        workingTerm.code === editingTermCode &&
+        workingTerm.categoryCode === editingCategoryCode
+      ) {
+        return {
+          fromTermCode: workingTerm.code,
+          frameworkCode: framework.code!,
+          categoryCode: workingTerm.categoryCode,
+          associations: (workingTerm.associations || []).map((a) => ({
+            identifier: a.identifier,
+          })),
+        };
+      }
+      // Otherwise, merge as before
+      // Find the corresponding term in the store to get existing associations
+      const category = categories.find(
+        (cat) => cat.code === workingTerm.categoryCode
+      );
+      const storeTerm = category?.terms?.find(
+        (t) => t.code === workingTerm.code
+      );
+      const existingAssociations = Array.isArray(storeTerm?.associations)
+        ? storeTerm!.associations
+        : [];
+      // Merge existing and new associations by identifier (deduplicate)
+      const newAssociations = workingTerm.associations || [];
+      const mergedAssociationsMap = new Map<string, { identifier: string }>();
+      existingAssociations.forEach((a) => {
+        if (a.identifier)
+          mergedAssociationsMap.set(a.identifier, { identifier: a.identifier });
+      });
+      newAssociations.forEach((a) => {
+        if (a.identifier)
+          mergedAssociationsMap.set(a.identifier, { identifier: a.identifier });
+      });
+      const mergedAssociations = Array.from(mergedAssociationsMap.values());
+      return {
+        fromTermCode: workingTerm.code,
+        frameworkCode: framework.code!,
+        categoryCode: workingTerm.categoryCode,
+        associations: mergedAssociations,
+      };
+    });
 
     try {
       const results = await batchCreateTermAssociations(updates);
@@ -352,6 +406,9 @@ export const useStepAssociation = () => {
         // Clear working associations and checked terms
         setWorkingAssociationsList([]);
         setCheckedTermCodesMap({});
+        // Clear edit state after save
+        setEditingTermCode(null);
+        setEditingCategoryCode(null);
       }
     } catch {
       setBatchResults(
@@ -416,6 +473,87 @@ export const useStepAssociation = () => {
     setModalOpen(false);
   };
 
+  // Handler to trigger delete confirmation
+  const handleRequestDeleteAssociation = (
+    term: Term & { categoryCode?: string; categoryName?: string }
+  ) => {
+    setDeleteTarget(term);
+    setDeleteModalOpen(true);
+  };
+
+  // Handler to confirm deletion
+  const handleConfirmDeleteAssociation = async () => {
+    if (
+      !deleteTarget ||
+      !deleteTarget.code ||
+      !deleteTarget.categoryCode ||
+      !framework?.code
+    )
+      return;
+    setDeleteLoading(true);
+    try {
+      await createTermAssociations({
+        fromTermCode: deleteTarget.code,
+        frameworkCode: framework.code,
+        categoryCode: deleteTarget.categoryCode,
+        associations: [],
+      });
+      // Remove the association from the UI (update categories)
+      const categoryIdx = categories.findIndex(
+        (cat) => cat.code === deleteTarget.categoryCode
+      );
+      if (categoryIdx !== -1) {
+        const termIdx = categories[categoryIdx].terms?.findIndex(
+          (t) => t.code === deleteTarget.code
+        );
+        if (termIdx !== undefined && termIdx !== -1) {
+          updateTermAssociations(categoryIdx, termIdx, []);
+        }
+      }
+      // Publish the framework after deletion
+      await publishFrameworkAfterBatchOperation(
+        framework.code,
+        'association delete'
+      );
+      setDeleteModalOpen(false);
+      setDeleteTarget(null);
+    } catch (error) {
+      // Optionally, show an error message
+      console.error('Failed to delete association:', error);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
+  // Handler to close the modal
+  const handleCloseDeleteModal = () => {
+    setDeleteModalOpen(false);
+    setDeleteTarget(null);
+  };
+
+  // Handler to trigger edit of an association
+  const handleEditAssociation = (
+    term: Term & { categoryCode?: string; categoryName?: string }
+  ) => {
+    if (!term || !term.code || !term.categoryCode) return;
+    setSelectedCategoryCode(term.categoryCode);
+    setSelectedTermCode(term.code);
+    // Pick the first available category that is not the term's own category
+    const availableCat = categoriesWithTerms.find(
+      (cat) => cat.code !== term.categoryCode
+    );
+    setSelectedAvailableCategoryCode(availableCat?.code || '');
+    // Set checkedTermCodesMap to reflect the associations of this term
+    const newMap: CheckedTermCodesMap = {};
+    (term.associations || []).forEach((assoc) => {
+      if (!newMap[assoc.category]) newMap[assoc.category] = [];
+      newMap[assoc.category].push(assoc.code);
+    });
+    setCheckedTermCodesMap(newMap);
+    setEditingTermCode(term.code);
+    setEditingCategoryCode(term.categoryCode);
+  };
+
   // Check if there are unsaved associations
   const hasUnsavedAssociations = () => {
     return (
@@ -452,6 +590,7 @@ export const useStepAssociation = () => {
     handleSaveAssociations,
     handleBatchSaveAssociations,
     handleClearAllAssociations,
+    handleEditAssociation,
 
     // Utilities
     hasUnsavedAssociations,
@@ -464,5 +603,13 @@ export const useStepAssociation = () => {
 
     // Add setter for working associations
     setWorkingAssociationsList,
+
+    // Delete association modal state and handlers
+    deleteModalOpen,
+    deleteTarget,
+    deleteLoading,
+    handleRequestDeleteAssociation,
+    handleConfirmDeleteAssociation,
+    handleCloseDeleteModal,
   };
 };

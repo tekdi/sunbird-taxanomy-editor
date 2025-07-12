@@ -45,11 +45,24 @@ export function formatDate(date: Date | string) {
 
 // Converts a string to camelCase, removing non-alphanumeric separators and capitalizing the following letter.
 export function camelCaseCode(input: string): string {
-  // Remove all non-alphanumeric separators and capitalize the following letter
-  const camel = input
+  // If the input contains spaces, use the existing camelCase logic
+  if (/\s/.test(input)) {
+    return input
+      .replace(/[-_\s]+(.)?/g, (_match, chr) => (chr ? chr.toUpperCase() : ''))
+      .replace(/^[A-Z]/, (match) => match.toLowerCase());
+  }
+
+  // If the input is a single word (no spaces)
+  // Check if all letters are uppercase (ignore numbers)
+  const lettersOnly = input.replace(/[^A-Za-z]/g, '');
+  if (lettersOnly && lettersOnly === lettersOnly.toUpperCase()) {
+    return input.toLowerCase();
+  }
+
+  // Otherwise, use the existing camelCase logic
+  return input
     .replace(/[-_\s]+(.)?/g, (_match, chr) => (chr ? chr.toUpperCase() : ''))
     .replace(/^[A-Z]/, (match) => match.toLowerCase());
-  return camel;
 }
 
 // Checks if a string is in camelCase format
@@ -84,6 +97,8 @@ export async function publishFramework(
   frameworkCode: string,
   channelId: string
 ): Promise<unknown> {
+  // Add a 500ms delay before publishing
+  await new Promise((res) => setTimeout(res, 500));
   const tenantId = process.env.NEXT_PUBLIC_TENANT_ID;
   const authToken = process.env.NEXT_PUBLIC_AUTH_TOKEN;
   const cookie = process.env.NEXT_PUBLIC_COOKIE;

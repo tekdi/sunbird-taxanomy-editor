@@ -55,6 +55,8 @@ const StepAssociation = forwardRef<StepAssociationHandle>((props, ref) => {
     handleCloseModal,
     setWorkingAssociationsList, // <-- add this to the hook if not present
     handleRetryBatchRequests,
+    // Delete association modal state and handlers
+    handleEditAssociation,
   } = useStepAssociation();
 
   // Selection state for preview table
@@ -122,6 +124,9 @@ const StepAssociation = forwardRef<StepAssociationHandle>((props, ref) => {
             categories={categoriesWithTerms}
             onChipClick={handleChipClick}
             title="Existing Associations"
+            showEditAction={true}
+            showDeleteAction={false}
+            onEdit={handleEditAssociation}
           />
           <AssociationDetailsModal {...modalProps} />
         </Box>

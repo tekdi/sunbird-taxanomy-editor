@@ -3,6 +3,7 @@ import type { Channel } from '@/interfaces/ChannelInterface';
 import type { Framework } from '@/interfaces/FrameworkInterface';
 import type { Category } from '@/interfaces/CategoryInterface';
 import type { Term } from '@/interfaces/TermInterface';
+import frameworkService from '@/services/frameworkService';
 
 interface FrameworkFormStoreState {
   step: number;
@@ -21,6 +22,7 @@ interface FrameworkFormStoreState {
     termIndex: number,
     associations: Term['associations']
   ) => void;
+  fetchAndUpdateFramework: () => Promise<{ success: boolean; error?: string }>;
   reset: () => void;
 }
 
@@ -35,6 +37,7 @@ const INITIAL_STATE: Omit<
   | 'setCurrentCategory'
   | 'addTermToCategory'
   | 'updateTermAssociations'
+  | 'fetchAndUpdateFramework'
   | 'reset'
 > = {
   step: 1,
@@ -64,10 +67,8 @@ export const useFrameworkFormStore = create<FrameworkFormStoreState>((set) => ({
   addTermToCategory: (categoryIndex, term) =>
     set((state) => {
       const updatedCategories = [...state.categories];
-      if (!updatedCategories[categoryIndex].terms) {
-        updatedCategories[categoryIndex].terms = [];
-      }
-      updatedCategories[categoryIndex].terms!.push(term);
+      updatedCategories[categoryIndex].terms ??= [];
+      updatedCategories[categoryIndex].terms.push(term);
       return { categories: updatedCategories };
     }),
 
@@ -86,5 +87,39 @@ export const useFrameworkFormStore = create<FrameworkFormStoreState>((set) => ({
       }
       return { categories: updatedCategories };
     }),
+
+  // Fetches and updates framework data from the API
+  // Returns success/error status for handling in components
+  fetchAndUpdateFramework: async () => {
+    const state = useFrameworkFormStore.getState();
+
+    if (!state.framework?.identifier) {
+      return { success: false, error: 'No framework identifier available' };
+    }
+
+    try {
+      const data = await frameworkService.getFrameworkById(
+        state.framework.identifier
+      );
+
+      if (data && Object.keys(data).length > 0) {
+        set({
+          framework: { ...state.framework, ...data },
+          categories: data.categories || [],
+        });
+        return { success: true };
+      }
+
+      // If data is empty, still consider it successful (no update needed)
+      return { success: true };
+    } catch (error) {
+      console.error('Failed to fetch framework:', error);
+      return {
+        success: false,
+        error: 'Failed to fetch framework details. Please try again.',
+      };
+    }
+  },
+
   reset: () => set({ ...INITIAL_STATE }),
 }));

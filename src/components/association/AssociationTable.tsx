@@ -15,6 +15,8 @@ import {
 } from '@mui/material';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import type { Term } from '@/interfaces/TermInterface';
 import type { Category } from '@/interfaces/CategoryInterface';
 import type { Association } from '@/interfaces/AssociationInterface';
@@ -33,6 +35,15 @@ interface AssociationTableProps {
   onSelectRow?: (id: string) => void;
   onSelectAll?: (checked: boolean) => void;
   showSelection?: boolean;
+  // New props for actions
+  showEditAction?: boolean;
+  showDeleteAction?: boolean;
+  onEdit?: (
+    term: Term & { categoryCode?: string; categoryName?: string }
+  ) => void;
+  onDelete?: (
+    term: Term & { categoryCode?: string; categoryName?: string }
+  ) => void;
 }
 
 const AssociationTable: React.FC<AssociationTableProps> = ({
@@ -44,6 +55,10 @@ const AssociationTable: React.FC<AssociationTableProps> = ({
   onSelectRow,
   onSelectAll,
   showSelection = false,
+  showEditAction = false,
+  showDeleteAction = false,
+  onEdit,
+  onDelete,
 }) => {
   const [collapsed, setCollapsed] = useState(false);
   const allSelected =
@@ -99,6 +114,9 @@ const AssociationTable: React.FC<AssociationTableProps> = ({
                 <TableCell sx={{ fontWeight: 700 }}>Category</TableCell>
                 <TableCell sx={{ fontWeight: 700 }}>Term</TableCell>
                 <TableCell sx={{ fontWeight: 700 }}>Association</TableCell>
+                {(showEditAction || showDeleteAction) && (
+                  <TableCell sx={{ fontWeight: 700 }}>Actions</TableCell>
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -171,6 +189,30 @@ const AssociationTable: React.FC<AssociationTableProps> = ({
                         })}
                       </Box>
                     </TableCell>
+                    {(showEditAction || showDeleteAction) && (
+                      <TableCell>
+                        <Box sx={{ display: 'flex', gap: 1 }}>
+                          {showEditAction && (
+                            <IconButton
+                              aria-label="edit"
+                              size="small"
+                              onClick={() => onEdit && onEdit(term)}
+                            >
+                              <EditIcon fontSize="small" />
+                            </IconButton>
+                          )}
+                          {showDeleteAction && (
+                            <IconButton
+                              aria-label="delete"
+                              size="small"
+                              onClick={() => onDelete && onDelete(term)}
+                            >
+                              <DeleteIcon fontSize="small" />
+                            </IconButton>
+                          )}
+                        </Box>
+                      </TableCell>
+                    )}
                   </TableRow>
                 );
               })}

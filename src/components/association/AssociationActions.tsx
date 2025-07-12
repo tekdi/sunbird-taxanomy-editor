@@ -45,7 +45,9 @@ const AssociationActions: React.FC<AssociationActionsProps> = ({
             background: '#5b47fa',
           }}
         >
-          {batchLoading ? 'Saving Associations...' : 'Save Associations'}
+          {batchLoading
+            ? 'Saving Associations...'
+            : 'Save Associations and Publish'}
         </Button>
       </Box>
     </>

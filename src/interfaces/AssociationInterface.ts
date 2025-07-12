@@ -49,7 +49,8 @@ export interface AssociationCategoriesProps {
   onBadgeClick: (
     categories: Category[],
     termName: string,
-    categoryName: string
+    categoryName: string,
+    clickedCategoryId?: string
   ) => void;
 }
 

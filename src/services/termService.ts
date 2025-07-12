@@ -1,4 +1,7 @@
-import { publishFramework, publishFrameworkAfterBatchOperation } from '../utils/HelperService';
+import {
+  publishFramework,
+  publishFrameworkAfterBatchOperation,
+} from '../utils/HelperService';
 
 export interface TermInput {
   name: string;
@@ -39,6 +42,48 @@ function buildHeaders(channelId?: string) {
   return myHeaders;
 }
 
+// Enhanced error handling that provides meaningful error messages based on HTTP status codes
+async function handleApiError(
+  response: Response,
+  operation: string
+): Promise<never> {
+  let errorMessage: string;
+
+  // Handle specific HTTP status codes
+  switch (response.status) {
+    case 401:
+      errorMessage =
+        'Authorization failed. Please check your credentials and try again.';
+      break;
+    case 403:
+      errorMessage = `Access forbidden. You do not have permission to ${operation}.`;
+      break;
+    case 404:
+      errorMessage =
+        'Resource not found. Please check the codes and try again.';
+      break;
+    case 500:
+      errorMessage = `Server error occurred while ${operation}. Please try again later.`;
+      break;
+    default:
+      errorMessage = `Failed to ${operation} (Status: ${response.status})`;
+  }
+
+  // Try to get error details from response
+  try {
+    const errorData = await response.json();
+    if (errorData?.params?.errmsg || errorData?.params?.err) {
+      errorMessage = errorData.params.errmsg ?? errorData.params.err;
+    } else if (errorData?.message) {
+      errorMessage = errorData.message;
+    }
+  } catch {
+    // If response is not JSON, use the status-based message
+  }
+
+  throw new Error(errorMessage);
+}
+
 export async function createTerm(
   term: TermInput,
   frameworkCode: string
@@ -63,9 +108,14 @@ export async function createTerm(
     redirect: 'follow' as RequestRedirect,
   };
   const response = await fetch(url, requestOptions);
+
+  if (!response.ok) {
+    await handleApiError(response, 'create term');
+  }
+
   const data = await response.json();
-  if (!response.ok || data.responseCode !== 'OK') {
-    throw new Error(data?.params?.errmsg || 'Failed to create term');
+  if (data.responseCode !== 'OK') {
+    throw new Error(data?.params?.errmsg ?? 'Failed to create term');
   }
 
   return data;
@@ -98,43 +148,7 @@ export async function updateTerm(
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) {
-    let errorMessage: string;
-
-    // Handle specific HTTP status codes
-    switch (response.status) {
-      case 401:
-        errorMessage =
-          'Authorization failed. Please check your credentials and try again.';
-        break;
-      case 403:
-        errorMessage =
-          'Access forbidden. You do not have permission to update this term.';
-        break;
-      case 404:
-        errorMessage =
-          'Term or framework not found. Please check the term code and framework code.';
-        break;
-      case 500:
-        errorMessage =
-          'Server error occurred while updating term. Please try again later.';
-        break;
-      default:
-        errorMessage = `Failed to update term (Status: ${response.status})`;
-    }
-
-    // Try to get error details from response
-    try {
-      const errorData = await response.json();
-      if (errorData?.params?.errmsg || errorData?.params?.err) {
-        errorMessage = errorData.params.errmsg || errorData.params.err;
-      } else if (errorData?.message) {
-        errorMessage = errorData.message;
-      }
-    } catch {
-      // If response is not JSON, use the status-based message
-    }
-
-    throw new Error(errorMessage);
+    await handleApiError(response, 'update term');
   }
 
   const data = await response.json();
