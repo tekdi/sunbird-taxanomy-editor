@@ -105,7 +105,7 @@ const FrameworkDisplay: React.FC<FrameworkDisplayProps> = ({
           {liveCategories.map((category) =>
             category ? (
               <CategoryCard
-                key={category.identifier || category.name || Math.random()}
+                key={category.identifier}
                 category={category}
                 groupAssociationsByCategory={groupAssociationsByCategory}
                 getLiveTerms={getLiveTerms}

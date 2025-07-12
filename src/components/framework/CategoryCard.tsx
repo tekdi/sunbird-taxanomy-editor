@@ -60,10 +60,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
             {getLiveTerms(category).length > 0 ? (
               getLiveTerms(category).map((term) =>
                 term ? (
-                  <TableRow
-                    key={term.identifier || term.name || Math.random()}
-                    hover
-                  >
+                  <TableRow key={term.identifier} hover>
                     <TableCell sx={{ fontWeight: 500 }}>
                       {term.name || 'Unnamed Term'}
                     </TableCell>

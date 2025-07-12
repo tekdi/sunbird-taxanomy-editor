@@ -56,7 +56,7 @@ const ListOfExistingItems: React.FC<ListOfExistingItemsProps> = ({
           </Typography>
         ) : (
           items.map((item, idx) => (
-            <React.Fragment key={String(item.identifier || item.code || idx)}>
+            <React.Fragment key={String(item.identifier || idx)}>
               <ListItem
                 alignItems="flex-start"
                 sx={{ display: 'block', py: 2 }}
