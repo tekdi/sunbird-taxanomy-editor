@@ -1,0 +1,3444 @@
+{
+  "info": {
+    "_postman_id": "b86f80bf-e169-4c4a-923a-91b2f077d417",
+    "name": "C4GT Test - pratham2.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "27186217",
+    "_collection_link": "https://taxonomy-editor.postman.co/workspace/c4gt-tekdi~1bdd68b3-5a04-409e-a9f2-74b3f0ab71e8/collection/27186217-b86f80bf-e169-4c4a-923a-91b2f077d417?action=share&source=collection_link&creator=27186217"
+  },
+  "item": [
+    {
+      "name": "Tenant Creation",
+      "item": [
+        {
+          "name": "Tenant Create - DND",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "accept",
+                "value": "*/*",
+                "disabled": true
+              },
+              {
+                "key": "Authorization",
+                "value": "{{token}}"
+              },
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "FrameworkStudio",
+                  "type": "text"
+                },
+                {
+                  "key": "domain",
+                  "value": "FrameworkStudio",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "FrameworkStudio",
+                  "type": "text"
+                },
+                {
+                  "key": "programHead",
+                  "value": "FrameworkStudio",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/v1/tenant/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "v1", "tenant", "create"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Channel Create",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "tenantId",
+                "value": "{{tenantId}}"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"request\": {\n        \"channel\": {\n            \"name\": \"C4GT Test\",\n            \"code\": \"c4gt-test-channel\"\n        }\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{interface}}/api/channel/v1/create",
+              "host": ["{{interface}}"],
+              "path": ["api", "channel", "v1", "create"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Channel Read",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "tenantId",
+                "value": "{{tenantId}}"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{interface}}/api/channel/v1/read/c4gt-test-channel?mode=edit",
+              "host": ["{{interface}}"],
+              "path": ["api", "channel", "v1", "read", "c4gt-test-channel"],
+              "query": [
+                {
+                  "key": "mode",
+                  "value": "edit"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tenant read",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{interface}}user/tenant/read/ebae40d1-b78a-4f73-8756-df5e4b060436",
+              "host": ["{{interface}}user"],
+              "path": ["tenant", "read", "ebae40d1-b78a-4f73-8756-df5e4b060436"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Creation",
+      "item": [
+        {
+          "name": "User Create - DND",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "tenantid",
+                "value": "{{tenantId}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "academicyearid",
+                "value": "9a9e0daa-50dd-4d0e-8d10-36e7bc808f88",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Studio Creator\",\n    \"username\": \"studio-creator\",\n    \"password\": \"Password@123\",\n    \"gender\": \"male\",\n    \"firstName\": \"Creator\",\n    \"lastName\": \"Studio\",\n    \"tenantCohortRoleMapping\": [\n        {\n            \"tenantId\": \"256f77ef-9ac0-4185-bdbf-b05293986fa1\",\n            \"roleId\": \"ee5c1a0a-804c-4537-b46c-b6d1bd54b345\"\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{interface}}/account/create",
+              "host": ["{{interface}}"],
+              "path": ["account", "create"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User Token - NEW TOKEN",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "content-type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "tenantid",
+                "value": "{{tenantId}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    // \"username\": \"atree_learner\",\n    // \"password\": \"12345\"\n    \"username\": \"studio-creator\",\n    \"password\": \"Password@123\"\n}"
+            },
+            "url": {
+              "raw": "{{interface}}/user/auth/login",
+              "host": ["{{interface}}"],
+              "path": ["user", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User Read",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxSEJLb1JaSkRVOHUweEROYk95dUF2S3Roelo0TXo2c0l6OHRiSXRWWVBnIn0.eyJleHAiOjE3NDYxOTYxMTksImlhdCI6MTc0NjEwOTcxOSwianRpIjoiODFlNjgxOTUtMTE0YS00OGJmLWIwZDktZWMyOTI3NGI5M2YyIiwiaXNzIjoiaHR0cHM6Ly9zaGlrc2hhLWRldi1rZXljbG9hay50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3NoaWtzaGEiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMGY2MjY1MzctYmFhZC00YjQ1LWE0MTYtNDZlZTU3ZDNhZDRiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoic2hpa3NoYSIsInNlc3Npb25fc3RhdGUiOiI4ZDc3ZjNiZi1iMzZjLTRjYTItYWNhMy0wMWU0MjQ3YzA1YzQiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMyIsImh0dHBzOi8vd3d3LnNuYWlsbmV0d29yay5vcmciLCIqIiwiaHR0cHM6Ly9zaGlrc2hhLWRldi1rZXljbG9hay50ZWtkaW5leHQuY29tIiwiaHR0cDovL2xvY2FsaG9zdDo0MTIwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIHByYXRoYW0tcm9sZSIsInNpZCI6IjhkNzdmM2JmLWIzNmMtNGNhMi1hY2EzLTAxZTQyNDdjMDVjNCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6Im5hbSBrdGVzdCIsInByZWZlcnJlZF91c2VybmFtZSI6Im5hbV9rdGVzdCIsInVzZXJfcm9sZXMiOiJMZWFybmVyIiwiZ2l2ZW5fbmFtZSI6Im5hbSIsImZhbWlseV9uYW1lIjoia3Rlc3QifQ.M8DuRq3RrROkSqm6Urhs4wXiZ0JWTpH3BRibS6kZhJhsNiYSZvnQo2esVwqDmOY9Q6wz1Kc_eKKgGFrWac8wYoS48gqGUGoYKMnP91n32sBu0V3RS49ngBKNwLv8TaiDWwn7E56ghUXHc79XdfdwSQx0JR5TLQczkKA9oYpufoWt5o4HAD11Grx-wPK96gZ5SJM-jQ55QQH1eAWJTClwAO4cpyOQbWpA-oOLOzFUUGQkynTSy_Onj4n5PZE7q7jeRwoOupohYm9OhCu-xDFYkRCuEKuPhYx3aGdavN0y522BOyRmqURXQOVp2tMJK5qaf-X_EtO0HFu-svA2SC_GdA"
+              },
+              {
+                "key": "tenantId",
+                "value": "{{tenantId}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{interface}}user/read/f3e74167-6b8e-414d-a462-410a99b36b7a?fieldvalue=true",
+              "host": ["{{interface}}user"],
+              "path": ["read", "f3e74167-6b8e-414d-a462-410a99b36b7a"],
+              "query": [
+                {
+                  "key": "fieldvalue",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read form",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json, text/plain, */*"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en-GB,en-US;q=0.9,en;q=0.8,ur;q=0.7"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3MzgwMDEwNTIsImlhdCI6MTczNzkxNDY1MiwianRpIjoiNWY0YzAwZDYtZTg2YS00NmMwLWJmY2YtNGQ1ZDg2YWRmNjIwIiwiaXNzIjoiaHR0cHM6Ly9xYS5wcmF0aGFtdGVhY2hlcmFwcC50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3ByYXRoYW0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiY2FiMmEwY2UtMGI3MC00NGJmLTkzYTctNTY0YjQ1YzRhN2I2IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJhdGhhbSIsInNlc3Npb25fc3RhdGUiOiI0ZmUwZGM2OC0zZTE2LTQxZWUtYjcwZC0xZWQ4OTk2YWI0MzAiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiNGZlMGRjNjgtM2UxNi00MWVlLWI3MGQtMWVkODk5NmFiNDMwIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoic2hpcnNodGkiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ0bHNjbWgyMzUwNTEwIiwiZ2l2ZW5fbmFtZSI6InNoaXJzaHRpIiwiZmFtaWx5X25hbWUiOiIifQ.IAFp-2egpThLFdDUWkXXckhPfFOTEJl6E3bFb5P0z0bhzfVLhgcdeeL4_3CIvHaWvvbq4pzs4UVpj-FZ3NoTXvjMpYSuXwpFrmlmOjHxFdbuJs0fh-W8IYQPg9Cfb_sH4sf3O7scUrjB4ASUccz1ODAKDI9YjNSn6gr5r65qnza2scCaoGmybAfXnBb1xblnjBVZibKa8bk0xSV9C5SMTEIYTjiCz14kwFpmAha8aR5S6uc7NLz22zoPfoy-nFnzNaxMMdGfmVFpI5J_kTQcgxCyP5Ef1GR0hELp3aIuQm_klIzKfIRbDWhWUIIjOo-kMs7b0iYXL9WXTR6-b7URSw",
+                "disabled": true
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive"
+              },
+              {
+                "key": "If-None-Match",
+                "value": "W/\"29e4-SMnd8AzJX5fp1Gjoi8d8NfFinAM\""
+              },
+              {
+                "key": "Origin",
+                "value": "http://localhost:3000"
+              },
+              {
+                "key": "Referer",
+                "value": "http://localhost:3000/"
+              },
+              {
+                "key": "Sec-Fetch-Dest",
+                "value": "empty"
+              },
+              {
+                "key": "Sec-Fetch-Mode",
+                "value": "cors"
+              },
+              {
+                "key": "Sec-Fetch-Site",
+                "value": "cross-site"
+              },
+              {
+                "key": "User-Agent",
+                "value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+              },
+              {
+                "key": "sec-ch-ua",
+                "value": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\""
+              },
+              {
+                "key": "sec-ch-ua-mobile",
+                "value": "?0"
+              },
+              {
+                "key": "sec-ch-ua-platform",
+                "value": "\"Linux\""
+              },
+              {
+                "key": "tenantId",
+                "value": "ebae40d1-b78a-4f73-8756-df5e4b060436"
+              },
+              {
+                "key": "Cookie",
+                "value": "AWSALB=s8amVUEEhZADO5nOTgnj0/d5VrQvHnt/eIxz3F0rrcizijNv3ett9hfm9bAjTbN4EtwCIMuM3CwUCGbPHZoWs6A26K7JVOtRjCK8I0/45uXHFbj45WbKHtxGU3ID; AWSALBCORS=s8amVUEEhZADO5nOTgnj0/d5VrQvHnt/eIxz3F0rrcizijNv3ett9hfm9bAjTbN4EtwCIMuM3CwUCGbPHZoWs6A26K7JVOtRjCK8I0/45uXHFbj45WbKHtxGU3ID",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{interface}}form/read?context=USERS&contextType=LEARNER",
+              "host": ["{{interface}}form"],
+              "path": ["read"],
+              "query": [
+                {
+                  "key": "context",
+                  "value": "USERS"
+                },
+                {
+                  "key": "contextType",
+                  "value": "LEARNER"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxSEJLb1JaSkRVOHUweEROYk95dUF2S3Roelo0TXo2c0l6OHRiSXRWWVBnIn0.eyJleHAiOjE3NDYyNDYxMTYsImlhdCI6MTc0NjE1OTcxNiwianRpIjoiNjFkOTg0NGQtN2Q1YS00OGEzLWEyZjUtZjVmZTQxYTE4MTEzIiwiaXNzIjoiaHR0cHM6Ly9zaGlrc2hhLWRldi1rZXljbG9hay50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3NoaWtzaGEiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMmM3N2Y5M2YtYzEwOC00OWU0LTljNTYtNDI3MzMzMDYwN2M5IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoic2hpa3NoYSIsInNlc3Npb25fc3RhdGUiOiJkMDU0YzAwYS0wMTg2LTRlZGYtYTI3NC0wN2Q1NTMzMWQyMmIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMyIsImh0dHBzOi8vd3d3LnNuYWlsbmV0d29yay5vcmciLCIqIiwiaHR0cHM6Ly9zaGlrc2hhLWRldi1rZXljbG9hay50ZWtkaW5leHQuY29tIiwiaHR0cDovL2xvY2FsaG9zdDo0MTIwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIHByYXRoYW0tcm9sZSIsInNpZCI6ImQwNTRjMDBhLTAxODYtNGVkZi1hMjc0LTA3ZDU1MzMxZDIyYiIsInRlbmFudF9pZCI6ImViYWU0MGQxLWI3OGEtNGY3My04NzU2LWRmNWU0YjA2MDQzNiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6Ik5hbWl0YSBnYWlrd2FkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoibmFtaXRhX2dhaWt3YWQxNCIsInVzZXJfcm9sZXMiOiJMZWFybmVyIiwiZ2l2ZW5fbmFtZSI6Ik5hbWl0YSIsImZhbWlseV9uYW1lIjoiZ2Fpa3dhZCJ9.OvSAIBo5T1CulYAD-E7h-HjKqOlypysaERdyK59u1P0KnBOtvbBXUvlVYHLryVh7zAHL_R8ny0TcI4K51zoMugHyUCBmlt-X91tyM35dVTrfpz_Y2fYh2kxMkZwAqPxqHtpSw1hjMWnE6h3LZBxN4ITIP8Ddd5pkWbN4MaAUnWX3XFNB1eHpiG1xPVI9zv5XrkdAWNi9p2BL0eVZg-gs_tFM8lx98Al0y7-aEzZM3SU-i5JwRW1ug3SrHRoO6qWZ0vW9u7K4gROc8EuYVqHIelVH4VZg-qrIeDA1_1qLxg_kO-J7sfKDUm-mvd5QqkHa15tcwUqnqouR--rSTUvOSw"
+              }
+            ],
+            "url": {
+              "raw": "{{interface}}user/profile",
+              "host": ["{{interface}}user"],
+              "path": ["profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User List",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxSEJLb1JaSkRVOHUweEROYk95dUF2S3Roelo0TXo2c0l6OHRiSXRWWVBnIn0.eyJleHAiOjE3NDYxMDY5MTgsImlhdCI6MTc0NjAyMDUxOCwianRpIjoiYTAzY2M0OGMtYmFlOS00OTBiLTkwNDAtMzRmZjgwZjY3NjJiIiwiaXNzIjoiaHR0cHM6Ly9zaGlrc2hhLWRldi1rZXljbG9hay50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3NoaWtzaGEiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiYmI4MTY5ZGUtNmJlNy00ZTZlLTlhZWYtMTU2ZDg4NGJlNjFiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoic2hpa3NoYSIsInNlc3Npb25fc3RhdGUiOiJlMWNhZTIwOS01MjNiLTQ2Y2UtYjMyNy04MjIyODE5ODAxYTMiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMyIsImh0dHBzOi8vd3d3LnNuYWlsbmV0d29yay5vcmciLCIqIiwiaHR0cHM6Ly9zaGlrc2hhLWRldi1rZXljbG9hay50ZWtkaW5leHQuY29tIiwiaHR0cDovL2xvY2FsaG9zdDo0MTIwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIHByYXRoYW0tcm9sZSIsInNpZCI6ImUxY2FlMjA5LTUyM2ItNDZjZS1iMzI3LTgyMjI4MTk4MDFhMyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6InRlc3Qgc2hpa2VlZSIsInByZWZlcnJlZF91c2VybmFtZSI6InRlc3Rfc2hpa2VlZSIsInVzZXJfcm9sZXMiOiJMZWFybmVyIiwiZ2l2ZW5fbmFtZSI6InRlc3QiLCJmYW1pbHlfbmFtZSI6InNoaWtlZWUifQ.OquzOs-07GPKehrrNuWBX7_yrIpujP93_pkhApthNN6xE_Jri6qyOvlNvUiVlqMsY0zBL0ivxXwGJsS19yxdWQYM-GjracUCZlfinfPnYcFqprVYgx5C_0QvtTUmcPMOlXaEmnfpsaigoQhHT32HgWFW7cqk-LBlZ_rQ41vYohCUaxVyz-ysTinvnHd3_TOfw6TZLHpWh9fGOoJfgd4rVsXipNM8TeaH171jQUkVDRU26ElfemteZPTndtfds2Dvp4qEhfIvhFMgpazzOmJ5YE6Z26FCAVcLqU8UWiqogrdm8lYBc8abQjEdS-v2LWHyHAsnuH8xEgaV6tE8D-9apA"
+              },
+              {
+                "key": "tenantId",
+                "value": "{{tenantId}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"limit\": 10,\n    \"filters\": {\n       \n    },\n    \"sort\": [\n        \"firstName\",\n        \"asc\"\n    ],\n    \"offset\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{interface}}user/list",
+              "host": ["{{interface}}user"],
+              "path": ["list"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User List Copy",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxSEJLb1JaSkRVOHUweEROYk95dUF2S3Roelo0TXo2c0l6OHRiSXRWWVBnIn0.eyJleHAiOjE3NDYxOTYxMTksImlhdCI6MTc0NjEwOTcxOSwianRpIjoiODFlNjgxOTUtMTE0YS00OGJmLWIwZDktZWMyOTI3NGI5M2YyIiwiaXNzIjoiaHR0cHM6Ly9zaGlrc2hhLWRldi1rZXljbG9hay50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3NoaWtzaGEiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMGY2MjY1MzctYmFhZC00YjQ1LWE0MTYtNDZlZTU3ZDNhZDRiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoic2hpa3NoYSIsInNlc3Npb25fc3RhdGUiOiI4ZDc3ZjNiZi1iMzZjLTRjYTItYWNhMy0wMWU0MjQ3YzA1YzQiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6MzAwMyIsImh0dHBzOi8vd3d3LnNuYWlsbmV0d29yay5vcmciLCIqIiwiaHR0cHM6Ly9zaGlrc2hhLWRldi1rZXljbG9hay50ZWtkaW5leHQuY29tIiwiaHR0cDovL2xvY2FsaG9zdDo0MTIwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIHByYXRoYW0tcm9sZSIsInNpZCI6IjhkNzdmM2JmLWIzNmMtNGNhMi1hY2EzLTAxZTQyNDdjMDVjNCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6Im5hbSBrdGVzdCIsInByZWZlcnJlZF91c2VybmFtZSI6Im5hbV9rdGVzdCIsInVzZXJfcm9sZXMiOiJMZWFybmVyIiwiZ2l2ZW5fbmFtZSI6Im5hbSIsImZhbWlseV9uYW1lIjoia3Rlc3QifQ.M8DuRq3RrROkSqm6Urhs4wXiZ0JWTpH3BRibS6kZhJhsNiYSZvnQo2esVwqDmOY9Q6wz1Kc_eKKgGFrWac8wYoS48gqGUGoYKMnP91n32sBu0V3RS49ngBKNwLv8TaiDWwn7E56ghUXHc79XdfdwSQx0JR5TLQczkKA9oYpufoWt5o4HAD11Grx-wPK96gZ5SJM-jQ55QQH1eAWJTClwAO4cpyOQbWpA-oOLOzFUUGQkynTSy_Onj4n5PZE7q7jeRwoOupohYm9OhCu-xDFYkRCuEKuPhYx3aGdavN0y522BOyRmqURXQOVp2tMJK5qaf-X_EtO0HFu-svA2SC_GdA"
+              },
+              {
+                "key": "tenantId",
+                "value": "{{tenantId}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userData\": {\n        \"status\": \"archived\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{interface}}user/update/0f626537-baad-4b45-a416-46ee57d3ad4b",
+              "host": ["{{interface}}user"],
+              "path": ["update", "0f626537-baad-4b45-a416-46ee57d3ad4b"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Send otp",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    //   \"mobile\": \"9421521050\",\n     \"email\": \"siddhi.shinde@tekditechnologies.com\",\n    \"reason\": \"forgot\",\n    \"firstName\": \"sourav\",\n    \"key\": \"SendOtpOnMail\",\n    \"replacements\": {\n        \"{eventName}\": \"Shiksha Graha OTP\",\n        \"{programName}\": \"Shiksha Graha\"\n    }\n}"
+            },
+            "url": {
+              "raw": "{{interface}}user/send-otp",
+              "host": ["{{interface}}user"],
+              "path": ["send-otp"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "verify-otp",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "tenantid",
+                "value": "6c8b810a-66c2-4f0d-8c0c-c025415a4414",
+                "disabled": true
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3NDQ4ODM5MzksImlhdCI6MTc0NDc5NzUzOSwianRpIjoiMTQ1ZTM1MjItMjI2MC00Y2E2LWFjZDAtMWFlYzU0ZmZkNDRkIiwiaXNzIjoiaHR0cHM6Ly9kZXYtbG1wLnByYXRoYW1kaWdpdGFsLm9yZy9hdXRoL3JlYWxtcy9wcmF0aGFtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6Ijc5ZTg4ZTRkLTgzYmEtNDlkZS1hYWZmLTNkNDg5OTg4Y2Y0OCIsInR5cCI6IkJlYXJlciIsImF6cCI6InByYXRoYW0iLCJzZXNzaW9uX3N0YXRlIjoiZjgzY2VhOTYtYTY4OS00Mjc2LThkYzktZTk3Njg1ZDVjMWI0IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtcHJhdGhhbSJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSBwcmF0aGFtLXJvbGUiLCJzaWQiOiJmODNjZWE5Ni1hNjg5LTQyNzYtOGRjOS1lOTc2ODVkNWMxYjQiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJZb3V0aCBVc2VyIiwicHJlZmVycmVkX3VzZXJuYW1lIjoieW91dGh1c2VyMTgwMCIsInVzZXJfcm9sZXMiOiJMZWFybmVyIiwiZ2l2ZW5fbmFtZSI6IllvdXRoIiwiZmFtaWx5X25hbWUiOiJVc2VyIn0.Suyngl7BDBYBfmW02gpWOUcrr9yJ3X3j1cloyJvsFUBG62HpOZuozXgFILcIZ_9ZnczmJjXSR7RzoID_0qBy6Qv6835Ae0PHI9BT1OEkKzn3gBxwlx-19Lv-5MjBMHd_CAA-a0tzgEzmcPlum4QvtO2IAHyf2Os8KjWRAhAk6Kkr079rSDy8XBQ3VkXuXii3F2yPAr5MsyibsFh2H29wcL-HLbgLqEAm3viyen0OXRfE8DvjWDu0hmemAgnGaJ4MT9cg92Qk0rgmvmoF1_gh4dT1POZeJlDDI1Nyqq1AcUhhtnExw96nTX62kI_QL6O4A0Kglbg_q0X7d8PFBucvbw",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"test_public1\",\n    //  \"mobile\": \"9421521050\",\n    //   \"firstName\": \"sourav\",\n    \"email\": \"siddhi.shinde@tekditechnologies.com\",\n    \"reason\": \"forgot\",\n    \"otp\": \"469472\",\n    \"hash\": \"bce76b30e3772f59dc2efc7d5939ef81e7bc35c608dd469c7e9028ab40c69e06.1746438654127\"\n}"
+            },
+            "url": {
+              "raw": "{{interface}}user/verify-otp",
+              "host": ["{{interface}}user"],
+              "path": ["verify-otp"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "forgot-password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "tenantid",
+                "value": "6c8b810a-66c2-4f0d-8c0c-c025415a4414",
+                "disabled": true
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3NDQ4ODM5MzksImlhdCI6MTc0NDc5NzUzOSwianRpIjoiMTQ1ZTM1MjItMjI2MC00Y2E2LWFjZDAtMWFlYzU0ZmZkNDRkIiwiaXNzIjoiaHR0cHM6Ly9kZXYtbG1wLnByYXRoYW1kaWdpdGFsLm9yZy9hdXRoL3JlYWxtcy9wcmF0aGFtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6Ijc5ZTg4ZTRkLTgzYmEtNDlkZS1hYWZmLTNkNDg5OTg4Y2Y0OCIsInR5cCI6IkJlYXJlciIsImF6cCI6InByYXRoYW0iLCJzZXNzaW9uX3N0YXRlIjoiZjgzY2VhOTYtYTY4OS00Mjc2LThkYzktZTk3Njg1ZDVjMWI0IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtcHJhdGhhbSJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSBwcmF0aGFtLXJvbGUiLCJzaWQiOiJmODNjZWE5Ni1hNjg5LTQyNzYtOGRjOS1lOTc2ODVkNWMxYjQiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJZb3V0aCBVc2VyIiwicHJlZmVycmVkX3VzZXJuYW1lIjoieW91dGh1c2VyMTgwMCIsInVzZXJfcm9sZXMiOiJMZWFybmVyIiwiZ2l2ZW5fbmFtZSI6IllvdXRoIiwiZmFtaWx5X25hbWUiOiJVc2VyIn0.Suyngl7BDBYBfmW02gpWOUcrr9yJ3X3j1cloyJvsFUBG62HpOZuozXgFILcIZ_9ZnczmJjXSR7RzoID_0qBy6Qv6835Ae0PHI9BT1OEkKzn3gBxwlx-19Lv-5MjBMHd_CAA-a0tzgEzmcPlum4QvtO2IAHyf2Os8KjWRAhAk6Kkr079rSDy8XBQ3VkXuXii3F2yPAr5MsyibsFh2H29wcL-HLbgLqEAm3viyen0OXRfE8DvjWDu0hmemAgnGaJ4MT9cg92Qk0rgmvmoF1_gh4dT1POZeJlDDI1Nyqq1AcUhhtnExw96nTX62kI_QL6O4A0Kglbg_q0X7d8PFBucvbw",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"newPassword\": \"123457\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNzZiNzMyMi03ODVlLTQwZTgtODNkZS1hMDNjZDhhMWYzYTIiLCJlbWFpbCI6bnVsbCwiaWF0IjoxNzQ0ODg0MjIwLCJleHAiOjE3NDQ4ODc4MjB9.8WBZYD5Eh0kvjqDnfqU5xtLNDE3iRjB4BB5K_Qncgko\"\n}"
+            },
+            "url": {
+              "raw": "{{interface}}user/forgot-password",
+              "host": ["{{interface}}user"],
+              "path": ["forgot-password"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "tenant read",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{interface}}user/tenant/read/0d73bcf9-ab62-44ef-945e-88b1a77ab3c3",
+              "host": ["{{interface}}user"],
+              "path": ["tenant", "read", "0d73bcf9-ab62-44ef-945e-88b1a77ab3c3"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Framework Creation",
+      "item": [
+        {
+          "name": "Framework API",
+          "item": [
+            {
+              "name": "Create FW",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-Channel-Id",
+                    "value": "c4gt-test-channel",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"framework\": {\n            \"name\": \"Edu Framework\",\n            \"code\": \"edu-framework\",\n            \"description\": \"C4GT Framework for understanding associations\",\n            \"type\": \"K-12\",\n            \"channel\": \"c4gt-test-channel\"\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/create",
+                  "host": ["{{interface}}"],
+                  "path": ["api", "framework", "v1", "create"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "read",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/read/{{framework}}",
+                  "host": ["{{interface}}"],
+                  "path": ["api", "framework", "v1", "read", "{{framework}}"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "unpublished changes?",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/read/{{framework}}?mode=edit",
+                  "host": ["{{interface}}"],
+                  "path": ["api", "framework", "v1", "read", "{{framework}}"],
+                  "query": [
+                    {
+                      "key": "mode",
+                      "value": "edit"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "X-Channel-Id",
+                    "value": "{{channel}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantid",
+                    "value": "{{tenantId}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"framework\": {\n            \"description\": \"This is Framework for testing assocations using associations only for C4GT\"\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/framework/v1/update/{{framework}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "framework", "v1", "update", "{{framework}}"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Frameworks",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"filters\": {\n            \"status\": [\n                \"Draft\",\n                \"Live\"\n            ],\n            \"objectType\": \"Framework\"\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/action/composite/v3/search",
+                  "host": ["{{interface}}"],
+                  "path": ["action", "composite", "v3", "search"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Frameworks Copy",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"filters\": {\n            // \"status\": [\n            //     \"Draft\",\n            //     \"Live\"\n            // ],\n            \"objectType\": \"Category\"\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/action/composite/v3/search",
+                  "host": ["{{interface}}"],
+                  "path": ["action", "composite", "v3", "search"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "publish",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Channel-Id",
+                    "value": "{{channel}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/publish/{{framework}}",
+                  "host": ["{{interface}}"],
+                  "path": ["api", "framework", "v1", "publish", "{{framework}}"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Framework Master Category",
+          "item": [
+            {
+              "name": "create",
+              "item": [
+                {
+                  "name": "Master Category - state",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"request\": {\n        \"category\": {\n            \"name\": \"State\",\n            \"description\": \"State\",\n            \"code\": \"state\",\n            \"targetIdFieldName\": \"targetStateIds\",\n            \"searchLabelFieldName\": \"se_states\",\n            \"searchIdFieldName\": \"se_states\",\n            \"orgIdFieldName\": \"stateIds\"\n        }\n    }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/category/master/create",
+                      "host": ["{{interface}}"],
+                      "path": [
+                        "api",
+                        "framework",
+                        "v1",
+                        "category",
+                        "master",
+                        "create"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Master Category - state Copy",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"request\": {\n        \"category\": {\n            \"name\": \"State\",\n            \"description\": \"State\",\n            \"code\": \"state\",\n            \"targetIdFieldName\": \"targetStateIds\",\n            \"searchLabelFieldName\": \"se_states\",\n            \"searchIdFieldName\": \"se_states\",\n            \"orgIdFieldName\": \"stateIds\"\n        }\n    }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/category/master/create",
+                      "host": ["{{interface}}"],
+                      "path": [
+                        "api",
+                        "framework",
+                        "v1",
+                        "category",
+                        "master",
+                        "create"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Framework Mater Category Create - Domain",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "3a849655-30f6-4c2b-8707-315f1ed64fbd"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"request\": {\n        \"category\": {\n            \"name\": \"Sub Topic\",\n            \"description\": \"Sub Topic\",\n            \"code\": \"subTopic\",\n            \"targetIdFieldName\": \"targetSubTopicIds\",\n            \"searchLabelFieldName\": \"se_subtopics\",\n            \"searchIdFieldName\": \"se_subtopics\",\n            \"orgIdFieldName\": \"subtopicIds\"\n        }\n    }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/category/master/create",
+                      "host": ["{{interface}}"],
+                      "path": [
+                        "api",
+                        "framework",
+                        "v1",
+                        "category",
+                        "master",
+                        "create"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "update",
+              "item": [
+                {
+                  "name": "update - board",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "X-Channel-Id",
+                        "value": "{{channel}}"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"request\": {\n        \"category\": {\n            \"description\": \"Board\",\n            \"targetIdFieldName\": \"targetBoardIds\",\n            \"searchLabelFieldName\": \"se_boards\",\n            \"searchIdFieldName\": \"se_boardIds\",\n            \"orgIdFieldName\": \"boardIds\"\n        }\n    }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/framework/v1/category/master/update/board?framework={{framework}}",
+                      "host": ["{{baseUrl}}"],
+                      "path": [
+                        "api",
+                        "framework",
+                        "v1",
+                        "category",
+                        "master",
+                        "update",
+                        "board"
+                      ],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "update - testCategory",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "X-Channel-Id",
+                        "value": "{{channel}}"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"request\": {\n        \"category\": {\n            \"name\": \"Test Category Edited\"\n        }\n    }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/framework/v1/category/master/update/testCategory?framework={{framework}}",
+                      "host": ["{{baseUrl}}"],
+                      "path": [
+                        "api",
+                        "framework",
+                        "v1",
+                        "category",
+                        "master",
+                        "update",
+                        "testCategory"
+                      ],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "read",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-Channel-Id",
+                    "value": "{{channel}}"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/framework/v1/category/master/read/board?framework={{framework}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": [
+                    "api",
+                    "framework",
+                    "v1",
+                    "category",
+                    "master",
+                    "read",
+                    "board"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "delete",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{interface}}api/framework/v1/category/master/retire/sub-topic?framework=atree-framework",
+                  "host": ["{{interface}}api"],
+                  "path": [
+                    "framework",
+                    "v1",
+                    "category",
+                    "master",
+                    "retire",
+                    "sub-topic"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "atree-framework"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Framework Category",
+          "item": [
+            {
+              "name": "create",
+              "item": [
+                {
+                  "name": "Framework Category Create - Domain",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"request\": {\n        \"category\": {\n            \"name\": \"Subject\",\n            \"description\": \"Subject\",\n            \"code\": \"subject\"\n        }\n    }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}api/framework/v1/category/create?framework=shikshalokam-framework",
+                      "host": ["{{interface}}api"],
+                      "path": ["framework", "v1", "category", "create"],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "shikshalokam-framework"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Category Create - board",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"category\": {\n           \"name\": \"Board\",\n           \"description\": \"Board\",\n           \"code\": \"board\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/category/create?framework={{framework}}",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "category", "create"],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Category Create - medium",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"category\": {\n           \"name\": \"Medium\",\n           \"description\": \"Medium\",\n           \"code\": \"medium\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/category/create?framework={{framework}}",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "category", "create"],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Category Create - grade",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"category\": {\n           \"name\": \"Grade\",\n           \"description\": \"Grade\",\n           \"code\": \"gradeLevel\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/category/create?framework={{framework}}",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "category", "create"],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Category Create - subject",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"category\": {\n           \"name\": \"Subject\",\n           \"description\": \"Subject\",\n           \"code\": \"subject\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/category/create?framework={{framework}}",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "category", "create"],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "read",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-Channel-Id",
+                    "value": "{{channel}}"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/framework/v1/category/read/testCategory?framework={{framework}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": [
+                    "api",
+                    "framework",
+                    "v1",
+                    "category",
+                    "read",
+                    "testCategory"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-Channel-Id",
+                    "value": "{{channel}}"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"category\": {\n            \"name\": \"Test Category Edited\",\n            \"code\": \"testCategoryEdited\"\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/category/update/testCategory?framework={{framework}}",
+                  "host": ["{{interface}}"],
+                  "path": [
+                    "api",
+                    "framework",
+                    "v1",
+                    "category",
+                    "update",
+                    "testCategory"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Framework Terms",
+          "item": [
+            {
+              "name": "Create",
+              "item": [
+                {
+                  "name": "Term Create - Board",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"request\": {\n        \"term\": {\n            \"name\": \"CBSE\",\n            \"label\": \"CBSE\",\n            \"description\": \"CBSE Board Test\",\n            \"code\": \"cbse\"\n        }\n    }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/term/create?framework={{framework}}&category=board",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "term", "create"],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "board"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Term Create - Medium - English",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"term\": {\n           \"name\": \"English\",\n           \"label\": \"English\",\n           \"description\": \"English Medium\",\n           \"code\": \"english\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/term/create?framework={{framework}}&category=medium",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "term", "create"],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "medium"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Term Create - Medium - Hindi",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"term\": {\n           \"name\": \"Hindi\",\n           \"label\": \"Hindi\",\n           \"description\": \"Hindi Medium\",\n           \"code\": \"hindi\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/term/create?framework={{framework}}&category=medium",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "term", "create"],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "medium"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Term Create - gradeLevel",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"term\": {\n           \"name\": \"Class 10\",\n           \"label\": \"Class 10\",\n           \"description\": \"Class10 Grade\",\n           \"code\": \"class10\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/term/create?framework={{framework}}&category=gradeLevel",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "term", "create"],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "gradeLevel"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Term Create - subject - english",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"term\": {\n           \"name\": \"English\",\n           \"label\": \"English\",\n           \"description\": \"English Subject\",\n           \"code\": \"english\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/term/create?framework={{framework}}&category=subject",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "term", "create"],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "subject"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Term Create - subject - hindi",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"term\": {\n           \"name\": \"Hindi\",\n           \"label\": \"Hindi\",\n           \"description\": \"Hindi Subject\",\n           \"code\": \"hindi\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/term/create?framework={{framework}}&category=subject",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "term", "create"],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "subject"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Term Create - subject - mathematics",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"term\": {\n           \"name\": \"Mathematics\",\n           \"label\": \"Mathematics\",\n           \"description\": \"Mathematics Subject\",\n           \"code\": \"mathematics\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/term/create?framework={{framework}}&category=subject",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "term", "create"],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "subject"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Term Create - subject - science",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"term\": {\n           \"name\": \"Science\",\n           \"label\": \"Science\",\n           \"description\": \"Science Subject\",\n           \"code\": \"science\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/term/create?framework={{framework}}&category=subject",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "term", "create"],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "subject"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Term Create - subject - bengali",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"term\": {\n           \"name\": \"Bengali\",\n           \"label\": \"Bengali\",\n           \"description\": \"Bengali Subject\",\n           \"code\": \"bengali\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/term/create?framework={{framework}}&category=subject",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "term", "create"],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "subject"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Term Create - subject - Sanskrit",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"term\": {\n           \"name\": \"Sanskrit\",\n           \"label\": \"Sanskrit\",\n           \"description\": \"Sanskrit Subject\",\n           \"code\": \"sanskrit\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/term/create?framework={{framework}}&category=subject",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "term", "create"],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "subject"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Term Create - subject - social science",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"term\": {\n           \"name\": \"Social Science\",\n           \"label\": \"Social Science\",\n           \"description\": \"Social Science Subject\",\n           \"code\": \"socialscience\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/term/create?framework={{framework}}&category=subject",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "term", "create"],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "subject"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Term Create - subject - marathi",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n   \"request\": {\n       \"term\": {\n           \"name\": \"Marathi\",\n           \"label\": \"Marathi\",\n           \"description\": \"Marathi Subject\",\n           \"code\": \"marathi\"\n       }\n   }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{interface}}/api/framework/v1/term/create?framework={{framework}}&category=subject",
+                      "host": ["{{interface}}"],
+                      "path": ["api", "framework", "v1", "term", "create"],
+                      "query": [
+                        {
+                          "key": "",
+                          "value": "",
+                          "disabled": true
+                        },
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "subject"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Read",
+              "item": [
+                {
+                  "name": "Read - gradeLevel - class10",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "X-Channel-Id",
+                        "value": "{{channel}}"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3MjkwNzk5NzYsImlhdCI6MTcyODk5MzU3NiwianRpIjoiOTY0ZjM1M2ItOTRkYi00ZjA3LWFhYWEtZDEyOTFiNDc5ZTIwIiwiaXNzIjoiaHR0cHM6Ly9xYS5wcmF0aGFtdGVhY2hlcmFwcC50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3ByYXRoYW0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMzFhMjg0ZmMtNGU0NC00YTYxLWI3MzctY2U4N2E3ZGM1MmNjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJhdGhhbSIsInNlc3Npb25fc3RhdGUiOiI0NjA5NTdlMi04NzU0LTQ0MDgtYjVkMS04OTJjNjMwNGZkMmIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiNDYwOTU3ZTItODc1NC00NDA4LWI1ZDEtODkyYzYzMDRmZDJiIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiVmlub2QgWWFkYXYiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhaXNod2FyeWFfYWRtaW4iLCJnaXZlbl9uYW1lIjoiVmlub2QiLCJmYW1pbHlfbmFtZSI6IllhZGF2In0.fuktknss4uMQjXkpkvvt0NOlSEnM1q2BbUB6rBT8lV0AupGf0vQ0y9uinrP9HynrP68taUxnKeKJ4ixrH4ZVNSw-Pw_dmNtWyYrWIN11keI5rk0RyVDaDygSVqe0ks-7dXnfelfgNZTEfZ5YKZ3qXvg_mqfJoWt40CTLWZ918lzlP_7RkC8wIoEGH3wgacdfIgMWq72A8ORYTGoBJAP3PyEqeIsDNIQWppieFGW9725Es4gnLaDDl4663u1j_AEACdUlD_eJFREqobaDfeaHVHP0NZMZcI_7QC6C2sXD2Dggg_C6rNvUbwJMP_TuVvgAU_eXSFWI9jlIR5XbzIu2KA",
+                        "disabled": true
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/framework/v1/term/read/class10?framework={{framework}}&category=gradeLevel",
+                      "host": ["{{baseUrl}}"],
+                      "path": [
+                        "api",
+                        "framework",
+                        "v1",
+                        "term",
+                        "read",
+                        "class10"
+                      ],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "gradeLevel"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Read - board - cbse",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "X-Channel-Id",
+                        "value": "{{channel}}"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3MjkwNzk5NzYsImlhdCI6MTcyODk5MzU3NiwianRpIjoiOTY0ZjM1M2ItOTRkYi00ZjA3LWFhYWEtZDEyOTFiNDc5ZTIwIiwiaXNzIjoiaHR0cHM6Ly9xYS5wcmF0aGFtdGVhY2hlcmFwcC50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3ByYXRoYW0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMzFhMjg0ZmMtNGU0NC00YTYxLWI3MzctY2U4N2E3ZGM1MmNjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJhdGhhbSIsInNlc3Npb25fc3RhdGUiOiI0NjA5NTdlMi04NzU0LTQ0MDgtYjVkMS04OTJjNjMwNGZkMmIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiNDYwOTU3ZTItODc1NC00NDA4LWI1ZDEtODkyYzYzMDRmZDJiIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiVmlub2QgWWFkYXYiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhaXNod2FyeWFfYWRtaW4iLCJnaXZlbl9uYW1lIjoiVmlub2QiLCJmYW1pbHlfbmFtZSI6IllhZGF2In0.fuktknss4uMQjXkpkvvt0NOlSEnM1q2BbUB6rBT8lV0AupGf0vQ0y9uinrP9HynrP68taUxnKeKJ4ixrH4ZVNSw-Pw_dmNtWyYrWIN11keI5rk0RyVDaDygSVqe0ks-7dXnfelfgNZTEfZ5YKZ3qXvg_mqfJoWt40CTLWZ918lzlP_7RkC8wIoEGH3wgacdfIgMWq72A8ORYTGoBJAP3PyEqeIsDNIQWppieFGW9725Es4gnLaDDl4663u1j_AEACdUlD_eJFREqobaDfeaHVHP0NZMZcI_7QC6C2sXD2Dggg_C6rNvUbwJMP_TuVvgAU_eXSFWI9jlIR5XbzIu2KA",
+                        "disabled": true
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/framework/v1/term/read/cbse?framework={{framework}}&category=board",
+                      "host": ["{{baseUrl}}"],
+                      "path": [
+                        "api",
+                        "framework",
+                        "v1",
+                        "term",
+                        "read",
+                        "cbse"
+                      ],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "board"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Read - medium - english",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "X-Channel-Id",
+                        "value": "{{channel}}"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3MjkwNzk5NzYsImlhdCI6MTcyODk5MzU3NiwianRpIjoiOTY0ZjM1M2ItOTRkYi00ZjA3LWFhYWEtZDEyOTFiNDc5ZTIwIiwiaXNzIjoiaHR0cHM6Ly9xYS5wcmF0aGFtdGVhY2hlcmFwcC50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3ByYXRoYW0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMzFhMjg0ZmMtNGU0NC00YTYxLWI3MzctY2U4N2E3ZGM1MmNjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJhdGhhbSIsInNlc3Npb25fc3RhdGUiOiI0NjA5NTdlMi04NzU0LTQ0MDgtYjVkMS04OTJjNjMwNGZkMmIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiNDYwOTU3ZTItODc1NC00NDA4LWI1ZDEtODkyYzYzMDRmZDJiIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiVmlub2QgWWFkYXYiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhaXNod2FyeWFfYWRtaW4iLCJnaXZlbl9uYW1lIjoiVmlub2QiLCJmYW1pbHlfbmFtZSI6IllhZGF2In0.fuktknss4uMQjXkpkvvt0NOlSEnM1q2BbUB6rBT8lV0AupGf0vQ0y9uinrP9HynrP68taUxnKeKJ4ixrH4ZVNSw-Pw_dmNtWyYrWIN11keI5rk0RyVDaDygSVqe0ks-7dXnfelfgNZTEfZ5YKZ3qXvg_mqfJoWt40CTLWZ918lzlP_7RkC8wIoEGH3wgacdfIgMWq72A8ORYTGoBJAP3PyEqeIsDNIQWppieFGW9725Es4gnLaDDl4663u1j_AEACdUlD_eJFREqobaDfeaHVHP0NZMZcI_7QC6C2sXD2Dggg_C6rNvUbwJMP_TuVvgAU_eXSFWI9jlIR5XbzIu2KA",
+                        "disabled": true
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/framework/v1/term/read/english?framework={{framework}}&category=medium",
+                      "host": ["{{baseUrl}}"],
+                      "path": [
+                        "api",
+                        "framework",
+                        "v1",
+                        "term",
+                        "read",
+                        "english"
+                      ],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "medium"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Read - medium - hindi",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "X-Channel-Id",
+                        "value": "{{channel}}"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3MjkwNzk5NzYsImlhdCI6MTcyODk5MzU3NiwianRpIjoiOTY0ZjM1M2ItOTRkYi00ZjA3LWFhYWEtZDEyOTFiNDc5ZTIwIiwiaXNzIjoiaHR0cHM6Ly9xYS5wcmF0aGFtdGVhY2hlcmFwcC50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3ByYXRoYW0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMzFhMjg0ZmMtNGU0NC00YTYxLWI3MzctY2U4N2E3ZGM1MmNjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJhdGhhbSIsInNlc3Npb25fc3RhdGUiOiI0NjA5NTdlMi04NzU0LTQ0MDgtYjVkMS04OTJjNjMwNGZkMmIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiNDYwOTU3ZTItODc1NC00NDA4LWI1ZDEtODkyYzYzMDRmZDJiIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiVmlub2QgWWFkYXYiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhaXNod2FyeWFfYWRtaW4iLCJnaXZlbl9uYW1lIjoiVmlub2QiLCJmYW1pbHlfbmFtZSI6IllhZGF2In0.fuktknss4uMQjXkpkvvt0NOlSEnM1q2BbUB6rBT8lV0AupGf0vQ0y9uinrP9HynrP68taUxnKeKJ4ixrH4ZVNSw-Pw_dmNtWyYrWIN11keI5rk0RyVDaDygSVqe0ks-7dXnfelfgNZTEfZ5YKZ3qXvg_mqfJoWt40CTLWZ918lzlP_7RkC8wIoEGH3wgacdfIgMWq72A8ORYTGoBJAP3PyEqeIsDNIQWppieFGW9725Es4gnLaDDl4663u1j_AEACdUlD_eJFREqobaDfeaHVHP0NZMZcI_7QC6C2sXD2Dggg_C6rNvUbwJMP_TuVvgAU_eXSFWI9jlIR5XbzIu2KA",
+                        "disabled": true
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/framework/v1/term/read/hindi?framework={{framework}}&category=medium",
+                      "host": ["{{baseUrl}}"],
+                      "path": [
+                        "api",
+                        "framework",
+                        "v1",
+                        "term",
+                        "read",
+                        "hindi"
+                      ],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "medium"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Read - subject - marathi",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "X-Channel-Id",
+                        "value": "{{channel}}"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3MjkwNzk5NzYsImlhdCI6MTcyODk5MzU3NiwianRpIjoiOTY0ZjM1M2ItOTRkYi00ZjA3LWFhYWEtZDEyOTFiNDc5ZTIwIiwiaXNzIjoiaHR0cHM6Ly9xYS5wcmF0aGFtdGVhY2hlcmFwcC50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3ByYXRoYW0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMzFhMjg0ZmMtNGU0NC00YTYxLWI3MzctY2U4N2E3ZGM1MmNjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJhdGhhbSIsInNlc3Npb25fc3RhdGUiOiI0NjA5NTdlMi04NzU0LTQ0MDgtYjVkMS04OTJjNjMwNGZkMmIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiNDYwOTU3ZTItODc1NC00NDA4LWI1ZDEtODkyYzYzMDRmZDJiIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiVmlub2QgWWFkYXYiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhaXNod2FyeWFfYWRtaW4iLCJnaXZlbl9uYW1lIjoiVmlub2QiLCJmYW1pbHlfbmFtZSI6IllhZGF2In0.fuktknss4uMQjXkpkvvt0NOlSEnM1q2BbUB6rBT8lV0AupGf0vQ0y9uinrP9HynrP68taUxnKeKJ4ixrH4ZVNSw-Pw_dmNtWyYrWIN11keI5rk0RyVDaDygSVqe0ks-7dXnfelfgNZTEfZ5YKZ3qXvg_mqfJoWt40CTLWZ918lzlP_7RkC8wIoEGH3wgacdfIgMWq72A8ORYTGoBJAP3PyEqeIsDNIQWppieFGW9725Es4gnLaDDl4663u1j_AEACdUlD_eJFREqobaDfeaHVHP0NZMZcI_7QC6C2sXD2Dggg_C6rNvUbwJMP_TuVvgAU_eXSFWI9jlIR5XbzIu2KA",
+                        "disabled": true
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/framework/v1/term/read/marathi?framework={{framework}}&category=subject",
+                      "host": ["{{baseUrl}}"],
+                      "path": [
+                        "api",
+                        "framework",
+                        "v1",
+                        "term",
+                        "read",
+                        "marathi"
+                      ],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "subject"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Read - subject - marathi Copy",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "X-Channel-Id",
+                        "value": "{{channel}}"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3MjkwNzk5NzYsImlhdCI6MTcyODk5MzU3NiwianRpIjoiOTY0ZjM1M2ItOTRkYi00ZjA3LWFhYWEtZDEyOTFiNDc5ZTIwIiwiaXNzIjoiaHR0cHM6Ly9xYS5wcmF0aGFtdGVhY2hlcmFwcC50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3ByYXRoYW0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMzFhMjg0ZmMtNGU0NC00YTYxLWI3MzctY2U4N2E3ZGM1MmNjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJhdGhhbSIsInNlc3Npb25fc3RhdGUiOiI0NjA5NTdlMi04NzU0LTQ0MDgtYjVkMS04OTJjNjMwNGZkMmIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiNDYwOTU3ZTItODc1NC00NDA4LWI1ZDEtODkyYzYzMDRmZDJiIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiVmlub2QgWWFkYXYiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhaXNod2FyeWFfYWRtaW4iLCJnaXZlbl9uYW1lIjoiVmlub2QiLCJmYW1pbHlfbmFtZSI6IllhZGF2In0.fuktknss4uMQjXkpkvvt0NOlSEnM1q2BbUB6rBT8lV0AupGf0vQ0y9uinrP9HynrP68taUxnKeKJ4ixrH4ZVNSw-Pw_dmNtWyYrWIN11keI5rk0RyVDaDygSVqe0ks-7dXnfelfgNZTEfZ5YKZ3qXvg_mqfJoWt40CTLWZ918lzlP_7RkC8wIoEGH3wgacdfIgMWq72A8ORYTGoBJAP3PyEqeIsDNIQWppieFGW9725Es4gnLaDDl4663u1j_AEACdUlD_eJFREqobaDfeaHVHP0NZMZcI_7QC6C2sXD2Dggg_C6rNvUbwJMP_TuVvgAU_eXSFWI9jlIR5XbzIu2KA",
+                        "disabled": true
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/framework/v1/term/read/marathi?framework={{framework}}&category=subject",
+                      "host": ["{{baseUrl}}"],
+                      "path": [
+                        "api",
+                        "framework",
+                        "v1",
+                        "term",
+                        "read",
+                        "marathi"
+                      ],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "subject"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "update",
+              "item": [
+                {
+                  "name": "Term Update - cbse",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "X-Channel-Id",
+                        "value": "{{channel}}"
+                      },
+                      {
+                        "key": "tenantId",
+                        "value": "{{tenantId}}"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n    \"request\": {\n        \"term\": {\n            \"name\": \"CBSE_edited\",\n            \"description\": \"CBSE Board Test Updated(2)\",\n            \"code\": \"cbseEdited\"\n        }\n    }\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/framework/v1/term/update/cbse?framework={{framework}}&category=board",
+                      "host": ["{{baseUrl}}"],
+                      "path": [
+                        "api",
+                        "framework",
+                        "v1",
+                        "term",
+                        "update",
+                        "cbse"
+                      ],
+                      "query": [
+                        {
+                          "key": "framework",
+                          "value": "{{framework}}"
+                        },
+                        {
+                          "key": "category",
+                          "value": "board"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Term Retire",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-Channel-Id",
+                    "value": "{{channel}}"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/term/retire/hindi?framework={{framework}}&category=gradeLevel",
+                  "host": ["{{interface}}"],
+                  "path": ["api", "framework", "v1", "term", "retire", "hindi"],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    },
+                    {
+                      "key": "category",
+                      "value": "gradeLevel"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Term Read-Update-Retire",
+          "item": [
+            {
+              "name": "Term Read",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-Channel-Id",
+                    "value": "scp-channel"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3MjkwNzk5NzYsImlhdCI6MTcyODk5MzU3NiwianRpIjoiOTY0ZjM1M2ItOTRkYi00ZjA3LWFhYWEtZDEyOTFiNDc5ZTIwIiwiaXNzIjoiaHR0cHM6Ly9xYS5wcmF0aGFtdGVhY2hlcmFwcC50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3ByYXRoYW0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMzFhMjg0ZmMtNGU0NC00YTYxLWI3MzctY2U4N2E3ZGM1MmNjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJhdGhhbSIsInNlc3Npb25fc3RhdGUiOiI0NjA5NTdlMi04NzU0LTQ0MDgtYjVkMS04OTJjNjMwNGZkMmIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiNDYwOTU3ZTItODc1NC00NDA4LWI1ZDEtODkyYzYzMDRmZDJiIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiVmlub2QgWWFkYXYiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhaXNod2FyeWFfYWRtaW4iLCJnaXZlbl9uYW1lIjoiVmlub2QiLCJmYW1pbHlfbmFtZSI6IllhZGF2In0.fuktknss4uMQjXkpkvvt0NOlSEnM1q2BbUB6rBT8lV0AupGf0vQ0y9uinrP9HynrP68taUxnKeKJ4ixrH4ZVNSw-Pw_dmNtWyYrWIN11keI5rk0RyVDaDygSVqe0ks-7dXnfelfgNZTEfZ5YKZ3qXvg_mqfJoWt40CTLWZ918lzlP_7RkC8wIoEGH3wgacdfIgMWq72A8ORYTGoBJAP3PyEqeIsDNIQWppieFGW9725Es4gnLaDDl4663u1j_AEACdUlD_eJFREqobaDfeaHVHP0NZMZcI_7QC6C2sXD2Dggg_C6rNvUbwJMP_TuVvgAU_eXSFWI9jlIR5XbzIu2KA",
+                    "disabled": true
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseURL}}/api/framework/v1/term/read/grade10?framework=scp-framework&category=courseType",
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "framework", "v1", "term", "read", "grade10"],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "scp-framework"
+                    },
+                    {
+                      "key": "category",
+                      "value": "courseType"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Term Retire",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-Channel-Id",
+                    "value": "scp-channel"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3MjkwNzk5NzYsImlhdCI6MTcyODk5MzU3NiwianRpIjoiOTY0ZjM1M2ItOTRkYi00ZjA3LWFhYWEtZDEyOTFiNDc5ZTIwIiwiaXNzIjoiaHR0cHM6Ly9xYS5wcmF0aGFtdGVhY2hlcmFwcC50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3ByYXRoYW0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMzFhMjg0ZmMtNGU0NC00YTYxLWI3MzctY2U4N2E3ZGM1MmNjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJhdGhhbSIsInNlc3Npb25fc3RhdGUiOiI0NjA5NTdlMi04NzU0LTQ0MDgtYjVkMS04OTJjNjMwNGZkMmIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiNDYwOTU3ZTItODc1NC00NDA4LWI1ZDEtODkyYzYzMDRmZDJiIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiVmlub2QgWWFkYXYiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhaXNod2FyeWFfYWRtaW4iLCJnaXZlbl9uYW1lIjoiVmlub2QiLCJmYW1pbHlfbmFtZSI6IllhZGF2In0.fuktknss4uMQjXkpkvvt0NOlSEnM1q2BbUB6rBT8lV0AupGf0vQ0y9uinrP9HynrP68taUxnKeKJ4ixrH4ZVNSw-Pw_dmNtWyYrWIN11keI5rk0RyVDaDygSVqe0ks-7dXnfelfgNZTEfZ5YKZ3qXvg_mqfJoWt40CTLWZ918lzlP_7RkC8wIoEGH3wgacdfIgMWq72A8ORYTGoBJAP3PyEqeIsDNIQWppieFGW9725Es4gnLaDDl4663u1j_AEACdUlD_eJFREqobaDfeaHVHP0NZMZcI_7QC6C2sXD2Dggg_C6rNvUbwJMP_TuVvgAU_eXSFWI9jlIR5XbzIu2KA",
+                    "disabled": true
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseURL}}/api/framework/v1/term/retire/grade10?framework=scp-framework&category=courseType",
+                  "host": ["{{baseURL}}"],
+                  "path": [
+                    "api",
+                    "framework",
+                    "v1",
+                    "term",
+                    "retire",
+                    "grade10"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "scp-framework"
+                    },
+                    {
+                      "key": "category",
+                      "value": "courseType"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Term Update",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-Channel-Id",
+                    "value": "scp-channel"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3MjkwNzk5NzYsImlhdCI6MTcyODk5MzU3NiwianRpIjoiOTY0ZjM1M2ItOTRkYi00ZjA3LWFhYWEtZDEyOTFiNDc5ZTIwIiwiaXNzIjoiaHR0cHM6Ly9xYS5wcmF0aGFtdGVhY2hlcmFwcC50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3ByYXRoYW0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMzFhMjg0ZmMtNGU0NC00YTYxLWI3MzctY2U4N2E3ZGM1MmNjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJhdGhhbSIsInNlc3Npb25fc3RhdGUiOiI0NjA5NTdlMi04NzU0LTQ0MDgtYjVkMS04OTJjNjMwNGZkMmIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiNDYwOTU3ZTItODc1NC00NDA4LWI1ZDEtODkyYzYzMDRmZDJiIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiVmlub2QgWWFkYXYiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhaXNod2FyeWFfYWRtaW4iLCJnaXZlbl9uYW1lIjoiVmlub2QiLCJmYW1pbHlfbmFtZSI6IllhZGF2In0.fuktknss4uMQjXkpkvvt0NOlSEnM1q2BbUB6rBT8lV0AupGf0vQ0y9uinrP9HynrP68taUxnKeKJ4ixrH4ZVNSw-Pw_dmNtWyYrWIN11keI5rk0RyVDaDygSVqe0ks-7dXnfelfgNZTEfZ5YKZ3qXvg_mqfJoWt40CTLWZ918lzlP_7RkC8wIoEGH3wgacdfIgMWq72A8ORYTGoBJAP3PyEqeIsDNIQWppieFGW9725Es4gnLaDDl4663u1j_AEACdUlD_eJFREqobaDfeaHVHP0NZMZcI_7QC6C2sXD2Dggg_C6rNvUbwJMP_TuVvgAU_eXSFWI9jlIR5XbzIu2KA",
+                    "disabled": true
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"term\": {\n            \"description\": \"State Bihar\"\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseURL}}/api/framework/v1/term/update/bihar?framework=scp-framework&category=state",
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "framework", "v1", "term", "update", "bihar"],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "scp-framework"
+                    },
+                    {
+                      "key": "category",
+                      "value": "state"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Framework Terms - Association",
+          "item": [
+            {
+              "name": "subject - science",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"term\": {\n            \"associationswith\": [\n                {\n                    \"identifier\": \"vidya-framework_gradelevel_class10\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_medium_english\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_medium_hindi\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_board_cbse\"\n                }\n            ]\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/term/update/science?framework={{framework}}&category=subject",
+                  "host": ["{{interface}}"],
+                  "path": [
+                    "api",
+                    "framework",
+                    "v1",
+                    "term",
+                    "update",
+                    "science"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    },
+                    {
+                      "key": "category",
+                      "value": "subject"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "subject - socialscience",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"term\": {\n            \"associationswith\": [\n                {\n                    \"identifier\": \"vidya-framework_gradelevel_class10\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_medium_english\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_medium_hindi\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_board_cbse\"\n                }\n            ]\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/term/update/socialscience?framework={{framework}}&category=subject",
+                  "host": ["{{interface}}"],
+                  "path": [
+                    "api",
+                    "framework",
+                    "v1",
+                    "term",
+                    "update",
+                    "socialscience"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    },
+                    {
+                      "key": "category",
+                      "value": "subject"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "subject - mathematics",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"term\": {\n            \"associationswith\": [\n                {\n                    \"identifier\": \"vidya-framework_gradelevel_class10\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_medium_english\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_medium_hindi\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_board_cbse\"\n                }\n            ]\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/term/update/mathematics?framework={{framework}}&category=subject",
+                  "host": ["{{interface}}"],
+                  "path": [
+                    "api",
+                    "framework",
+                    "v1",
+                    "term",
+                    "update",
+                    "mathematics"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    },
+                    {
+                      "key": "category",
+                      "value": "subject"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "subject - english",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"term\": {\n            \"associationswith\": [\n                {\n                    \"identifier\": \"vidya-framework_gradelevel_class10\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_medium_english\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_board_cbse\"\n                }\n            ]\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/term/update/english?framework={{framework}}&category=subject",
+                  "host": ["{{interface}}"],
+                  "path": [
+                    "api",
+                    "framework",
+                    "v1",
+                    "term",
+                    "update",
+                    "english"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    },
+                    {
+                      "key": "category",
+                      "value": "subject"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "subject - sanskrit",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"term\": {\n            \"associationswith\": [\n                {\n                    \"identifier\": \"vidya-framework_gradelevel_class10\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_medium_english\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_board_cbse\"\n                }\n            ]\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/term/update/sanskrit?framework={{framework}}&category=subject",
+                  "host": ["{{interface}}"],
+                  "path": [
+                    "api",
+                    "framework",
+                    "v1",
+                    "term",
+                    "update",
+                    "sanskrit"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    },
+                    {
+                      "key": "category",
+                      "value": "subject"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "subject - hindi",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"term\": {\n            \"associationswith\": [\n                {\n                    \"identifier\": \"vidya-framework_gradelevel_class10\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_medium_hindi\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_board_cbse\"\n                }\n            ]\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/term/update/hindi?framework={{framework}}&category=subject",
+                  "host": ["{{interface}}"],
+                  "path": ["api", "framework", "v1", "term", "update", "hindi"],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    },
+                    {
+                      "key": "category",
+                      "value": "subject"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "subject - bengali",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"term\": {\n            \"associationswith\": [\n                {\n                    \"identifier\": \"vidya-framework_gradelevel_class10\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_medium_hindi\"\n                },\n                {\n                    \"identifier\": \"vidya-framework_board_cbse\"\n                }\n            ]\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/term/update/bengali?framework={{framework}}&category=subject",
+                  "host": ["{{interface}}"],
+                  "path": [
+                    "api",
+                    "framework",
+                    "v1",
+                    "term",
+                    "update",
+                    "bengali"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    },
+                    {
+                      "key": "category",
+                      "value": "subject"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "gradeLevel - class10",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"term\": {\n            \"associations\": [\n                {\n                    \"identifier\": \"edu-framework_subject_mathematics\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_science\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_socialscience\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_english\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_hindi\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_sanskrit\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_bengali\"\n                }\n            ]\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/term/update/class10?framework={{framework}}&category=gradeLevel",
+                  "host": ["{{interface}}"],
+                  "path": [
+                    "api",
+                    "framework",
+                    "v1",
+                    "term",
+                    "update",
+                    "class10"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    },
+                    {
+                      "key": "category",
+                      "value": "gradeLevel"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "medium - english",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"term\": {\n            \"associations\": [\n                {\n                    \"identifier\": \"edu-framework_subject_mathematics\" // identifier of term with which association is beng formed\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_science\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_socialscience\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_english\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_sanskrit\"\n                },\n                {\n                    \"identifier\": \"edu-framework_gradelevel_class10\"\n                }\n            ]\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/term/update/english?framework={{framework}}&category=medium",
+                  "host": ["{{interface}}"],
+                  "path": [
+                    "api",
+                    "framework",
+                    "v1",
+                    "term",
+                    "update",
+                    "english"
+                  ],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    },
+                    {
+                      "key": "category",
+                      "value": "medium"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "medium - hindi",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"term\": {\n            \"associations\": [\n                {\n                    \"identifier\": \"edu-framework_subject_mathematics\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_science\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_socialscience\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_hindi\"\n                },\n                {\n                    \"identifier\": \"edu-framework_subject_bengali\"\n                },\n                {\n                    \"identifier\": \"edu-framework_gradelevel_class10\"\n                }\n            ]\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/term/update/hindi?framework={{framework}}&category=medium",
+                  "host": ["{{interface}}"],
+                  "path": ["api", "framework", "v1", "term", "update", "hindi"],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    },
+                    {
+                      "key": "category",
+                      "value": "medium"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "board - cbse",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "tenantId",
+                    "value": "{{tenantId}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"request\": {\n        \"term\": {\n            \"associations\": [\n                {\n                    \"identifier\": \"edu-framework_medium_english\"\n                },\n                {\n                    \"identifier\": \"edu-framework_medium_hindi\"\n                }\n            ]\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{interface}}/api/framework/v1/term/update/cbse?framework={{framework}}&category=board",
+                  "host": ["{{interface}}"],
+                  "path": ["api", "framework", "v1", "term", "update", "cbse"],
+                  "query": [
+                    {
+                      "key": "framework",
+                      "value": "{{framework}}"
+                    },
+                    {
+                      "key": "category",
+                      "value": "board"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "middleware",
+      "value": "shiksha-dev-middleware.tekdinext.com",
+      "type": "string"
+    },
+    {
+      "key": "interface",
+      "value": "shiksha-dev-interface.tekdinext.com",
+      "type": "string"
+    }
+  ]
+}
